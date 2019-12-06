@@ -1,12 +1,15 @@
+require('dotenv').config({ path: './.env' });
+
 const express = require('express');
 const mongoose = require('mongoose');
 const user = require('./_routes/user');
-const SECRETS = require('../_secrets');
+
+const PORT = process.env.PORT || 3000;
+const DB_URL = process.env.DB_URL;
 
 const app = express();
-const PORT = 3000;
 
-const DBConnection = mongoose.createConnection(SECRETS.DB_URL, {
+const DBConnection = mongoose.createConnection(DB_URL, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true
