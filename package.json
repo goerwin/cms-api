@@ -1,0 +1,23 @@
+{
+  "name": "cms-api",
+  "version": "1.0.0",
+  "description": "Api for the CMS's Database",
+  "engines": {
+    "node": ">=10.15"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Erwin Gaitan O <erwingaitano@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^3.3.5",
+    "mongoose": "^5.7.14"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.1"
+  }
+}
