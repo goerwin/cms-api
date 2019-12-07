@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 
-const name = 'User';
-
-const Schema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   name: String,
   email: {
     type: String,
@@ -21,9 +19,9 @@ const Schema = new mongoose.Schema({
 });
 
 function createModel(dbConnection) {
-  return dbConnection.model(name, Schema);
+  return dbConnection.model('User', UserSchema);
 }
 
 module.exports = {
   createModel
-}
+};
