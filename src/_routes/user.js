@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const pick = require('lodash/pick');
 const Password = require('../_helpers/password');
 const validator = require('../_helpers/validator');
 const User = require('../_models/User');
@@ -19,8 +20,8 @@ function createRouter(DBConnection) {
   router.use(bodyParser.json());
 
   router.get('/', (req, res) => {
-    UserModel.find({}).select('username email')
-      .then((users) => res.json(users))
+    UserModel.find({})
+      .then((users) => res.json(users.map(user => pick(user, ['username', 'email']))))
       .catch((err) => handleError(res, err))
   });
 
@@ -43,23 +44,23 @@ function createRouter(DBConnection) {
 
   router.get('/:username', (req, res) => {
     Promise.resolve(req.params)
-      .then(({ username }) => UserModel.findOne({ username }).select('username email'))
-      .then((user) => res.json(user))
+      .then(({ username }) => UserModel.findOne({ username }))
+      .then((user) => res.json(pick(user, ['username', 'email'])))
       .catch((err) => handleError(res, err))
   });
 
   router.patch('/:username', (req, res) => {
     Promise.resolve(req.params)
       .then(({ username }) =>
-        UserModel.findOneAndUpdate({ username }, req.body, { new: true }).select('username email')
+        UserModel.findOneAndUpdate({ username }, req.body, { new: true })
       )
-      .then((user) => res.json(user))
+      .then((user) => res.json(pick(user, ['username', 'email'])))
       .catch((err) => handleError(res, err))
   });
 
   router.delete('/:username', (req, res) => {
-    UserModel.deleteOne({ username: req.params.username }).select('username email')
-      .then((user) => res.json(user))
+    UserModel.deleteOne({ username: req.params.username })
+      .then((user) => res.json(pick(user, ['username', 'email'])))
       .catch((err) => handleError(res, err))
   });
 
