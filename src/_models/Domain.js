@@ -1,11 +1,9 @@
 const mongoose = require('mongoose');
-const Domain = require('./Domain');
 
-const name = 'Category';
+const name = 'Domain';
 
 const Schema = new mongoose.Schema({
-  domain: { type: mongoose.Schema.Types.ObjectId, ref: Domain.name },
-  name: { type: String, required: true, unique: true },
+  name: { type: String, required: true }
 }, { timestamps: true });
 
 function createModel(dbConnection) {

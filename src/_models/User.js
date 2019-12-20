@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
-const Post = require('./Post');
+const Domain = require('./Domain');
 
 const name = 'User';
 
 const Schema = new mongoose.Schema({
+  domain: { type: mongoose.Schema.Types.ObjectId, ref: Domain.name },
   name: String,
   email: { type: String, required: true, unique: true },
   username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  posts: [{ type: mongoose.Schema.Types.ObjectId, ref: Post.name }],
+  password: { type: String, required: true }
 }, { timestamps: true });
 
 function createModel(dbConnection) {
