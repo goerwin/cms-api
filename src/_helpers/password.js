@@ -13,13 +13,12 @@ function createHashedPassword(plainTextPassword) {
 function comparePasswords(plainTextPassword, hashedPassword) {
   return bcrypt.compare(plainTextPassword, hashedPassword)
     .then((result) => {
-      if (!result) throw new Error(ERRORS.PASSWORDS_DONT_MATCH);
-      return true;
+      if (!result) throw new Error(JSON.stringify({ name: ERRORS.PASSWORDS_DONT_MATCH }));
+      return plainTextPassword;
     });
 }
 
 module.exports = {
-  ERRORS,
   createHashedPassword,
   comparePasswords
 };
