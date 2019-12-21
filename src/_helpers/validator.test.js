@@ -31,35 +31,38 @@ describe('validator', () => {
   describe('validateObj', () => {
     it('should pass object validations and return same object', (done) => {
       const obj = { email: 'erwin@gmail.com', username: 'erwin' };
-      validator.validateObj(obj, { email: { validator: 'isEmail' } })
+      validator.validateObj(obj, [['email', 'isEmail']])
         .then((validObj) => assert.strictEqual(obj, validObj))
-        .then(() => validator.validateObj(obj, {
-          username: { validator: 'isLength', params: [{ min: 5, max: 10 }]}
-        }))
+        .then(() => validator.validateObj(obj, [
+          ['username', 'isLength', [{ min: 5, max: 10 }]]
+        ]))
         .then((validObj) => assert.strictEqual(obj, validObj))
         .then(done)
     });
 
     it('should throw object validations', (done) => {
       const obj = { email: 'notanemail.com', username: 'erwe' };
-      validator.validateObj(obj, { email: { validator: 'isEmail' } })
+      validator.validateObj(obj, [['email', 'isEmail']])
         .catch((err) => assert.strictEqual(
           err.message,
           JSON.stringify({
             name: 'VALIDATION_FAIL',
-            value: 'notanemail.com',
-            attrs: { name: 'email', validator: 'isEmail' }
+            value: { name: 'email', value: 'notanemail.com', validator: 'isEmail' }
           })
         ))
-        .then(() => validator.validateObj(obj, {
-          username: { validator: 'isLength', params: [{ min: 5, max: 10 }]}
-        }))
+        .then(() => validator.validateObj(obj, [
+          ['username', 'isLength', [{ min: 5, max: 10 }]]
+        ]))
         .catch((err) => assert.strictEqual(
           err.message,
           JSON.stringify({
             name: 'VALIDATION_FAIL',
-            value: 'erwe',
-            attrs: { name: 'username', validator: 'isLength', params: [{ min: 5, max: 10 }] }
+            value: {
+              name: 'username',
+              value: 'erwe',
+              validator: 'isLength',
+              params: [{ min: 5, max: 10 }]
+            }
           })
         ))
         .then(done)

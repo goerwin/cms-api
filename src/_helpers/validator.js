@@ -18,18 +18,16 @@ function requiredObjProps(obj, properties = []) {
     })
 }
 
-function validateObj(obj, validations) {
+function validateObj(obj, validations = []) {
   return Promise.resolve()
     .then(() => {
-      Object.keys(validations).forEach((key) => {
-        const validation = validations[key];
-        const { params, validator: validatorName } = validation;
+      validations.forEach((validation) => {
+        const [property, validatorName, params] = validation;
 
-        if (!validator[validatorName](obj[key] + '', ...(params || []))) {
+        if (!validator[validatorName](obj[property] + '', ...(params || []))) {
           throw new Error(JSON.stringify({
             name: ERRORS.VALIDATION_FAIL,
-            value: obj[key],
-            attrs: { name: key, validator: validatorName, params }
+            value: { name: property, value: obj[property], validator: validatorName, params }
           }))
         }
       });

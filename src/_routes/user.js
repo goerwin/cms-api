@@ -27,11 +27,12 @@ function createRouter(DBConnection) {
 
   router.post('/', (req, res) => {
     validator.requiredObjProps(req.body, ['username', 'email', 'password'])
-      .then((params) => validator.validateObj(params, {
-        password: { validator: 'isLength', params: [{ min: 5 }] },
-        email: { validator: 'isEmail' },
-        username: { validator: 'isLength', params: [{ min: 5 }]}
-      }))
+      .then((params) => validator.validateObj(params, [
+        ['password', 'isLength', [{ min: 5 }]],
+        ['email', 'isEmail'],
+        ['username', 'isLength', [{ min: 5 }]],
+        ['username', 'isAlphanumeric']
+      ]))
       .then(({ username, email, password }) =>
         Promise.all([username, email, Password.createHashedPassword(password)])
       )

@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const pick = require('lodash/pick');
 const validator = require('../_helpers/validator');
 const Domain = require('../_models/Domain');
 
@@ -25,9 +26,10 @@ function createRouter(DBConnection) {
 
   router.post('/', (req, res) => {
     validator.requiredObjProps(req.body, ['name'])
-      .then((params) => validator.validateObj(params, {
-        name: { validator: 'isLength', params: [{ min: 5 }]}
-      }))
+      .then((params) => validator.validateObj(params, [
+        ['name', 'isLength',[{ min: 5 }]],
+        ['name', 'isAlphanumeric']
+      ]))
       .then(({ name }) => new DomainModel({ name }).save())
       .then(({ name }) => res.json({ name }))
       .catch(err => handleError(res, err));
@@ -36,15 +38,15 @@ function createRouter(DBConnection) {
   router.patch('/:domain', (req, res) => {
     Promise.resolve(req.params)
       .then(({ domain }) =>
-        DomainModel.findOneAndUpdate({ domain }, req.body, { new: true }).select('domain')
+        DomainModel.findOneAndUpdate({ name: domain }, req.body, { new: true })
       )
-      .then((domain) => res.json(domain))
+      .then((domain) => res.json(pick(domain, ['name'])))
       .catch((err) => handleError(res, err))
   });
 
   router.delete('/:domain', (req, res) => {
-    DomainModel.deleteOne({ domain: req.params.domain }).select('domain')
-      .then((domain) => res.json(domain))
+    DomainModel.deleteOne({ name: req.params.domain })
+      .then((domain) => res.json(pick(domain, ['name'])))
       .catch((err) => handleError(res, err))
   });
 
