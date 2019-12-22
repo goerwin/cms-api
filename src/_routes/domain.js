@@ -35,6 +35,13 @@ function createRouter(DBConnection) {
       .catch(err => handleError(res, err));
   });
 
+  router.get('/:domain', (req, res) => {
+    Promise.resolve(req.params)
+      .then(({ domain }) => DomainModel.findOne({ name: domain }))
+      .then((domain) => res.json(domain))
+      .catch((err) => handleError(res, err))
+  });
+
   router.patch('/:domain', (req, res) => {
     Promise.resolve(req.params)
       .then(({ domain }) =>

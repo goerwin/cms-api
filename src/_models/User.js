@@ -4,7 +4,11 @@ const Domain = require('./Domain');
 const name = 'User';
 
 const Schema = new mongoose.Schema({
-  domains: [{ type: mongoose.Schema.Types.ObjectId, ref: Domain.name }],
+  domains: [{
+    type: mongoose.Schema.Types.ObjectId,
+    name: { type: String, required: true, unique: true },
+    ref: Domain.name
+  }],
   name: String,
   email: { type: String, required: true, unique: true },
   username: { type: String, required: true, unique: true },

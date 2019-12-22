@@ -21,7 +21,9 @@ function createRouter(DBConnection) {
 
   router.get('/', (req, res) => {
     UserModel.find({})
-      .then((users) => res.json(users.map(user => pick(user, ['username', 'email']))))
+      .then((users) =>
+        res.json(users.map(user => pick(user, ['username', 'email', 'domains'])))
+      )
       .catch((err) => handleError(res, err))
   });
 
