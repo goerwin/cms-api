@@ -16,7 +16,8 @@ const { app } = expressHelper.createCRUDApp(
         name: { type: String, required: true }
       },
       crudAttrs: {
-        itemKeyProperty: 'name',
+        findItemKey: 'name',
+        findItemQuery: { name: '{name}' },
         propsRequired: ['name'],
         propsToValidate: [
           ['name', 'isLength', [{ min: 5 }]],
@@ -36,7 +37,8 @@ const { app } = expressHelper.createCRUDApp(
         password: { type: String, required: true }
       },
       crudAttrs: {
-        itemKeyProperty: 'username',
+        findItemKey: 'handle',
+        findItemQuery: { $or: [{ username: '{handle}' }, { email: '{handle}' }] },
         propsRequired: ['username', 'email', 'password'],
         propsToTransform: [['password', 'hashPassword']],
         propsToValidate: [

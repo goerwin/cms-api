@@ -1,8 +1,10 @@
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const pick = require('lodash/pick');
 const password = require('./password');
 const database = require('./database');
+const object = require('./object');
 const { requiredObjProps, validateObj } = require('./validator');
 
 function handleError(res, err) {
@@ -25,12 +27,17 @@ function getTransformedObj(data, propsToTransform) {
         return acc;
       }, {})
     )
-    .then((transformedObj) => ({ ...data, transformedObj }));
+    .then((transformedObj) => ({ ...data, ...transformedObj }));
+}
+
+function parseQuery(query, data) {
+  return object.replaceObjValues(query, [[/\{(.*)\}/, (_, p1) => data[p1]]])
 }
 
 function createCRUDRouter(mongooseDBModel, attrs) {
   const {
-    itemKeyProperty,
+    findItemKey,
+    findItemQuery,
     propsRequired,
     propsToTransform = [],
     propsToValidate,
@@ -60,16 +67,31 @@ function createCRUDRouter(mongooseDBModel, attrs) {
       .then((data) => res.json(pick(data, respondWithProps)))
       .catch(err => handleError(res, err));
   });
+// TODO: PASS THIS TOO IN CONFIG SOMEHOW
+  DomainModel = global.dummyModels[0];
+  UserModel = global.dummyModels[1];
+  router.get('/domainsByUser/:username', (req, res) => {
+    req.params.username
 
-  router.get(`/:itemId`, (req, res) => {
-    mongooseDBModel.findOne({
-      [itemKeyProperty]: req.params.itemId
+    UserModel.findOne({
+      username: req.params.username
     })
+      .then((user) => pick(user, ['domains']))
+      .then(({ domains }) =>
+        DomainModel.find().where('_id').in(domains).exec()
+      )
+      .then((result) => {
+        res.json(result)
+      })
+  })
+
+  router.get(`/:${findItemKey}`, (req, res) => {
+    mongooseDBModel.findOne(parseQuery(findItemQuery, req.params))
       .then((item) => res.json(pick(item, respondWithProps)))
       .catch((err) => handleError(res, err))
   });
 
-  router.patch('/:itemId', (req, res) => {
+  router.patch(`/:${findItemKey}`, (req, res) => {
     Promise.resolve([req.body, Object.keys(req.body)])
       .then(([data, patchProps]) => Promise.all([
         data,
@@ -80,7 +102,7 @@ function createCRUDRouter(mongooseDBModel, attrs) {
       .then(([data, newPropsToTransform]) => getTransformedObj(data, newPropsToTransform))
       .then((transformedData) =>
         mongooseDBModel.findOneAndUpdate(
-          { [itemKeyProperty]: req.params.itemId },
+          parseQuery(findItemQuery, req.params),
           transformedData,
           { new: true }
         )
@@ -89,8 +111,8 @@ function createCRUDRouter(mongooseDBModel, attrs) {
       .catch((err) => handleError(res, err))
   });
 
-  router.delete('/:itemId', (req, res) => {
-    mongooseDBModel.deleteOne({ [itemKeyProperty]: req.params.itemId })
+  router.delete(`/:${findItemKey}`, (req, res) => {
+    mongooseDBModel.deleteOne(parseQuery(findItemQuery, req.params))
       .then((item) => res.json(pick(item, respondWithProps)))
       .catch((err) => handleError(res, err))
   });
@@ -105,6 +127,8 @@ function createCRUDApp(dbUrl, entries, options = {}) {
 
   middlewares.forEach((mw) => app.use(mw));
 
+  global.dummyModels = models;
+
   const routers = models.map((model, idx) => {
     const router = createCRUDRouter(model, entries[idx].crudAttrs);
 
@@ -113,10 +137,36 @@ function createCRUDApp(dbUrl, entries, options = {}) {
     return router;
   })
 
-  return { app, routers };
+  return { app, models, routers };
+}
+
+function createUserLoginRouter(mongooseUserModel, attrs = {}) {
+  const { query, respondWithProps, passwordKey } = attrs;
+  const { propsRequired, propsToValidate } = attrs;
+
+  const router = express.Router();
+
+  router.use(bodyParser.json());
+
+  router.post('/', (req, res) => {
+    validator.requiredObjProps(req.body, propsRequired)
+      .then((params) => validator.validateObj(params, propsToValidate))
+      .then((data) => Promise.all([
+        mongooseUserModel.findOne(parseQuery(query, data)),
+        data[passwordKey]
+      ]))
+      .then(([user, password]) =>
+        Promise.all([Password.comparePasswords(password, user.password), user])
+      )
+      .then(([_, user]) => res.json(pick(user, respondWithProps)))
+      .catch(err => handleError(res, err));
+  });
+
+  return router;
 }
 
 module.exports = {
   createCRUDRouter,
-  createCRUDApp
+  createCRUDApp,
+  createAuthLoginRouter: createUserLoginRouter
 };

@@ -36,9 +36,18 @@ describe('object', () => {
     })
 
     it('it should return value replaced when it is a primitive', () => {
-      const test = ':'
+      assert.strictEqual(object.replaceObjValues(':', [[':', 'R']]), 'R');
+    })
 
-      assert.strictEqual(object.replaceObjValues(test, [[':', 'R']]), 'R');
+    it('it should replace using a RegExp and a string value', () => {
+      assert.strictEqual(object.replaceObjValues('{erwin}', [[/\{erwin\}/, 'lul']]), 'lul');
+    })
+
+    it('it should replace using a RegExp and a fn value', () => {
+      assert.strictEqual(
+        object.replaceObjValues('{erwin}', [[/\{(.*)\}/, (match, p1) => `[[${p1}]]`]]),
+        '[[erwin]]'
+      );
     })
   })
 })

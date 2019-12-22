@@ -16,10 +16,8 @@ function handleError(res, err) {
   }
 }
 
-function createRouter(DBConnection) {
+function createRouter(UserModel) {
   const router = express.Router();
-  const UserModel = User.createModel(DBConnection);
-
   router.use(bodyParser.json());
 
   router.post('/', (req, res) => {
