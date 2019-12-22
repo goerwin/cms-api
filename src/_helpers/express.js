@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const pick = require('lodash/pick');
-const Password = require('./password');
+const password = require('./password');
+const database = require('./database');
 const { requiredObjProps, validateObj } = require('./validator');
 
 function handleError(res, err) {
@@ -15,7 +16,7 @@ function handleError(res, err) {
 function getTransformedObj(data, propsToTransform) {
   return Promise.all(propsToTransform.map((propToTransform) =>
     propToTransform[1] === 'hashPassword' ?
-      Password.createHashedPassword(data[propToTransform[0]]) :
+      password.createHashedPassword(data[propToTransform[0]]) :
       data[propToTransform[0]]
   ))
     .then((propsTransformed) =>
@@ -97,6 +98,25 @@ function createCRUDRouter(mongooseDBModel, attrs) {
   return router;
 }
 
+function createCRUDApp(dbUrl, entries, options = {}) {
+  const app = express();
+  const { models } = database.createDatabase(dbUrl, entries, options);
+  const { middlewares = [] } = options;
+
+  middlewares.map((mw) => app.use(mw));
+
+  const routers = models.map((model, idx) => {
+    const router = createCRUDRouter(model, entries[idx].crudAttrs);
+
+    app.use(entries[idx].path, ...[...(entries[idx].middlewares || []), router]);
+
+    return router;
+  })
+
+  return { app, routers };
+}
+
 module.exports = {
-  createCRUDRouter
+  createCRUDRouter,
+  createCRUDApp
 };

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const object = require('./object');
 
-module.exports.createDatabase = (dbUrl, entries, options) => {
+function createDatabase(dbUrl, entries, options) {
   const dbConnection = mongoose.createConnection(dbUrl, {
     useFindAndModify: false,
     useNewUrlParser: true,
@@ -27,4 +27,8 @@ module.exports.createDatabase = (dbUrl, entries, options) => {
         )
       ))
   }
+}
+
+module.exports = {
+  createDatabase
 }
