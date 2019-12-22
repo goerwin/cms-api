@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const pick = require('lodash/pick');
 const Password = require('../_helpers/password');
 const validator = require('../_helpers/validator');
-const User = require('../_models/User');
+// const User = require('../_models/User');
 
 function handleError(res, err) {
   try {
@@ -13,9 +13,8 @@ function handleError(res, err) {
   }
 }
 
-function createRouter(DBConnection) {
+function createRouter(UserModel) {
   const router = express.Router();
-  const UserModel = User.createModel(DBConnection);
 
   router.use(bodyParser.json());
 

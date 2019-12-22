@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Domain = require('./Domain');
+// const Domain = require('./Domain');
 
 const name = 'User';
 
