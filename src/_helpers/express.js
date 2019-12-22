@@ -100,10 +100,10 @@ function createCRUDRouter(mongooseDBModel, attrs) {
 
 function createCRUDApp(dbUrl, entries, options = {}) {
   const app = express();
-  const { models } = database.createDatabase(dbUrl, entries, options);
-  const { middlewares = [] } = options;
+  const { middlewares = [], dbOptions } = options;
+  const { models } = database.createDatabase(dbUrl, entries, dbOptions);
 
-  middlewares.map((mw) => app.use(mw));
+  middlewares.forEach((mw) => app.use(mw));
 
   const routers = models.map((model, idx) => {
     const router = createCRUDRouter(model, entries[idx].crudAttrs);

@@ -7,7 +7,8 @@ const PORT = process.env.PORT || 3000;
 const DB_URL = process.env.DB_URL;
 
 const { app } = expressHelper.createCRUDApp(
-  DB_URL, [
+  DB_URL,
+  [
     {
       path: '/api/domains',
       name: 'Domain',
