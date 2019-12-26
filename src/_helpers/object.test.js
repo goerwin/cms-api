@@ -23,6 +23,26 @@ describe('object', () => {
       );
     });
 
+    it('it should replace ocurrencies', () => {
+      const test = {
+        a: {
+          b: 2,
+          c: [{ d: 3 }, ':', { e: ':', f: { g: { h: ':', i: 4 } } }],
+        },
+      };
+      const expected = {
+        a: {
+          b: 2,
+          c: [{ d: 3 }, 'R', { e: 'R', f: { g: { h: 'R', i: 4 } } }],
+        },
+      };
+
+      assert.deepStrictEqual(
+        object.replaceObjValues(test, [[':', 'R']]),
+        expected
+      );
+    });
+
     it('it should replace multiple ocurrencies', () => {
       const test = {
         a: {
@@ -87,10 +107,37 @@ describe('object', () => {
 
     it('it should replace using a RegExp and a fn value', () => {
       assert.strictEqual(
-        object.replaceObjValues('{erwin}', [
-          [/\{(.*)\}/, (match, p1) => `[[${p1}]]`],
+        object.replaceObjValues('erwin', [
+          ['erwin', (match) => `[[${match}]]`],
         ]),
         '[[erwin]]'
+      );
+    });
+
+    it('it should replace using a RegExp and a fn value', () => {
+      assert.strictEqual(
+        object.replaceObjValues('{erwin}', [
+          [/\{(.*)\}/, (matches) => `[[${matches[1]}]]`],
+        ]),
+        '[[erwin]]'
+      );
+    });
+
+    it('it should return the path in the fn passed', () => {
+      assert.deepStrictEqual(
+        object.replaceObjValues({ a: [1, 2, { b: { e: 4 } }, 3] }, [
+          [4, (matches, path) => path],
+        ]),
+        { a: [1, 2, { b: { e: 'a[2].b.e' } }, 3] }
+      );
+    });
+
+    it('it should return the path in the fn passed using Regex', () => {
+      assert.deepStrictEqual(
+        object.replaceObjValues({ a: [1, 2, { b: { e: 4 } }, 3] }, [
+          [/4/, (matches, path) => path],
+        ]),
+        { a: [1, 2, { b: { e: 'a[2].b.e' } }, 3] }
       );
     });
   });

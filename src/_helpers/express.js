@@ -33,16 +33,18 @@ function getTransformedObj(data, propsToTransform) {
 }
 
 function parseQuery(query, data) {
-  return object.replaceObjValues(query, [[/\{(.*)\}/, (_, p1) => data[p1]]]);
+  return object.replaceObjValues(query, [
+    [/\{(.*)\}/, (matches) => data[matches[1]]],
+  ]);
 }
 
-function createCRUDRouter(mongooseDBModel, attrs) {
+function createRESTRouter(mongooseDBModel, attrs = {}) {
   const {
-    findItemKey,
-    findItemQuery,
-    propsRequired,
+    findItemKey = '_id',
+    findItemQuery = { _id: '{_id}' },
+    propsRequired = [],
     propsToTransform = [],
-    propsToValidate,
+    propsToValidate = [],
     respondWithProps,
   } = attrs;
 
@@ -69,26 +71,6 @@ function createCRUDRouter(mongooseDBModel, attrs) {
       .then((data) => res.json(pick(data, respondWithProps)))
       .catch((err) => handleError(res, err));
   });
-  // TODO: PASS THIS TOO IN CONFIG SOMEHOW
-  // DomainModel = global.dummyModels[0];
-  // UserModel = global.dummyModels[1];
-  // router.get('/domainsByUser/:username', (req, res) => {
-  //     req.params.username;
-
-  //     UserModel.findOne({
-  //         username: req.params.username,
-  //     })
-  //         .then((user) => pick(user, ['domains']))
-  //         .then(({ domains }) =>
-  //             DomainModel.find()
-  //                 .where('_id')
-  //                 .in(domains)
-  //                 .exec()
-  //         )
-  //         .then((result) => {
-  //             res.json(result);
-  //         });
-  // });
 
   router.get(`/:${findItemKey}`, (req, res) => {
     mongooseDBModel
@@ -120,7 +102,7 @@ function createCRUDRouter(mongooseDBModel, attrs) {
         mongooseDBModel.findOneAndUpdate(
           parseQuery(findItemQuery, req.params),
           transformedData,
-          { new: true }
+          { new: true, runValidators: true }
         )
       )
       .then((item) => res.json(pick(item, respondWithProps)))
@@ -137,33 +119,31 @@ function createCRUDRouter(mongooseDBModel, attrs) {
   return router;
 }
 
-function createCRUDApp(dbUrl, entries, options = {}) {
+function createRESTApp(dbUrl, entries, options = {}) {
   const app = express();
   const { middlewares = [], dbOptions } = options;
   const { models } = database.createDatabase(dbUrl, entries, dbOptions);
 
   middlewares.forEach((mw) => app.use(mw));
 
-  // global.dummyModels = models;
+  return {
+    app,
+    items: models.reduce((acc, model, idx) => {
+      const entry = entries[idx];
+      const router = createRESTRouter(model, entry.restAttrs);
 
-  const routers = models.map((model, idx) => {
-    const router = createCRUDRouter(model, entries[idx].crudAttrs);
+      app.use(entry.path, ...[...(entry.middlewares || []), router]);
 
-    app.use(
-      entries[idx].path,
-      ...[...(entries[idx].middlewares || []), router]
-    );
+      acc[entry.name] = { router, model };
 
-    return router;
-  });
-
-  return { app, models, routers };
+      return acc;
+    }, {}),
+  };
 }
 
-function createUserLoginRouter(mongooseUserModel, attrs = {}) {
+function createAuthLoginRouter(mongooseUserModel, attrs = {}) {
   const { query, respondWithProps, passwordKey } = attrs;
   const { propsRequired, propsToValidate } = attrs;
-
   const router = express.Router();
 
   router.use(bodyParser.json());
@@ -188,7 +168,7 @@ function createUserLoginRouter(mongooseUserModel, attrs = {}) {
 }
 
 module.exports = {
-  createCRUDRouter,
-  createCRUDApp,
-  createAuthLoginRouter: createUserLoginRouter,
+  createRESTRouter,
+  createRESTApp,
+  createAuthLoginRouter,
 };

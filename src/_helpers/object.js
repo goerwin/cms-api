@@ -1,12 +1,24 @@
-function replaceObjValues(obj, replacements = []) {
+function replaceObjValues(obj, replacements = [], path = '') {
   if (typeof obj !== 'object') {
     let newEl = obj;
 
     replacements.forEach((rep) => {
-      if (newEl === rep[0]) {
-        newEl = rep[1];
-      } else if (rep[0] instanceof RegExp) {
-        newEl = newEl.replace(rep[0], rep[1]);
+      const [replacer, replacee] = rep;
+
+      if (replacer === newEl) {
+        if (typeof replacee === 'function') {
+          newEl = replacee(newEl, path);
+        } else {
+          newEl = replacee;
+        }
+      } else if (replacer instanceof RegExp) {
+        if (replacer.test(newEl)) {
+          if (typeof replacee === 'function') {
+            newEl = replacee(String(newEl).match(replacer), path);
+          } else {
+            newEl = String(newEl).replace(replacer, replacee);
+          }
+        }
       }
     });
 
@@ -14,12 +26,12 @@ function replaceObjValues(obj, replacements = []) {
   }
 
   if (Array.isArray(obj)) {
-    return obj.map((el) => {
-      return replaceObjValues(el, replacements);
+    return obj.map((el, idx) => {
+      return replaceObjValues(el, replacements, `${path}[${idx}]`);
     });
   } else {
     return Object.keys(obj).reduce((acc, key) => {
-      acc[key] = replaceObjValues(obj[key], replacements);
+      acc[key] = replaceObjValues(obj[key], replacements, `${path}${path ? '.' : ''}${key}`);
 
       return acc;
     }, {});
