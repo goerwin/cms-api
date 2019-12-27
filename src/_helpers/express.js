@@ -1,8 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const pick = require('lodash/pick');
-const password = require('./password');
-const database = require('./database');
+const { createHashedPassword } = require('./password');
 const object = require('./object');
 const { requiredObjProps, validateObj } = require('./validator');
 
@@ -18,7 +17,7 @@ function getTransformedObj(data, propsToTransform) {
   return Promise.all(
     propsToTransform.map((propToTransform) =>
       propToTransform[1] === 'hashPassword'
-        ? password.createHashedPassword(data[propToTransform[0]])
+        ? createHashedPassword(data[propToTransform[0]])
         : data[propToTransform[0]]
     )
   )
@@ -38,48 +37,62 @@ function parseQuery(query, data) {
   ]);
 }
 
-function createRESTRouter(mongooseDBModel, attrs = {}) {
+function createRESTRouter(attrs = {}) {
   const {
+    mongooseDBModel,
     findItemKey = '_id',
     findItemQuery = { _id: '{_id}' },
     propsRequired = [],
     propsToTransform = [],
     propsToValidate = [],
     respondWithProps,
+    getMiddlewares = [],
+    postMiddlewares = [],
+    getItemMiddlewares = [],
+    patchItemMiddlewares = [],
+    deleteItemMiddlewares = [],
   } = attrs;
 
   const router = express.Router();
 
   router.use(bodyParser.json());
 
-  router.get('/', (req, res) => {
+  router.get('/', ...getMiddlewares, (req, res) => {
     mongooseDBModel
       .find({})
       .then((items) =>
-        res.json(items.map((item) => pick(item, respondWithProps)))
+        res.json(
+          items.map((item) =>
+            respondWithProps ? pick(item, respondWithProps) : item
+          )
+        )
       )
       .catch((err) => handleError(res, err));
   });
 
-  router.post('/', (req, res) => {
+  router.post('/', ...postMiddlewares, (req, res) => {
     Promise.all([
       requiredObjProps(req.body, propsRequired),
       validateObj(req.body, propsToValidate),
     ])
       .then(([data]) => getTransformedObj(data, propsToTransform))
       .then((transformedData) => new mongooseDBModel(transformedData).save())
-      .then((data) => res.json(pick(data, respondWithProps)))
+      .then((data) =>
+        res.json(respondWithProps ? pick(data, respondWithProps) : data)
+      )
       .catch((err) => handleError(res, err));
   });
 
-  router.get(`/:${findItemKey}`, (req, res) => {
+  router.get(`/:${findItemKey}`, ...getItemMiddlewares, (req, res) => {
     mongooseDBModel
       .findOne(parseQuery(findItemQuery, req.params))
-      .then((item) => res.json(pick(item, respondWithProps)))
+      .then((item) =>
+        res.json(respondWithProps ? pick(item, respondWithProps) : item)
+      )
       .catch((err) => handleError(res, err));
   });
 
-  router.patch(`/:${findItemKey}`, (req, res) => {
+  router.patch(`/:${findItemKey}`, ...patchItemMiddlewares, (req, res) => {
     Promise.resolve([req.body, Object.keys(req.body)])
       .then(([data, patchProps]) =>
         Promise.all([
@@ -105,70 +118,33 @@ function createRESTRouter(mongooseDBModel, attrs = {}) {
           { new: true, runValidators: true }
         )
       )
-      .then((item) => res.json(pick(item, respondWithProps)))
+      .then((item) =>
+        res.json(respondWithProps ? pick(item, respondWithProps) : item)
+      )
       .catch((err) => handleError(res, err));
   });
 
-  router.delete(`/:${findItemKey}`, (req, res) => {
+  router.delete(`/:${findItemKey}`, ...deleteItemMiddlewares, (req, res) => {
     mongooseDBModel
       .deleteOne(parseQuery(findItemQuery, req.params))
-      .then((item) => res.json(pick(item, respondWithProps)))
+      .then((item) =>
+        res.json(respondWithProps ? pick(item, respondWithProps) : item)
+      )
       .catch((err) => handleError(res, err));
   });
 
   return router;
 }
 
-function createRESTApp(dbUrl, entries, options = {}) {
-  const app = express();
-  const { middlewares = [], dbOptions } = options;
-  const { models } = database.createDatabase(dbUrl, entries, dbOptions);
+function createRESTRouters(defs) {
+  return defs.reduce((acc, def) => {
+    acc[def.mongooseDBModel.modelName] = createRESTRouter(def);
 
-  middlewares.forEach((mw) => app.use(mw));
-
-  return {
-    app,
-    items: models.reduce((acc, model, idx) => {
-      const entry = entries[idx];
-      const router = createRESTRouter(model, entry.restAttrs);
-
-      app.use(entry.path, ...[...(entry.middlewares || []), router]);
-
-      acc[entry.name] = { router, model };
-
-      return acc;
-    }, {}),
-  };
-}
-
-function createAuthLoginRouter(mongooseUserModel, attrs = {}) {
-  const { query, respondWithProps, passwordKey } = attrs;
-  const { propsRequired, propsToValidate } = attrs;
-  const router = express.Router();
-
-  router.use(bodyParser.json());
-
-  router.post('/', (req, res) => {
-    requiredObjProps(req.body, propsRequired)
-      .then((params) => validateObj(params, propsToValidate))
-      .then((data) =>
-        Promise.all([
-          mongooseUserModel.findOne(parseQuery(query, data)),
-          data[passwordKey],
-        ])
-      )
-      .then(([user, password]) =>
-        Promise.all([password.comparePasswords(password, user.password), user])
-      )
-      .then(([, user]) => res.json(pick(user, respondWithProps)))
-      .catch((err) => handleError(res, err));
-  });
-
-  return router;
+    return acc;
+  }, {});
 }
 
 module.exports = {
   createRESTRouter,
-  createRESTApp,
-  createAuthLoginRouter,
+  createRESTRouters,
 };

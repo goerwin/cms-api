@@ -31,7 +31,11 @@ function replaceObjValues(obj, replacements = [], path = '') {
     });
   } else {
     return Object.keys(obj).reduce((acc, key) => {
-      acc[key] = replaceObjValues(obj[key], replacements, `${path}${path ? '.' : ''}${key}`);
+      acc[key] = replaceObjValues(
+        obj[key],
+        replacements,
+        `${path}${path ? '.' : ''}${key}`
+      );
 
       return acc;
     }, {});
