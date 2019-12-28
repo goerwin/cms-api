@@ -3,7 +3,6 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const express = require('express');
 const databaseHelper = require('./_helpers/database');
-const loginMiddlewares = require('./_middlewares/login');
 const User = require('./User');
 const Domain = require('./Domain');
 const Category = require('./Category');
@@ -11,7 +10,7 @@ const Tag = require('./Tag');
 const Template = require('./Template');
 const Asset = require('./Asset');
 const Post = require('./Post');
-const loginRouter = require('./_routers/login');
+const Login = require('./Login');
 
 const PORT = process.env.PORT || 3000;
 
@@ -28,6 +27,11 @@ const { tagRouter } = Tag(dbConnection);
 const { templateRouter } = Template(dbConnection);
 const { assetRouter } = Asset(dbConnection);
 const { postRouter } = Post(dbConnection);
+const { loginRouter, loginMiddlewares } = Login(
+  userModel,
+  domainModel,
+  SECRET_JWT_KEY
+);
 
 const verifyUserLoginMw = loginMiddlewares.verifyUserLogin(
   userModel,
@@ -51,7 +55,7 @@ app.use('/api/tags', verifyUserLoginMw, tagRouter);
 app.use('/api/templates', verifyUserLoginMw, templateRouter);
 app.use('/api/assets', verifyUserLoginMw, assetRouter);
 app.use('/api/posts', verifyUserLoginMw, postRouter);
-app.use('/api/login', loginRouter(userModel, SECRET_JWT_KEY));
+app.use('/api/login', loginRouter);
 
 // eslint-disable-next-line
 app.use((err, req, res, next) => {

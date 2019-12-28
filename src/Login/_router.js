@@ -5,19 +5,19 @@ const pick = require('lodash/pick');
 const { requiredObjProps, validateObj } = require('../_helpers/validator');
 const { comparePasswords } = require('../_helpers/password');
 
-function createRouter(UserModel, jwtSecretKey) {
+function createRouter(userModel, domainModel, jwtSecretKey) {
   const router = express.Router();
 
   router.use(bodyParser.json());
 
-  router.post('/', bodyParser.json(), (req, res) => {
+  router.post('/', (req, res) => {
     requiredObjProps(req.body, ['id', 'password'])
       .then((data) =>
         validateObj(data, [['password', 'isLength', [{ min: 5 }]]])
       )
       .then((data) =>
         Promise.all([
-          UserModel.findOne({
+          userModel.findOne({
             $or: [{ username: data.id }, { email: data.id }],
           }),
           data.password,
@@ -32,10 +32,22 @@ function createRouter(UserModel, jwtSecretKey) {
           jwt.generateToken({ userId: user._id }, jwtSecretKey),
         ])
       )
-      .then(([user, token]) => {
+      .then(([user, jwtToken]) =>
+        Promise.all([
+          user,
+          jwtToken,
+          domainModel
+            .find()
+            .where('_id')
+            .in(user.domains)
+            .exec(),
+        ])
+      )
+      .then(([user, jwtToken, domains]) => {
         res.json({
-          ...pick(user, ['username', 'email', 'domains']),
-          jwtToken: token,
+          ...pick(user, ['username', 'email']),
+          domains,
+          jwtToken,
         });
       })
       .catch((err) => res.status(400).json(err.message));
