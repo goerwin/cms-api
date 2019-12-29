@@ -1,67 +1,15 @@
 require('dotenv').config({ path: './.env' });
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const express = require('express');
-const databaseHelper = require('./_helpers/database');
-const User = require('./User');
-const Domain = require('./Domain');
-const Category = require('./Category');
-const Tag = require('./Tag');
-const Template = require('./Template');
-const Asset = require('./Asset');
-const Post = require('./Post');
-const Login = require('./Login');
 
-const PORT = process.env.PORT || 3000;
+const { createApp } = require('./App');
 
-const { SECRET_DB_URL, SECRET_JWT_KEY } = process.env;
+const {
+  PORT = 3000,
+  SECRET_DB_URL: secretDBUrl,
+  SECRET_JWT_KEY: secretJwtKey,
+  SECRET_ADMIN_KEY: secretAdminKey,
+} = process.env;
 
-const app = express();
-
-const { dbConnection } = databaseHelper.createDatabase(SECRET_DB_URL);
-
-const { domainModel, domainRouter } = Domain(dbConnection);
-const { userModel, userRouter } = User(dbConnection, domainModel);
-const { categoryRouter } = Category(dbConnection);
-const { tagRouter } = Tag(dbConnection);
-const { templateRouter } = Template(dbConnection);
-const { assetRouter } = Asset(dbConnection);
-const { postRouter } = Post(dbConnection);
-const { loginRouter, loginMiddlewares } = Login(
-  userModel,
-  domainModel,
-  SECRET_JWT_KEY
-);
-
-const verifyUserLoginMw = loginMiddlewares.verifyUserLogin(
-  userModel,
-  domainModel,
-  SECRET_JWT_KEY
-);
-
-app.use(
-  cookieParser(),
-  cors({
-    origin: ['http://localhost:8080'],
-    credentials: true,
-    allowedHeaders: ['Authorization', 'Content-Type'],
-  })
-);
-
-app.use('/api/users', userRouter);
-app.use('/api/domains', domainRouter);
-app.use('/api/categories', verifyUserLoginMw, categoryRouter);
-app.use('/api/tags', verifyUserLoginMw, tagRouter);
-app.use('/api/templates', verifyUserLoginMw, templateRouter);
-app.use('/api/assets', verifyUserLoginMw, assetRouter);
-app.use('/api/posts', verifyUserLoginMw, postRouter);
-app.use('/api/login', loginRouter);
-
-// eslint-disable-next-line
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).json({ message: 'Something broke!' });
-});
+const app = createApp({ secretDBUrl, secretJwtKey, secretAdminKey });
 
 app.listen(PORT, () => {
   console.log(`Running server in port: ${PORT}`);

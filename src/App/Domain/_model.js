@@ -8,6 +8,7 @@ module.exports = function createModel(dbConnection) {
       name: {
         type: String,
         required: true,
+        unique: true,
         minlength: 5,
         validate: { validator: 'Validator.isAlphanumeric' },
       },

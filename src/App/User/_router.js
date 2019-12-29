@@ -21,7 +21,7 @@ function getTransformedData(data) {
 
 module.exports = function createRouter(dbModel, domainModel) {
   const router = express.Router();
-  const propsToReturn = 'email username domains';
+  const propsToReturn = 'email username domains createdAt updatedAt';
   const query = { $or: [{ username: '{id}' }, { email: '{id}' }] };
   const propsToValidate = [['password', 'isLength', [{ min: 5 }]]];
 
@@ -38,8 +38,8 @@ module.exports = function createRouter(dbModel, domainModel) {
     validateObj(req.body, propsToValidate)
       .then((data) => getTransformedData(data))
       .then((transformedData) => new dbModel(transformedData).save())
-      .then(({ email, username, domains }) =>
-        res.json({ email, username, domains })
+      .then(({ email, username, domains, createdAt, updatedAt }) =>
+        res.json({ email, username, domains, createdAt, updatedAt })
       )
       .catch((err) => res.status(400).json(err.message));
   });
