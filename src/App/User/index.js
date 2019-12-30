@@ -1,9 +1,9 @@
 const model = require('./_model');
-const router = require('./_router');
+const routers = require('./_routers');
 
 module.exports = function index(dbConnection, domainModel) {
   const modelEl = model(dbConnection);
-  const routerEl = router(modelEl, domainModel);
+  const routerEl = routers.createRouter(modelEl, domainModel);
 
   return {
     userModel: modelEl,

@@ -5,5 +5,5 @@ function supertestSeries(fns) {
 }
 
 module.exports = {
-  supertestSeries
-}
+  supertestSeries,
+};
