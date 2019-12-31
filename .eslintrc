@@ -14,8 +14,18 @@
     "semi-spacing": ["error", { "before": false, "after": true }],
     "block-spacing": ["error", "always"],
     "quotes": ["error", "single"],
+    "global-require": ["error"],
     "max-len": ["warn", 80],
     "indent": ["error", 2, { "ignoredNodes": ["TemplateLiteral > *"] }],
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": false,
+        "ignoreDeclarationSort": false,
+        "ignoreMemberSort": false,
+        "memberSyntaxSortOrder": ["none", "all", "single", "multiple"]
+      }
+    ],
     "arrow-parens": ["error", "always"],
     "object-curly-spacing": ["error", "always"],
     "no-trailing-spaces": [
