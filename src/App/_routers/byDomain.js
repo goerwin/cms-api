@@ -12,7 +12,7 @@ function validateUserAccessToDomain(localUser, domain) {
   });
 }
 
-module.exports = function createRouter(dbModel) {
+function createRouter(dbModel) {
   const router = express.Router();
 
   router.use(bodyParser.json());
@@ -52,4 +52,8 @@ module.exports = function createRouter(dbModel) {
   });
 
   return router;
+}
+
+module.exports = {
+  createRouter,
 };
