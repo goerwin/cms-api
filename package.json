@@ -35,9 +35,15 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "testMatch": ["**/*.test.js", "**/_tests/*.js", "**/_tests.js"],
+    "testMatch": [
+      "**/*.test.js",
+      "**/_tests/*.js",
+      "**/_tests.js"
+    ],
     "collectCoverage": true,
-    "collectCoverageFrom": ["**/*.js"],
+    "collectCoverageFrom": [
+      "**/*.js"
+    ],
     "testTimeout": 15000
   }
 }

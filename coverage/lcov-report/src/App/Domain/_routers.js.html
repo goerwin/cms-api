@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">89.66% </span>
+        <span class="strong">48.28% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>26/29</span>
+        <span class='fraction'>14/29</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -30,21 +30,21 @@
         <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">81.25% </span>
+        <span class="strong">6.25% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>13/16</span>
+        <span class='fraction'>1/16</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">89.66% </span>
+        <span class="strong">48.28% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>26/29</span>
+        <span class='fraction'>14/29</span>
       </div>
     </div>
     <p class="quiet">
       Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
     </p>
   </div>
-  <div class='status-line high'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -113,40 +113,40 @@
 <span class="cline-any cline-yes">120x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -167,41 +167,41 @@ function createRouter(DBModel) {
 &nbsp;
   router.use(bodyParser.json());
 &nbsp;
-  router.get('/', (req, res) =&gt; {
-    DBModel.find({})
+  router.get('/', <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
+<span class="cstat-no" title="statement not covered" >    DBModel.find({})</span>
       .select(propsToReturn)
-      .then((items) =&gt; res.json(items))
+      .then(<span class="fstat-no" title="function not covered" >(i</span>tems) =&gt; <span class="cstat-no" title="statement not covered" >res.json(items))</span>
       .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; <span class="cstat-no" title="statement not covered" >res.status(400).json(err.message))</span>;
   });
 &nbsp;
-  router.post('/', (req, res) =&gt; {
-    new DBModel(req.body)
+  router.post('/', <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
+<span class="cstat-no" title="statement not covered" >    new DBModel(req.body)</span>
       .save()
-      .then((item) =&gt; res.json(pick(item, propsToReturnArr)))
-      .catch((err) =&gt; res.status(400).json(err.message));
-  });
-&nbsp;
-  router.get('/:id', (req, res) =&gt; {
-    DBModel.findById(req.params.id)
-      .select(propsToReturn)
-      .then((item) =&gt; res.json(item))
+      .then(<span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; <span class="cstat-no" title="statement not covered" >res.json(pick(item, propsToReturnArr)))</span>
       .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; <span class="cstat-no" title="statement not covered" >res.status(400).json(err.message))</span>;
   });
 &nbsp;
-  router.patch('/:id', (req, res) =&gt; {
-    DBModel.findByIdAndUpdate(req.params.id, req.body, {
+  router.get('/:id', <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
+<span class="cstat-no" title="statement not covered" >    DBModel.findById(req.params.id)</span>
+      .select(propsToReturn)
+      .then(<span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; <span class="cstat-no" title="statement not covered" >res.json(item))</span>
+      .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; <span class="cstat-no" title="statement not covered" >res.status(400).json(err.message))</span>;
+  });
+&nbsp;
+  router.patch('/:id', <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
+<span class="cstat-no" title="statement not covered" >    DBModel.findByIdAndUpdate(req.params.id, req.body, {</span>
       new: true,
       runValidators: true,
     })
       .select(propsToReturn)
-      .then((item) =&gt; res.json(item))
-      .catch((err) =&gt; res.status(400).json(err.message));
+      .then(<span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; <span class="cstat-no" title="statement not covered" >res.json(item))</span>
+      .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; <span class="cstat-no" title="statement not covered" >res.status(400).json(err.message))</span>;
   });
 &nbsp;
-  router.delete('/:id', (req, res) =&gt; {
-    DBModel.findByIdAndDelete(req.params.id)
+  router.delete('/:id', <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
+<span class="cstat-no" title="statement not covered" >    DBModel.findByIdAndDelete(req.params.id)</span>
       .select(propsToReturn)
-      .then((item) =&gt; res.json(item))
+      .then(<span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; <span class="cstat-no" title="statement not covered" >res.json(item))</span>
       .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; <span class="cstat-no" title="statement not covered" >res.status(400).json(err.message))</span>;
   });
 &nbsp;
@@ -217,7 +217,7 @@ module.exports = {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Dec 31 2019 14:21:33 GMT-0500 (Colombia Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Jan 07 2020 18:43:06 GMT-0500 (Colombia Standard Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
