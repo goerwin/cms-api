@@ -59,9 +59,9 @@ function createApp({ secretDBUrl, secretJwtKey, secretAdminKey }) {
 
   app.get('/api/helpers/setCookie/:name/:value', (req, res) => {
     res.cookie(req.params.name, req.params.value, {
-      maxAge: '10 days',
+      maxAge: 10 * 24 * 60 * 60 * 1000, // 10 days
       httpOnly: true,
-    });
+    }).json('Done');
   });
 
   app.get('/api/helpers/generatePassword/:password', (req, res) => {
