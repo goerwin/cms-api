@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1578440587437" clover="3.2.0">
-  <project timestamp="1578440587437" name="All files">
-    <metrics statements="449" coveredstatements="193" conditionals="375" coveredconditionals="35" methods="185" coveredmethods="34" elements="1009" coveredelements="262" complexity="0" loc="449" ncloc="449" packages="14" files="31" classes="31"/>
+<coverage generated="1578442633699" clover="3.2.0">
+  <project timestamp="1578442633699" name="All files">
+    <metrics statements="449" coveredstatements="285" conditionals="375" coveredconditionals="39" methods="185" coveredmethods="82" elements="1009" coveredelements="406" complexity="0" loc="449" ncloc="449" packages="14" files="31" classes="31"/>
     <package name="coverage.lcov-report">
       <metrics statements="106" coveredstatements="0" conditionals="323" coveredconditionals="0" methods="52" coveredmethods="0"/>
       <file name="block-navigation.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/coverage/lcov-report/block-navigation.js">
@@ -133,9 +133,9 @@
       </file>
     </package>
     <package name="src.App">
-      <metrics statements="45" coveredstatements="20" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="1"/>
+      <metrics statements="45" coveredstatements="40" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="1"/>
       <file name="index.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/src/App/index.js">
-        <metrics statements="45" coveredstatements="20" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="1"/>
+        <metrics statements="45" coveredstatements="40" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
@@ -155,54 +155,54 @@
         <line num="21" count="120" type="stmt"/>
         <line num="22" count="120" type="stmt"/>
         <line num="23" count="120" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
-        <line num="49" count="0" type="stmt"/>
-        <line num="51" count="0" type="stmt"/>
-        <line num="52" count="0" type="stmt"/>
-        <line num="53" count="0" type="stmt"/>
-        <line num="54" count="0" type="stmt"/>
-        <line num="55" count="0" type="stmt"/>
-        <line num="56" count="0" type="stmt"/>
-        <line num="57" count="0" type="stmt"/>
-        <line num="58" count="0" type="stmt"/>
-        <line num="60" count="0" type="stmt"/>
+        <line num="24" count="120" type="stmt"/>
+        <line num="25" count="120" type="stmt"/>
+        <line num="26" count="120" type="stmt"/>
+        <line num="27" count="120" type="stmt"/>
+        <line num="28" count="120" type="stmt"/>
+        <line num="34" count="120" type="stmt"/>
+        <line num="40" count="120" type="stmt"/>
+        <line num="49" count="120" type="stmt"/>
+        <line num="51" count="120" type="stmt"/>
+        <line num="52" count="120" type="stmt"/>
+        <line num="53" count="120" type="stmt"/>
+        <line num="54" count="120" type="stmt"/>
+        <line num="55" count="120" type="stmt"/>
+        <line num="56" count="120" type="stmt"/>
+        <line num="57" count="120" type="stmt"/>
+        <line num="58" count="120" type="stmt"/>
+        <line num="60" count="120" type="stmt"/>
         <line num="61" count="0" type="stmt"/>
-        <line num="67" count="0" type="stmt"/>
+        <line num="67" count="120" type="stmt"/>
         <line num="68" count="0" type="stmt"/>
         <line num="71" count="0" type="stmt"/>
-        <line num="76" count="0" type="stmt"/>
+        <line num="76" count="120" type="stmt"/>
         <line num="77" count="0" type="stmt"/>
         <line num="78" count="0" type="stmt"/>
-        <line num="81" count="0" type="stmt"/>
+        <line num="81" count="120" type="stmt"/>
         <line num="84" count="2" type="stmt"/>
       </file>
     </package>
     <package name="src.App.Asset">
-      <metrics statements="9" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
       <file name="_model.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/src/App/Asset/_model.js">
-        <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
+        <line num="4" count="120" type="stmt"/>
       </file>
       <file name="index.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/src/App/Asset/index.js">
-        <metrics statements="6" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
         <line num="4" count="2" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
+        <line num="5" count="120" type="stmt"/>
+        <line num="6" count="120" type="stmt"/>
+        <line num="8" count="120" type="stmt"/>
       </file>
     </package>
     <package name="src.App.Category">
-      <metrics statements="9" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+      <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
       <file name="_model.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/src/App/Category/_model.js">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
@@ -210,17 +210,17 @@
         <line num="4" count="120" type="stmt"/>
       </file>
       <file name="index.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/src/App/Category/index.js">
-        <metrics statements="6" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
         <line num="4" count="2" type="stmt"/>
         <line num="5" count="120" type="stmt"/>
         <line num="6" count="120" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
+        <line num="8" count="120" type="stmt"/>
       </file>
     </package>
     <package name="src.App.Domain">
-      <metrics statements="38" coveredstatements="23" conditionals="0" coveredconditionals="0" methods="18" coveredmethods="3"/>
+      <metrics statements="38" coveredstatements="35" conditionals="0" coveredconditionals="0" methods="18" coveredmethods="15"/>
       <file name="_model.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/src/App/Domain/_model.js">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
@@ -228,7 +228,7 @@
         <line num="4" count="120" type="stmt"/>
       </file>
       <file name="_routers.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/src/App/Domain/_routers.js">
-        <metrics statements="29" coveredstatements="14" conditionals="0" coveredconditionals="0" methods="16" coveredmethods="1"/>
+        <metrics statements="29" coveredstatements="26" conditionals="0" coveredconditionals="0" methods="16" coveredmethods="13"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
@@ -237,24 +237,24 @@
         <line num="8" count="120" type="stmt"/>
         <line num="10" count="120" type="stmt"/>
         <line num="12" count="120" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
+        <line num="13" count="13" type="stmt"/>
+        <line num="15" count="13" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
         <line num="19" count="120" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
+        <line num="20" count="29" type="stmt"/>
+        <line num="22" count="25" type="stmt"/>
+        <line num="23" count="4" type="stmt"/>
         <line num="26" count="120" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
         <line num="30" count="0" type="stmt"/>
         <line num="33" count="120" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="39" count="0" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
+        <line num="34" count="9" type="stmt"/>
+        <line num="39" count="4" type="stmt"/>
+        <line num="40" count="5" type="stmt"/>
         <line num="43" count="120" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
-        <line num="46" count="0" type="stmt"/>
+        <line num="44" count="2" type="stmt"/>
+        <line num="46" count="2" type="stmt"/>
         <line num="47" count="0" type="stmt"/>
         <line num="50" count="120" type="stmt"/>
         <line num="53" count="2" type="stmt"/>
@@ -270,11 +270,11 @@
       </file>
     </package>
     <package name="src.App.Login">
-      <metrics statements="35" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="19" coveredmethods="0"/>
+      <metrics statements="35" coveredstatements="19" conditionals="0" coveredconditionals="0" methods="19" coveredmethods="3"/>
       <file name="_middlewares.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/src/App/Login/_middlewares.js">
-        <metrics statements="11" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="9" coveredmethods="0"/>
+        <metrics statements="11" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="9" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
+        <line num="4" count="120" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
         <line num="8" count="0" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
@@ -286,16 +286,16 @@
         <line num="31" count="2" type="stmt"/>
       </file>
       <file name="_router.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/src/App/Login/_router.js">
-        <metrics statements="19" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="9" coveredmethods="0"/>
+        <metrics statements="19" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="9" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
         <line num="4" count="2" type="stmt"/>
         <line num="5" count="2" type="stmt"/>
         <line num="6" count="2" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
+        <line num="9" count="120" type="stmt"/>
+        <line num="11" count="120" type="stmt"/>
+        <line num="13" count="120" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
         <line num="19" count="0" type="stmt"/>
@@ -304,74 +304,74 @@
         <line num="36" count="0" type="stmt"/>
         <line num="47" count="0" type="stmt"/>
         <line num="53" count="0" type="stmt"/>
-        <line num="56" count="0" type="stmt"/>
+        <line num="56" count="120" type="stmt"/>
         <line num="59" count="2" type="stmt"/>
       </file>
       <file name="index.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/src/App/Login/index.js">
-        <metrics statements="5" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
         <line num="4" count="2" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
+        <line num="5" count="120" type="stmt"/>
+        <line num="7" count="120" type="stmt"/>
       </file>
     </package>
     <package name="src.App.Post">
-      <metrics statements="9" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
       <file name="_model.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/src/App/Post/_model.js">
-        <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
+        <line num="4" count="120" type="stmt"/>
       </file>
       <file name="index.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/src/App/Post/index.js">
-        <metrics statements="6" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
         <line num="4" count="2" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
+        <line num="5" count="120" type="stmt"/>
+        <line num="6" count="120" type="stmt"/>
+        <line num="8" count="120" type="stmt"/>
       </file>
     </package>
     <package name="src.App.Tag">
-      <metrics statements="9" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
       <file name="_model.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/src/App/Tag/_model.js">
-        <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
+        <line num="4" count="120" type="stmt"/>
       </file>
       <file name="index.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/src/App/Tag/index.js">
-        <metrics statements="6" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
         <line num="4" count="2" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
+        <line num="5" count="120" type="stmt"/>
+        <line num="6" count="120" type="stmt"/>
+        <line num="8" count="120" type="stmt"/>
       </file>
     </package>
     <package name="src.App.Template">
-      <metrics statements="9" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
       <file name="_model.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/src/App/Template/_model.js">
-        <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
+        <line num="4" count="120" type="stmt"/>
       </file>
       <file name="index.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/src/App/Template/index.js">
-        <metrics statements="6" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
         <line num="4" count="2" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
+        <line num="5" count="120" type="stmt"/>
+        <line num="6" count="120" type="stmt"/>
+        <line num="8" count="120" type="stmt"/>
       </file>
     </package>
     <package name="src.App.User">
-      <metrics statements="59" coveredstatements="29" conditionals="2" coveredconditionals="0" methods="30" coveredmethods="3"/>
+      <metrics statements="59" coveredstatements="52" conditionals="2" coveredconditionals="2" methods="30" coveredmethods="23"/>
       <file name="_model.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/src/App/User/_model.js">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
@@ -379,17 +379,17 @@
         <line num="4" count="120" type="stmt"/>
       </file>
       <file name="_routers.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/src/App/User/_routers.js">
-        <metrics statements="50" coveredstatements="20" conditionals="2" coveredconditionals="0" methods="28" coveredmethods="1"/>
+        <metrics statements="50" coveredstatements="43" conditionals="2" coveredconditionals="2" methods="28" coveredmethods="21"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
         <line num="4" count="2" type="stmt"/>
         <line num="5" count="2" type="stmt"/>
         <line num="6" count="2" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="13" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
+        <line num="9" count="15" type="stmt"/>
+        <line num="13" count="46" type="cond" truecount="2" falsecount="0"/>
+        <line num="14" count="44" type="stmt"/>
+        <line num="20" count="2" type="stmt"/>
         <line num="24" count="120" type="stmt"/>
         <line num="25" count="120" type="stmt"/>
         <line num="26" count="120" type="stmt"/>
@@ -397,31 +397,31 @@
         <line num="30" count="120" type="stmt"/>
         <line num="32" count="120" type="stmt"/>
         <line num="34" count="120" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
+        <line num="35" count="18" type="stmt"/>
+        <line num="38" count="18" type="stmt"/>
         <line num="39" count="0" type="stmt"/>
         <line num="42" count="120" type="stmt"/>
-        <line num="43" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
-        <line num="45" count="0" type="stmt"/>
-        <line num="46" count="0" type="stmt"/>
-        <line num="47" count="0" type="stmt"/>
+        <line num="43" count="36" type="stmt"/>
+        <line num="44" count="35" type="stmt"/>
+        <line num="45" count="35" type="stmt"/>
+        <line num="46" count="29" type="stmt"/>
+        <line num="47" count="7" type="stmt"/>
         <line num="50" count="120" type="stmt"/>
-        <line num="51" count="0" type="stmt"/>
-        <line num="54" count="0" type="stmt"/>
+        <line num="51" count="2" type="stmt"/>
+        <line num="54" count="2" type="stmt"/>
         <line num="55" count="0" type="stmt"/>
         <line num="58" count="120" type="stmt"/>
-        <line num="59" count="0" type="stmt"/>
-        <line num="60" count="0" type="stmt"/>
-        <line num="61" count="0" type="stmt"/>
-        <line num="64" count="0" type="stmt"/>
-        <line num="65" count="0" type="stmt"/>
-        <line num="67" count="0" type="stmt"/>
-        <line num="74" count="0" type="stmt"/>
-        <line num="75" count="0" type="stmt"/>
+        <line num="59" count="12" type="stmt"/>
+        <line num="60" count="12" type="stmt"/>
+        <line num="61" count="12" type="stmt"/>
+        <line num="64" count="12" type="stmt"/>
+        <line num="65" count="11" type="stmt"/>
+        <line num="67" count="11" type="stmt"/>
+        <line num="74" count="4" type="stmt"/>
+        <line num="75" count="8" type="stmt"/>
         <line num="78" count="120" type="stmt"/>
-        <line num="79" count="0" type="stmt"/>
-        <line num="82" count="0" type="stmt"/>
+        <line num="79" count="2" type="stmt"/>
+        <line num="82" count="2" type="stmt"/>
         <line num="83" count="0" type="stmt"/>
         <line num="86" count="120" type="stmt"/>
         <line num="87" count="0" type="stmt"/>
@@ -448,14 +448,14 @@
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
-        <line num="6" count="360" type="cond" truecount="1" falsecount="0"/>
-        <line num="7" count="360" type="stmt"/>
-        <line num="8" count="240" type="stmt"/>
-        <line num="9" count="480" type="stmt"/>
-        <line num="12" count="360" type="stmt"/>
-        <line num="17" count="360" type="stmt"/>
-        <line num="18" count="120" type="stmt"/>
-        <line num="21" count="360" type="stmt"/>
+        <line num="6" count="840" type="cond" truecount="1" falsecount="0"/>
+        <line num="7" count="840" type="stmt"/>
+        <line num="8" count="1200" type="stmt"/>
+        <line num="9" count="840" type="stmt"/>
+        <line num="12" count="840" type="stmt"/>
+        <line num="17" count="840" type="stmt"/>
+        <line num="18" count="480" type="stmt"/>
+        <line num="21" count="840" type="stmt"/>
         <line num="25" count="120" type="stmt"/>
         <line num="33" count="120" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
@@ -483,26 +483,26 @@
       </file>
       <file name="object.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/src/App/_helpers/object.js">
         <metrics statements="21" coveredstatements="21" conditionals="18" coveredconditionals="17" methods="4" coveredmethods="4"/>
-        <line num="2" count="4879" type="cond" truecount="2" falsecount="0"/>
-        <line num="3" count="3038" type="stmt"/>
-        <line num="5" count="3038" type="stmt"/>
-        <line num="6" count="6050" type="stmt"/>
-        <line num="8" count="6050" type="cond" truecount="2" falsecount="0"/>
-        <line num="9" count="255" type="cond" truecount="2" falsecount="0"/>
-        <line num="10" count="242" type="stmt"/>
-        <line num="12" count="13" type="stmt"/>
-        <line num="14" count="5795" type="cond" truecount="2" falsecount="0"/>
-        <line num="15" count="3006" type="cond" truecount="2" falsecount="0"/>
-        <line num="16" count="483" type="cond" truecount="2" falsecount="0"/>
-        <line num="17" count="482" type="stmt"/>
+        <line num="2" count="11959" type="cond" truecount="2" falsecount="0"/>
+        <line num="3" count="7283" type="stmt"/>
+        <line num="5" count="7283" type="stmt"/>
+        <line num="6" count="14495" type="stmt"/>
+        <line num="8" count="14495" type="cond" truecount="2" falsecount="0"/>
+        <line num="9" count="1260" type="cond" truecount="2" falsecount="0"/>
+        <line num="10" count="1202" type="stmt"/>
+        <line num="12" count="58" type="stmt"/>
+        <line num="14" count="13235" type="cond" truecount="2" falsecount="0"/>
+        <line num="15" count="7206" type="cond" truecount="2" falsecount="0"/>
+        <line num="16" count="843" type="cond" truecount="2" falsecount="0"/>
+        <line num="17" count="842" type="stmt"/>
         <line num="19" count="1" type="stmt"/>
-        <line num="25" count="3038" type="stmt"/>
-        <line num="28" count="1841" type="cond" truecount="2" falsecount="0"/>
-        <line num="29" count="127" type="stmt"/>
-        <line num="30" count="141" type="stmt"/>
-        <line num="33" count="1714" type="stmt"/>
-        <line num="34" count="4366" type="stmt"/>
-        <line num="40" count="4366" type="stmt"/>
+        <line num="25" count="7283" type="stmt"/>
+        <line num="28" count="4676" type="cond" truecount="2" falsecount="0"/>
+        <line num="29" count="382" type="stmt"/>
+        <line num="30" count="426" type="stmt"/>
+        <line num="33" count="4294" type="stmt"/>
+        <line num="34" count="10666" type="stmt"/>
+        <line num="40" count="10666" type="stmt"/>
         <line num="45" count="3" type="stmt"/>
       </file>
       <file name="password.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/src/App/_helpers/password.js">
@@ -510,8 +510,8 @@
         <line num="1" count="3" type="stmt"/>
         <line num="3" count="3" type="stmt"/>
         <line num="5" count="3" type="stmt"/>
-        <line num="10" count="4" type="stmt"/>
-        <line num="12" count="4" type="stmt"/>
+        <line num="10" count="48" type="stmt"/>
+        <line num="12" count="48" type="stmt"/>
         <line num="16" count="2" type="stmt"/>
         <line num="17" count="2" type="cond" truecount="2" falsecount="0"/>
         <line num="18" count="1" type="stmt"/>
@@ -527,62 +527,62 @@
         <line num="11" count="6" type="cond" truecount="2" falsecount="0"/>
         <line num="12" count="1" type="stmt"/>
         <line num="21" count="2" type="stmt"/>
-        <line num="26" count="4" type="stmt"/>
-        <line num="27" count="4" type="stmt"/>
-        <line num="28" count="4" type="stmt"/>
-        <line num="30" count="4" type="cond" truecount="4" falsecount="0"/>
-        <line num="31" count="2" type="stmt"/>
-        <line num="45" count="2" type="stmt"/>
+        <line num="26" count="52" type="stmt"/>
+        <line num="27" count="52" type="stmt"/>
+        <line num="28" count="50" type="stmt"/>
+        <line num="30" count="50" type="cond" truecount="4" falsecount="0"/>
+        <line num="31" count="4" type="stmt"/>
+        <line num="45" count="48" type="stmt"/>
         <line num="49" count="3" type="stmt"/>
       </file>
     </package>
     <package name="src.App._middlewares">
-      <metrics statements="8" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="4" coveredmethods="0"/>
+      <metrics statements="8" coveredstatements="8" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="4"/>
       <file name="admin.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/src/App/_middlewares/admin.js">
-        <metrics statements="8" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="4" coveredmethods="0"/>
+        <metrics statements="8" coveredstatements="8" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="4"/>
         <line num="1" count="2" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
+        <line num="4" count="120" type="stmt"/>
+        <line num="5" count="140" type="stmt"/>
+        <line num="6" count="140" type="stmt"/>
+        <line num="7" count="140" type="cond" truecount="2" falsecount="0"/>
+        <line num="8" count="124" type="stmt"/>
+        <line num="10" count="16" type="stmt"/>
         <line num="17" count="2" type="stmt"/>
       </file>
     </package>
     <package name="src.App._routers">
-      <metrics statements="30" coveredstatements="3" conditionals="7" coveredconditionals="0" methods="20" coveredmethods="0"/>
+      <metrics statements="30" coveredstatements="10" conditionals="7" coveredconditionals="0" methods="20" coveredmethods="1"/>
       <file name="byDomain.js" path="/mnt/c/Users/erwin.gaitan/Projects/cms/cms-api/src/App/_routers/byDomain.js">
-        <metrics statements="30" coveredstatements="3" conditionals="7" coveredconditionals="0" methods="20" coveredmethods="0"/>
+        <metrics statements="30" coveredstatements="10" conditionals="7" coveredconditionals="0" methods="20" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
         <line num="9" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="10" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
+        <line num="16" count="600" type="stmt"/>
+        <line num="18" count="600" type="stmt"/>
+        <line num="20" count="600" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
         <line num="22" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="23" count="0" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
         <line num="25" count="0" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
+        <line num="28" count="600" type="stmt"/>
         <line num="29" count="0" type="stmt"/>
         <line num="30" count="0" type="stmt"/>
         <line num="31" count="0" type="stmt"/>
         <line num="32" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
+        <line num="35" count="600" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
         <line num="38" count="0" type="stmt"/>
         <line num="43" count="0" type="stmt"/>
         <line num="44" count="0" type="stmt"/>
-        <line num="47" count="0" type="stmt"/>
+        <line num="47" count="600" type="stmt"/>
         <line num="48" count="0" type="stmt"/>
         <line num="49" count="0" type="stmt"/>
         <line num="50" count="0" type="stmt"/>
         <line num="51" count="0" type="stmt"/>
-        <line num="54" count="0" type="stmt"/>
+        <line num="54" count="600" type="stmt"/>
         <line num="57" count="2" type="stmt"/>
       </file>
     </package>
