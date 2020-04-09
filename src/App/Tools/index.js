@@ -11,7 +11,7 @@ function getRouter({
 }) {
     const routerEl = express.Router();
 
-    routerEl.get('/getDomainFiles/:domainName', (req, res) => {
+    routerEl.get('/getDomainsFullData/:domainName', (req, res) => {
         const { domainName } = req.params;
 
         domainModel
