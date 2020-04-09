@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-// const path = require('path');
+const path = require('path');
 const fsExtra = require('fs-extra');
 const webpackConfig = require('./webpack.config.prod');
 
@@ -17,19 +17,21 @@ webpack(webpackConfig, (err, stats) => {
         }))
         .reduce(
             (acc, asset) => {
-                if (/.*.js$/.test(asset.id)) {
-                    acc.jsFile = asset;
-                } else if (/.*.css$/.test(asset.id)) {
+                if (/^indexSSR\..*\.js$/.test(asset.id)) {
+                    acc.jsSSRFile = asset;
+                } else if (/^indexClient\..*\.js$/.test(asset.id)) {
+                    acc.jsClientFile = asset;
+                } else if (/.*\.css$/.test(asset.id)) {
                     acc.cssFiles.push(asset);
                 }
 
                 return acc;
             },
-            { cssFiles: [], jsFile: null }
+            { cssFiles: [], jsClientFile: null, jsSSRFile: null }
         );
 
     // TODO: this seems really bad here TBH
-    const stringifiedReactApp = require(assets.jsFile.absPath);
+    const stringifiedSSRReactApp = require(assets.jsSSRFile.absPath);
 
     const html = `
         <!doctype html>
@@ -39,22 +41,24 @@ webpack(webpackConfig, (err, stats) => {
             <title>The HTML5</title>
             <meta name="description" content="The HTML5 Herald">
             <meta name="author" content="Erwin Gaitan">
-            ${assets.cssFiles.map((el) =>
-                `<link rel="stylesheet" href="/${el.id}"></link>`
+            ${assets.cssFiles.map(
+                (el) => `<link rel="stylesheet" href="/${el.id}"></link>`
             )}
         </head>
         
         <body>
-            <div class="app-root">${stringifiedReactApp.indexPage}</div>
-            ${assets.cssFiles.map((el) =>
-                `<script src="${el.id}"></script>`
-            )}
+            <div class="app-root">${stringifiedSSRReactApp.indexPage}</div>
+            ${`<script src="/${assets.jsClientFile.id}"></script>`}
         </body>
         </html>
     `;
 
-    // console.log(html);
-    // fsExtra.file
-    
-    fsExtra.removeSync(webpackConfig.output.path);
+    fsExtra.outputFileSync(
+        path.resolve(webpackConfig.output.path, 'index.html'),
+        html,
+        { encoding: 'utf8' }
+    );
+    console.log(html);
+
+    // fsExtra.removeSync(webpackConfig.output.path);
 });

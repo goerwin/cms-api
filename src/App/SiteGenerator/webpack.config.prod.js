@@ -7,6 +7,7 @@ module.exports = {
     devtool: 'none',
     entry: {
         indexSSR: path.resolve(__dirname, 'indexSSR.jsx'),
+        indexClient: path.resolve(__dirname, 'indexClient.jsx'),
     },
     output: {
         path: distFolder,
