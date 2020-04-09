@@ -1,0 +1,11 @@
+.PostPage {
+  max-width: var(--globalMaxWidth);
+  margin: 0 auto;
+  padding: 0 var(--globalHorizontalPadding) 0;
+  font-size: 10px;
+
+  &__metadata {
+    font-size: 1.4em;
+    color: #8898a6;
+  }
+}

@@ -1,0 +1,43 @@
+.Header {
+  background-color: #111;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--headerHeight);
+  border-bottom: 1px solid #353535;
+  font-size: 10px;
+
+  &__author {
+    --height: 60px;
+    height: var(--height);
+    margin: calc((var(--headerHeight) - var(--height)) / 2) auto 0;
+    padding: 0 var(--globalHorizontalPadding) 0 calc(var(--globalHorizontalPadding) + 70px);
+    max-width: var(--globalMaxWidth);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  &__authorName {
+    color: var(--primaryTextColor);
+    font-size: 1.8em;
+  }
+  
+  &__authorSlogan {
+    font-size: 1.4em;
+  }
+  
+  &__authorImg {
+    --size: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    width: var(--size);
+    height: var(--size);
+    background-color: red;
+    position: absolute;
+    top: 0;
+    left: var(--globalHorizontalPadding);
+  }
+}
