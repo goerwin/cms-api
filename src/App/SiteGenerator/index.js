@@ -88,6 +88,6 @@ function getRouter({
 
 module.exports = function index(params) {
     return {
-        toolsRouter: getRouter(params),
+        siteGeneratorRouter: getRouter(params),
     };
 };
