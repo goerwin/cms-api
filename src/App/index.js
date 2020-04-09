@@ -12,6 +12,7 @@ const Asset = require('./Asset');
 const Post = require('./Post');
 const Login = require('./Login');
 const Helpers = require('./Helpers');
+const Tools = require('./Tools');
 
 function createApp({ secretDBUrl, secretJwtKey, secretAdminKey }) {
     const app = express();
@@ -20,12 +21,24 @@ function createApp({ secretDBUrl, secretJwtKey, secretAdminKey }) {
 
     const { domainModel, domainRouter } = Domain(dbConnection);
     const { userModel, userRouter } = User(dbConnection, domainModel);
-    const { categoryRouter } = Category(dbConnection);
-    const { tagRouter } = Tag(dbConnection);
-    const { templateRouter } = Template(dbConnection);
-    const { assetRouter } = Asset(dbConnection);
-    const { postRouter } = Post(dbConnection);
+    const { categoryModel, categoryRouter } = Category(dbConnection);
+    const { tagModel, tagRouter } = Tag(dbConnection);
+    const { templateModel, templateRouter } = Template(dbConnection);
+    const { assetModel, assetRouter } = Asset(dbConnection);
+    const { postModel, postRouter } = Post(dbConnection);
+
+    const { toolsRouter } = Tools({
+        userModel,
+        domainModel,
+        categoryModel,
+        tagModel,
+        templateModel,
+        assetModel,
+        postModel,
+    });
+
     const { helpersRouter } = Helpers(secretJwtKey);
+
     const { loginRouter, loginMiddlewares } = Login(
         userModel,
         domainModel,
@@ -51,6 +64,8 @@ function createApp({ secretDBUrl, secretJwtKey, secretAdminKey }) {
 
     app.use('/api/users', verifyAdminMw, userRouter);
     app.use('/api/domains', verifyAdminMw, domainRouter);
+    app.use('/api/tools', verifyAdminMw, toolsRouter);
+
     app.use('/api/categories', verifyUserLoginMw, categoryRouter);
     app.use('/api/tags', verifyUserLoginMw, tagRouter);
     app.use('/api/templates', verifyUserLoginMw, templateRouter);
