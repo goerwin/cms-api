@@ -16,7 +16,7 @@
     "quotes": ["error", "single"],
     "global-require": ["error"],
     "max-len": ["warn", 80],
-    "indent": ["error", 2, { "ignoredNodes": ["TemplateLiteral > *"] }],
+    "indent": ["error", 4, { "ignoredNodes": ["TemplateLiteral > *"] }],
     "sort-imports": [
       "error",
       {
