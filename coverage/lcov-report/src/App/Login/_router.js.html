@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">57.89% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>11/19</span>
+        <span class='fraction'>0/20</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -30,21 +30,21 @@
         <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">11.11% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/9</span>
+        <span class='fraction'>0/10</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">57.89% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>11/19</span>
+        <span class='fraction'>0/20</span>
       </div>
     </div>
     <p class="quiet">
       Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
     </p>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -104,20 +104,19 @@
 <a name='L56'></a><a href='#L56'>56</a>
 <a name='L57'></a><a href='#L57'>57</a>
 <a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -150,86 +149,84 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const express = require('express');
-const jwt = require('../_helpers/jwt');
-const bodyParser = require('body-parser');
-const pick = require('lodash/pick');
-const { requiredObjProps, validateObj } = require('../_helpers/validator');
-const { comparePasswords } = require('../_helpers/password');
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const express = <span class="cstat-no" title="statement not covered" >require('express');</span>
+const jwt = <span class="cstat-no" title="statement not covered" >require('../_helpers/jwt');</span>
+const bodyParser = <span class="cstat-no" title="statement not covered" >require('body-parser');</span>
+const pick = <span class="cstat-no" title="statement not covered" >require('lodash/pick');</span>
+const { requiredObjProps, validateObj } = <span class="cstat-no" title="statement not covered" >require('../_helpers/validator');</span>
+const { comparePasswords } = <span class="cstat-no" title="statement not covered" >require('../_helpers/password');</span>
 &nbsp;
-function createRouter(userModel, domainModel, jwtSecretKey) {
-  const router = express.Router();
+function <span class="fstat-no" title="function not covered" >createRouter(</span>userModel, domainModel, jwtSecretKey) {
+    const router = <span class="cstat-no" title="statement not covered" >express.Router();</span>
 &nbsp;
-  router.use(bodyParser.json());
+<span class="cstat-no" title="statement not covered" >    router.use(bodyParser.json());</span>
 &nbsp;
-  router.post('/', <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >    requiredObjProps(req.body, ['id', 'password'])</span>
-      .then(<span class="fstat-no" title="function not covered" >(d</span>ata) =&gt;
-<span class="cstat-no" title="statement not covered" >        validateObj(data, [['password', 'isLength', [{ min: 5 }]]])</span>
-      )
-      .then(<span class="fstat-no" title="function not covered" >(d</span>ata) =&gt;
-<span class="cstat-no" title="statement not covered" >        Promise.all([</span>
-          userModel.findOne({
-            $or: [{ username: data.id }, { email: data.id }],
-          }),
-          data.password,
-        ])
-      )
-      .then(<span class="fstat-no" title="function not covered" >([</span>user, password]) =&gt;
-<span class="cstat-no" title="statement not covered" >        Promise.all([comparePasswords(password, user.password), user])</span>
-      )
-      .then(<span class="fstat-no" title="function not covered" >([</span>, user]) =&gt;
-<span class="cstat-no" title="statement not covered" >        Promise.all([</span>
-          user,
-          jwt.generateToken({ userId: user._id }, jwtSecretKey),
-        ])
-      )
-      .then(<span class="fstat-no" title="function not covered" >([</span>user, jwtToken]) =&gt;
-<span class="cstat-no" title="statement not covered" >        Promise.all([</span>
-          user,
-          jwtToken,
-          domainModel
-            .find()
-            .where('_id')
-            .in(user.domains)
-            .exec(),
-        ])
-      )
-      .then(<span class="fstat-no" title="function not covered" >([</span>user, jwtToken, domains]) =&gt; {
-<span class="cstat-no" title="statement not covered" >        res.json({</span>
-          ...pick(user, ['username', 'email']),
-          domains,
-          jwtToken,
-        });
-      })
-      .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; <span class="cstat-no" title="statement not covered" >res.status(400).json(err.message))</span>;
-  });
+<span class="cstat-no" title="statement not covered" >    router.get('/:id/:password', <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        requiredObjProps(req.params, ['id', 'password'])</span>
+            .then(<span class="fstat-no" title="function not covered" >(d</span>ata) =&gt;
+<span class="cstat-no" title="statement not covered" >                validateObj(data, [['password', 'isLength', [{ min: 5 }]]])</span>
+            )
+            .then(<span class="fstat-no" title="function not covered" >(d</span>ata) =&gt;
+<span class="cstat-no" title="statement not covered" >                Promise.all([</span>
+                    userModel.findOne({
+                        $or: [{ username: data.id }, { email: data.id }],
+                    }),
+                    data.password,
+                ])
+            )
+            .then(<span class="fstat-no" title="function not covered" >([</span>user, password]) =&gt;
+<span class="cstat-no" title="statement not covered" >                Promise.all([comparePasswords(password, user.password), user])</span>
+            )
+            .then(<span class="fstat-no" title="function not covered" >([</span>, user]) =&gt;
+<span class="cstat-no" title="statement not covered" >                Promise.all([</span>
+                    user,
+                    jwt.generateToken({ userId: user._id }, jwtSecretKey),
+                ])
+            )
+            .then(<span class="fstat-no" title="function not covered" >([</span>user, jwtToken]) =&gt;
+<span class="cstat-no" title="statement not covered" >                Promise.all([</span>
+                    user,
+                    jwtToken,
+                    domainModel
+                        .find()
+                        .where('_id')
+                        .in(user.domains)
+                        .exec(),
+                ])
+            )
+            .then(<span class="fstat-no" title="function not covered" >([</span>user, jwtToken, domains]) =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
+                ...pick(user, ['username', 'email']),
+                domains,
+                jwtToken,
+            }))
+            .then(<span class="fstat-no" title="function not covered" >(r</span>esponse) =&gt; <span class="cstat-no" title="statement not covered" >res.json(response))</span>
+            .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; <span class="cstat-no" title="statement not covered" >res.status(400).json(err.message))</span>;
+    });
 &nbsp;
-  return router;
+<span class="cstat-no" title="statement not covered" >    return router;</span>
 }
 &nbsp;
-module.exports = createRouter;
+<span class="cstat-no" title="statement not covered" >module.exports = createRouter;</span>
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Jan 07 2020 19:17:12 GMT-0500 (Colombia Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Apr 08 2020 22:42:48 GMT-0500 (Colombia Standard Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
