@@ -1,0 +1,80 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
+  "ignorePatterns": [],
+  "rules": {
+    "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+    "semi": ["error", "always"],
+    "semi-spacing": ["error", { "before": false, "after": true }],
+    "block-spacing": ["error", "always"],
+    "quotes": ["error", "single"],
+    "global-require": ["error"],
+    "max-len": ["warn", 80],
+    "indent": ["error", 4, { "ignoredNodes": ["TemplateLiteral > *"] }],
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": false,
+        "ignoreDeclarationSort": false,
+        "ignoreMemberSort": false,
+        "memberSyntaxSortOrder": ["none", "all", "single", "multiple"]
+      }
+    ],
+    "arrow-parens": ["error", "always"],
+    "object-curly-spacing": ["error", "always"],
+    "no-trailing-spaces": [
+      "error",
+      { "skipBlankLines": false, "ignoreComments": false }
+    ],
+    "array-bracket-spacing": ["error", "never"],
+    "no-multi-spaces": ["error", { "ignoreEOLComments": true }],
+    "keyword-spacing": ["error", { "before": true, "after": true }],
+    "arrow-spacing": ["error", { "before": true, "after": true }],
+    "space-infix-ops": ["error", { "int32Hint": false }],
+    "key-spacing": [
+      "error",
+      { "beforeColon": false, "afterColon": true, "mode": "strict" }
+    ],
+    "space-before-blocks": ["error", "always"],
+    "space-in-parens": ["error", "never"],
+    "space-before-function-paren": [
+      "error",
+      { "anonymous": "always", "named": "never", "asyncArrow": "always" }
+    ],
+    "no-multiple-empty-lines": [
+      "error",
+      { "max": 1, "maxEOF": 0, "maxBOF": 0 }
+    ],
+    "lines-between-class-members": ["error", "always"],
+    "padded-blocks": [
+      "error",
+      { "blocks": "never", "classes": "never", "switches": "never" }
+    ],
+    "padding-line-between-statements": [
+      "error",
+      { "blankLine": "always", "prev": "*", "next": "return" },
+      { "blankLine": "always", "prev": "block-like", "next": "*" },
+      { "blankLine": "always", "prev": "*", "next": "block-like" }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["*.test.js", "**/_tests/*.js", "_test.js"],
+      "env": {
+        "jest": true
+      },
+      "rules": {
+        "max-len": 0
+      }
+    }
+  ]
+}

@@ -11,6 +11,11 @@ module.exports = function createModel(dbConnection) {
             category: { type: 'Types.ObjectId', ref: 'Category' },
             assets: { type: 'Types.ObjectId', ref: 'Asset' },
             tags: [{ type: 'Types.ObjectId', ref: 'Tag' }],
+            slug: {
+                type: String,
+                unique: true,
+                validate: { validator: 'Validator.isSlug' },
+            },
             title: { type: String, required: true },
             content: { type: String, required: true },
         },
