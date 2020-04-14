@@ -7,13 +7,16 @@ function getMainHtml(params) {
             <title>The HTML5</title>
             <meta name="description" content="The HTML5 Herald">
             <meta name="author" content="Erwin Gaitan">
+            <base href="${params.baseUrl}">
             <link rel="stylesheet" href="./${params.cssFilePath}"></link>
         </head>
 
         <body>
             <div id="app-root">${params.htmlContent}</div>
-            ${`<script>window.__PAGE__ = '${params.page}'</script>`}
-            ${`<script>window.__STATE__ = ${params.pageState}</script>`}
+            ${`<script>
+                window.__PAGE__ = '${params.page}';
+                window.__STATE__ = ${params.pageState};
+            </script>`}
             ${`<script src="./${params.jsFilePath}"></script>`}
         </body>
         </html>

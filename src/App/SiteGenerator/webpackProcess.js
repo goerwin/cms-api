@@ -43,6 +43,7 @@ webpackCompiler.run((err, multistats) => {
         const serverAssets = getParsedAsset(multistats.stats[0]);
         const clientAssets = getParsedAsset(multistats.stats[1]);
         const tempDir = path.join(__dirname, '/_temp');
+        const baseUrl = tempDir.replace('/mnt/c/', 'file:///C:/') + '/';
 
         fsExtra.removeSync(tempDir);
 
@@ -66,6 +67,7 @@ webpackCompiler.run((err, multistats) => {
         fsExtra.outputFileSync(
             path.join(tempDir, 'index.html'),
             getMainHtml({
+                baseUrl,
                 htmlContent: stringifiedSSRReactApp.getIndexPage(dummyData),
                 cssFilePath: `/${clientAssets.cssFile.id}`,
                 jsFilePath: `/${clientAssets.jsFile.id}`,
@@ -82,6 +84,7 @@ webpackCompiler.run((err, multistats) => {
             fsExtra.outputFileSync(
                 path.join(tempDir, `${post.url}.html`),
                 getMainHtml({
+                    baseUrl,
                     htmlContent: stringifiedSSRReactApp.getPostPage(pageState),
                     cssFilePath: `/${clientAssets.cssFile.id}`,
                     jsFilePath: `/${clientAssets.jsFile.id}`,

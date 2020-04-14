@@ -1,4 +1,5 @@
 module.exports = {
+    baseUrl: 'https://goerwin.co/ohmama',
     blogAuthor: 'Erwin Gaitan',
     slogan: 'Coding apps for fun!',
     website: 'https://goerwin.co',
