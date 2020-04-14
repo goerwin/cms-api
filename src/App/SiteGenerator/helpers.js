@@ -4,11 +4,13 @@ function getMainHtml(params) {
         <html lang="en">
         <head>
             <meta charset="utf-8">
-            <title>The HTML5</title>
-            <meta name="description" content="The HTML5 Herald">
-            <meta name="author" content="Erwin Gaitan">
-            <base href="${params.baseUrl}">
-            <link rel="stylesheet" href="./${params.cssFilePath}"></link>
+            <meta http-equiv="cache-control" content="no-cache"/>
+            <title>${params.metadata.title}</title>
+            <meta name="description" content="${params.metadata.description}">
+            <meta name="author" content="${params.metadata.author}">
+            <base href="${params.metadata.baseUrl}">
+            <link href="${params.metadata.logo}" rel='shortcut icon'>
+            <link rel="stylesheet" href="${params.cssFilePath}"></link>
         </head>
 
         <body>
@@ -17,7 +19,7 @@ function getMainHtml(params) {
                 window.__PAGE__ = '${params.page}';
                 window.__STATE__ = ${params.pageState};
             </script>`}
-            ${`<script src="./${params.jsFilePath}"></script>`}
+            ${`<script src="${params.jsFilePath}"></script>`}
         </body>
         </html>
     `;

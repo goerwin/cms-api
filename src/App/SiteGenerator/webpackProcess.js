@@ -5,7 +5,7 @@ const { createFsFromVolume, Volume } = require('memfs');
 const requireFromString = require('require-from-string');
 const webpackConfig = require('./webpack.config.prod');
 const { getMainHtml } = require('./helpers');
-const dummyData = require('./Themes/Default/sampleData');
+const blog = require('./Themes/Default/sampleData');
 
 function getParsedAsset(stats) {
     return Object.keys(stats.compilation.assets)
@@ -43,7 +43,15 @@ webpackCompiler.run((err, multistats) => {
         const serverAssets = getParsedAsset(multistats.stats[0]);
         const clientAssets = getParsedAsset(multistats.stats[1]);
         const tempDir = path.join(__dirname, '/_temp');
-        const baseUrl = tempDir.replace('/mnt/c/', 'file:///C:/') + '/';
+
+        // transformations
+        blog.metadata.baseUrl = tempDir.replace('/mnt/c/', 'file:///C:/') + '/';
+        blog.header = {
+            blogAuthor: blog.metadata.author,
+            blogUrl: blog.metadata.baseUrl,
+            slogan: blog.slogan,
+            website: blog.metadata.authorWebsite,
+        };
 
         fsExtra.removeSync(tempDir);
 
@@ -67,27 +75,35 @@ webpackCompiler.run((err, multistats) => {
         fsExtra.outputFileSync(
             path.join(tempDir, 'index.html'),
             getMainHtml({
-                baseUrl,
-                htmlContent: stringifiedSSRReactApp.getIndexPage(dummyData),
-                cssFilePath: `/${clientAssets.cssFile.id}`,
-                jsFilePath: `/${clientAssets.jsFile.id}`,
-                pageState: JSON.stringify(dummyData),
+                metadata: blog.metadata,
+                htmlContent: stringifiedSSRReactApp.getIndexPage(blog),
+                cssFilePath: clientAssets.cssFile.id,
+                jsFilePath: clientAssets.jsFile.id,
+                pageState: JSON.stringify(blog),
                 page: 'index',
             }),
             { encoding: 'utf8' }
         );
 
-        // post pages
-        dummyData.posts.forEach((post) => {
-            const pageState = { ...dummyData, ...dummyData.posts[0] };
+        // post page
+        blog.posts.forEach((post, idx) => {
+            const pageState = {
+                ...blog,
+                ...post,
+                previousPost: idx === 0 ? null : blog.posts[idx - 1],
+                nextPost:
+                    idx === blog.length - 1
+                        ? null
+                        : blog.posts[idx + 1],
+            };
 
             fsExtra.outputFileSync(
-                path.join(tempDir, `${post.url}.html`),
+                path.join(tempDir, post.url),
                 getMainHtml({
-                    baseUrl,
+                    metadata: blog.metadata,
                     htmlContent: stringifiedSSRReactApp.getPostPage(pageState),
-                    cssFilePath: `/${clientAssets.cssFile.id}`,
-                    jsFilePath: `/${clientAssets.jsFile.id}`,
+                    cssFilePath: clientAssets.cssFile.id,
+                    jsFilePath: clientAssets.jsFile.id,
                     pageState: JSON.stringify(pageState),
                     page: 'post',
                 }),

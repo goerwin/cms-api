@@ -5,11 +5,7 @@ require('./PostPage.scss');
 module.exports = function PostPage(props) {
     return (
         <main>
-            <Header
-                blogAuthor={props.blogAuthor}
-                slogan={props.slogan}
-                website={props.website}
-            />
+            <Header {...props.header} />
             <div className="PostPage">
                 <h2>{props.title}</h2>
                 <small>tags: {props.tags.join(', ')}</small>
@@ -25,8 +21,22 @@ module.exports = function PostPage(props) {
                 </div>
 
                 <div className="PostPage__otherposts">
-                    <a href={props.prevPost.url}>{props.prevPost.title}</a>
-                    <a href={props.nextPost.url}>{props.prevPost.title}</a>
+                    {props.previousPost && (
+                        <a
+                            className="PostPage__otherposts__prev"
+                            href={props.previousPost.url}
+                        >
+                            ← {props.previousPost.title}
+                        </a>
+                    )}
+                    {props.nextPost && (
+                        <a
+                            className="PostPage__otherposts__next"
+                            href={props.nextPost.url}
+                        >
+                            {props.nextPost.title} →
+                        </a>
+                    )}
                 </div>
             </div>
         </main>
