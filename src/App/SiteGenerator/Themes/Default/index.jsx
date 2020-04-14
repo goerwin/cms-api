@@ -6,5 +6,5 @@ require('./index.scss');
 module.exports = {
     PostPage,
     IndexPage,
-    sampleData
+    sampleData,
 };

@@ -1,31 +1,26 @@
 const React = require('react');
 require('./Posts.scss');
 
-module.exports = function Header() {
+function Component({ posts }) {
     return (
         <div className="Posts">
-            {Array(20)
-                .fill()
-                .map((el, idx) => (
-                    <div key={idx} className="Posts__post">
-                        <h2 className="global__title">
-                            <a href="noice">This is the title of the Post</a>
-                        </h2>
-                        <p className="Posts__metadata">
-                            <span className="Posts__metadataTime">
-                                July 30, 2019
-                            </span>
-                            <span className="Posts__metadataReadtime">
-                                {' '}
-                                · ☕ 10 min. read
-                            </span>
-                        </p>
-                        <p>
-                            An in-depth description of the React programming
-                            model.
-                        </p>
-                    </div>
-                ))}
+            {posts.map((post) => (
+                <div key={post.url} className="Posts__post">
+                    <h2 className="global__title">
+                        <a href={post.url}>{post.title}</a>
+                    </h2>
+                    <p className="Posts__metadata">
+                        <span className="Posts__metadataTime">{post.date}</span>
+                        <span className="Posts__metadataReadtime">
+                            {' '}
+                            · ☕ {post.readTime}
+                        </span>
+                    </p>
+                    <p>{post.previewText}</p>
+                </div>
+            ))}
         </div>
     );
-};
+}
+
+module.exports = Component;

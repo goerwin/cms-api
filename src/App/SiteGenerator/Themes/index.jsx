@@ -7,10 +7,13 @@ const DefaultTheme = (
     <Router>
         <Switch>
             <Route exact path="/">
-                <Default.IndexPage data={Default.sampleData.indexPage} />
+                <Default.IndexPage {...Default.sampleData} />
             </Route>
-            <Route exact path="/postPage">
-                <Default.PostPage data={Default.sampleData.postPage} />
+            <Route exact path="/:postUrl">
+                <Default.PostPage
+                    {...Default.sampleData}
+                    {...Default.sampleData.posts[0]}
+                />
             </Route>
         </Switch>
     </Router>

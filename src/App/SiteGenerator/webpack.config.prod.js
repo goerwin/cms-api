@@ -2,17 +2,12 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const distFolder = path.resolve(__dirname, '_webpackTempFiles');
 
-module.exports = {
-    mode: 'production',
+const commonConfig = {
+    mode: 'development',
     devtool: 'none',
-    entry: {
-        indexSSR: path.resolve(__dirname, 'indexSSR.jsx'),
-        indexClient: path.resolve(__dirname, 'indexClient.jsx'),
-    },
     output: {
         path: distFolder,
         filename: '[name].[contenthash].bundle.js',
-        libraryTarget: 'commonjs',
     },
     module: {
         rules: [
@@ -56,3 +51,29 @@ module.exports = {
         }),
     ],
 };
+
+const serverConfig = {
+    ...commonConfig,
+    target: 'node',
+    entry: {
+        index: path.resolve(__dirname, 'indexSSR.jsx'),
+    },
+    output: {
+        ...commonConfig.output,
+        libraryTarget: 'commonjs2'
+    }
+};
+
+const clientConfig = {
+    ...commonConfig,
+    target: 'web',
+    entry: {
+        index: path.resolve(__dirname, 'indexClient.jsx'),
+    },
+    output: {
+        ...commonConfig.output,
+        libraryTarget: undefined
+    }
+};
+
+module.exports = [serverConfig, clientConfig];

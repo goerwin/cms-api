@@ -2,39 +2,31 @@ const React = require('react');
 const Header = require('./Header');
 require('./PostPage.scss');
 
-module.exports = function PostPage() {
+module.exports = function PostPage(props) {
     return (
         <main>
-            <Header />
+            <Header
+                blogAuthor={props.blogAuthor}
+                slogan={props.slogan}
+                website={props.website}
+            />
             <div className="PostPage">
-                <h2>This is the title of the Post</h2>
+                <h2>{props.title}</h2>
+                <small>tags: {props.tags.join(', ')}</small>
                 <p className="PostPage__metadata">
-                    <span className="PostPage__metadataTime">
-                        July 30, 2019
-                    </span>
+                    <span className="PostPage__metadataTime">{props.date}</span>
                     <span className="PostPage__metadataReadtime">
                         {' '}
-                        · ☕ 10 min. read
+                        · ☕ {props.readTime}
                     </span>
                 </p>
                 <div className="PostPage__content">
-                    <p>
-                        This is the content of the post, This is the content of
-                        the postThis is the content of the postThis is the
-                        content of the postThis is the content of the postThis
-                        is the content of the postThis is the content of the
-                        postThis is the content of the postThis is the content
-                        of the postThis is the content of the postThis is the
-                        content of the postThis is the content of the postThis
-                        is the content of the postThis is the content of the
-                        postThis is the content of the postThis is the content
-                        of the postThis is the content of the postThis is the
-                        content of the postThis is the content of the postThis
-                        is the content of the postThis is the content of the
-                        postThis is the content of the postThis is the content
-                        of the postThis is the content of the postThis is the
-                        content of the post
-                    </p>
+                    <p>{props.content}</p>
+                </div>
+
+                <div className="PostPage__otherposts">
+                    <a href={props.prevPost.url}>{props.prevPost.title}</a>
+                    <a href={props.nextPost.url}>{props.prevPost.title}</a>
                 </div>
             </div>
         </main>
