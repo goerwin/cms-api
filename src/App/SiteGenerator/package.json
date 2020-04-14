@@ -26,6 +26,7 @@
     "react-router-dom": "^5.1.2",
     "require-from-string": "^2.0.2",
     "sass-loader": "^8.0.2",
+    "showdown": "^1.9.1",
     "webpack": "^4.42.1"
   },
   "devDependencies": {

@@ -16,10 +16,10 @@ module.exports = function PostPage(props) {
                         · ☕ {props.readTime}
                     </span>
                 </p>
-                <div className="PostPage__content">
-                    <p>{props.content}</p>
-                </div>
-
+                <div
+                    className="PostPage__content"
+                    dangerouslySetInnerHTML={{ __html: props.content }}
+                />
                 <div className="PostPage__otherposts">
                     {props.previousPost && (
                         <a

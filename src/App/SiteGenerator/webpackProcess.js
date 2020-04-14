@@ -3,6 +3,7 @@ const path = require('path');
 const fsExtra = require('fs-extra');
 const { createFsFromVolume, Volume } = require('memfs');
 const requireFromString = require('require-from-string');
+const showdown = require('showdown');
 const webpackConfig = require('./webpack.config.prod');
 const { getMainHtml } = require('./helpers');
 const blog = require('./Themes/Default/sampleData');
@@ -48,7 +49,7 @@ webpackCompiler.run((err, multistats) => {
         blog.metadata.baseUrl = tempDir.replace('/mnt/c/', 'file:///C:/') + '/';
         blog.header = {
             blogAuthor: blog.metadata.author,
-            blogUrl: blog.metadata.baseUrl,
+            blogUrl: blog.metadata.baseUrl + '/index.html',
             slogan: blog.slogan,
             website: blog.metadata.authorWebsite,
         };
@@ -87,14 +88,14 @@ webpackCompiler.run((err, multistats) => {
 
         // post page
         blog.posts.forEach((post, idx) => {
+            const converter = new showdown.Converter();
+
             const pageState = {
                 ...blog,
                 ...post,
+                content: converter.makeHtml(post.content),
                 previousPost: idx === 0 ? null : blog.posts[idx - 1],
-                nextPost:
-                    idx === blog.length - 1
-                        ? null
-                        : blog.posts[idx + 1],
+                nextPost: idx === blog.length - 1 ? null : blog.posts[idx + 1],
             };
 
             fsExtra.outputFileSync(
