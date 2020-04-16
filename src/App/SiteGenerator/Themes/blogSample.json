@@ -20,9 +20,6 @@
       "content": "This is the content of the post, This is the content of the postThis is the content of the postThis is the content of the postThis is the content of the postThis is the content of the post"
     },
     {
-      "tags": [
-        "technology"
-      ],
       "title": "This is the title of a second post",
       "description": "Description of the second post",
       "date": "July 30, 2019",
@@ -30,11 +27,23 @@
     },
     {
       "tags": [
-        "technology"
+        "compañía",
+        "tecnología"
       ],
       "title": "This is the title of the third post",
       "description": "Description of the third post",
       "date": "August 1, 2015",
+      "content": "This is the content of the post, This is the content of the postThis is the content of the postThis is the content of the postThis is the content of the postThis is the content of the post"
+    },
+    {
+      "tags": [
+        "personal",
+        "tecnología",
+        "technology"
+      ],
+      "title": "This is the title of the 4rd post",
+      "description": "Description of the 4rd post",
+      "date": "August 1, 2009",
       "content": "This is the content of the post, This is the content of the postThis is the content of the postThis is the content of the postThis is the content of the postThis is the content of the post"
     }
   ]

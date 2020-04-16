@@ -21,9 +21,13 @@ function Component(props) {
             </p>
             {props.tags && props.tags.length > 0 && (
                 <div>
-                    {props.tags.map((el) => (
-                        <a className={styles.tag} key={el} href={el}>
-                            {el}
+                    {props.tags.map((tag) => (
+                        <a
+                            className={styles.tag}
+                            key={tag.urlSlug}
+                            href={tag.urlSlug}
+                        >
+                            {tag.name}
                         </a>
                     ))}
                 </div>

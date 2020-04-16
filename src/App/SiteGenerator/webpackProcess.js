@@ -77,7 +77,7 @@ webpackCompiler.run((err, multistats) => {
             { encoding: 'utf8' }
         );
 
-        // post page
+        // post pages
         parsedBlog.posts.forEach((post) => {
             fsExtra.outputFileSync(
                 path.join(tempDir, post.url),
@@ -88,6 +88,41 @@ webpackCompiler.run((err, multistats) => {
                     jsFilePath: clientAssets.jsFile.id,
                     pageState: JSON.stringify(post),
                     page: 'post',
+                }),
+                { encoding: 'utf8' }
+            );
+        });
+
+        // tag pages
+        const tagPages = parsedBlog.posts.reduce((prev, post, idx) => {
+            post.tags &&
+                post.tags.forEach((tag) => {
+                    prev[tag.urlSlug] = [
+                        ...(prev[tag.urlSlug] ? prev[tag.urlSlug] : []),
+                        idx,
+                    ];
+                });
+
+            return prev;
+        }, {});
+
+        Object.keys(tagPages).forEach((tagUrlSlug) => {
+            let newParsedBlog = {
+                ...parsedBlog,
+                posts: tagPages[tagUrlSlug].map((el) => parsedBlog.posts[el]),
+            };
+
+            fsExtra.outputFileSync(
+                path.join(tempDir, tagUrlSlug, 'index.html'),
+                helpers.getMainHtml({
+                    metadata: newParsedBlog.metadata,
+                    htmlContent: stringifiedSSRReactApp.getIndexPage(
+                        newParsedBlog
+                    ),
+                    cssFilePath: clientAssets.cssFile.id,
+                    jsFilePath: clientAssets.jsFile.id,
+                    pageState: JSON.stringify(newParsedBlog),
+                    page: 'index',
                 }),
                 { encoding: 'utf8' }
             );

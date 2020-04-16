@@ -1,11 +1,21 @@
 const showdown = require('showdown');
 
-function getUrlSlug(title) {
-    return title
-        .trim()
-        .toLowerCase()
-        .replace(/[^\w^0-9 ]+/g, '')
-        .replace(/ +/g, '-');
+function slugify(str) {
+    str = str.replace(/^\s+|\s+$/g, ''); // trim
+    str = str.toLowerCase();
+
+    // remove accents, swap ñ for n, etc
+    var from = 'ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;';
+    var to = 'aaaaaeeeeeiiiiooooouuuunc------';
+
+    for (var i = 0, l = from.length; i < l; i++) {
+        str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+    }
+
+    return str
+        .replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+        .replace(/\s+/g, '-') // collapse whitespace and replace by -
+        .replace(/-+/g, '-'); // collapse dashes
 }
 
 function getReadTime(text) {
@@ -64,8 +74,14 @@ function getParsedBlog(blog) {
                     description: post.description,
                 },
                 readTime: `${getReadTime(post.content)} min. read`,
-                url: getUrlSlug(post.title) + '.html',
+                url: slugify(post.title) + '.html',
                 content: new showdown.Converter().makeHtml(post.content),
+                tags:
+                    post.tags &&
+                    post.tags.map((tag) => ({
+                        name: tag,
+                        urlSlug: `tags/${slugify(tag)}`,
+                    })),
             }))
             .map((post, idx, posts) => ({
                 ...post,

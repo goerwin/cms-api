@@ -15,6 +15,9 @@ const DefaultTheme = (
             <Route exact path="/">
                 <Default.IndexPage {...parsedBlog} />
             </Route>
+            <Route exact path="/tags/:tag">
+                <Default.IndexPage {...parsedBlog} />
+            </Route>
             <Route
                 exact
                 path="/:postUrl"
