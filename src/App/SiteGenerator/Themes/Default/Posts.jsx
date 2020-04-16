@@ -16,7 +16,7 @@ function Component({ posts }) {
                             · ☕ {post.readTime}
                         </span>
                     </p>
-                    <p>{post.previewText}</p>
+                    <p>{post.description}</p>
                 </div>
             ))}
         </div>

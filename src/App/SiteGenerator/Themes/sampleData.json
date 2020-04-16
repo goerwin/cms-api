@@ -1,0 +1,40 @@
+{
+  "slogan": "Coding apps for fun!",
+  "metadata": {
+    "author": "Erwin Gaitan",
+    "authorWebsite": "https://goerwin.co",
+    "baseUrl": "file:///C:/Users/erwin.gaitan/Projects/cms/cms-api/src/App/SiteGenerator/_temp/",
+    "logo": "https://www.goerwin.co/favicon.2ffaed93a60f96abd18e6d71ef564314.png",
+    "title": "Blog By Erwin Gaitan",
+    "description": "Personal Blog by Erwin Gaitan"
+  },
+  "posts": [
+    {
+      "tags": [
+        "technology"
+      ],
+      "title": "This is the title of the post",
+      "description": "Description of the first post",
+      "date": "November 20, 2018",
+      "content": "This is the content of the post, This is the content of the postThis is the content of the postThis is the content of the postThis is the content of the postThis is the content of the post"
+    },
+    {
+      "tags": [
+        "technology"
+      ],
+      "title": "This is the title of a second post",
+      "description": "Description of the second post",
+      "date": "July 30, 2019",
+      "content": "This is the content of the post, This is the content of the postThis is the content of the postThis is the content of the postThis is the content of the postThis is the content of the post"
+    },
+    {
+      "tags": [
+        "technology"
+      ],
+      "title": "This is the title of the third post",
+      "description": "Description of the third post",
+      "date": "August 1, 2015",
+      "content": "This is the content of the post, This is the content of the postThis is the content of the postThis is the content of the postThis is the content of the postThis is the content of the post"
+    }
+  ]
+}

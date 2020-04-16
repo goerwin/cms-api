@@ -3,10 +3,9 @@ const path = require('path');
 const fsExtra = require('fs-extra');
 const { createFsFromVolume, Volume } = require('memfs');
 const requireFromString = require('require-from-string');
-const showdown = require('showdown');
 const webpackConfig = require('./webpack.config.prod');
-const { getMainHtml } = require('./helpers');
-const blog = require('./Themes/Default/sampleData');
+const helpers = require('./helpers');
+const blog = require('./Themes/sampleData');
 
 function getParsedAsset(stats) {
     return Object.keys(stats.compilation.assets)
@@ -44,15 +43,7 @@ webpackCompiler.run((err, multistats) => {
         const serverAssets = getParsedAsset(multistats.stats[0]);
         const clientAssets = getParsedAsset(multistats.stats[1]);
         const tempDir = path.join(__dirname, '/_temp');
-
-        // transformations
-        blog.metadata.baseUrl = tempDir.replace('/mnt/c/', 'file:///C:/') + '/';
-        blog.header = {
-            blogAuthor: blog.metadata.author,
-            blogUrl: blog.metadata.baseUrl + '/index.html',
-            slogan: blog.slogan,
-            website: blog.metadata.authorWebsite,
-        };
+        const parsedBlog = helpers.getParsedBlog(blog);
 
         fsExtra.removeSync(tempDir);
 
@@ -75,37 +66,27 @@ webpackCompiler.run((err, multistats) => {
         // index page
         fsExtra.outputFileSync(
             path.join(tempDir, 'index.html'),
-            getMainHtml({
-                metadata: blog.metadata,
-                htmlContent: stringifiedSSRReactApp.getIndexPage(blog),
+            helpers.getMainHtml({
+                metadata: parsedBlog.metadata,
+                htmlContent: stringifiedSSRReactApp.getIndexPage(parsedBlog),
                 cssFilePath: clientAssets.cssFile.id,
                 jsFilePath: clientAssets.jsFile.id,
-                pageState: JSON.stringify(blog),
+                pageState: JSON.stringify(parsedBlog),
                 page: 'index',
             }),
             { encoding: 'utf8' }
         );
 
         // post page
-        blog.posts.forEach((post, idx) => {
-            const converter = new showdown.Converter();
-
-            const pageState = {
-                ...blog,
-                ...post,
-                content: converter.makeHtml(post.content),
-                previousPost: idx === 0 ? null : blog.posts[idx - 1],
-                nextPost: idx === blog.length - 1 ? null : blog.posts[idx + 1],
-            };
-
+        parsedBlog.posts.forEach((post) => {
             fsExtra.outputFileSync(
                 path.join(tempDir, post.url),
-                getMainHtml({
-                    metadata: blog.metadata,
-                    htmlContent: stringifiedSSRReactApp.getPostPage(pageState),
+                helpers.getMainHtml({
+                    metadata: post.metadata,
+                    htmlContent: stringifiedSSRReactApp.getPostPage(post),
                     cssFilePath: clientAssets.cssFile.id,
                     jsFilePath: clientAssets.jsFile.id,
-                    pageState: JSON.stringify(pageState),
+                    pageState: JSON.stringify(post),
                     page: 'post',
                 }),
                 { encoding: 'utf8' }

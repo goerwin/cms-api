@@ -1,3 +1,19 @@
+const showdown = require('showdown');
+
+function getUrlSlug(title) {
+    return title
+        .trim()
+        .toLowerCase()
+        .replace(/[^\w^0-9 ]+/g, '')
+        .replace(/ +/g, '-');
+}
+
+function getReadTime(text) {
+    const WORDS_PER_MINUTE = 200;
+
+    return Math.ceil(text.match(/\w{2,}/g).length / WORDS_PER_MINUTE);
+}
+
 function getMainHtml(params) {
     return `
         <!doctype html>
@@ -25,6 +41,39 @@ function getMainHtml(params) {
     `;
 }
 
+function getParsedBlog(blog) {
+    const header = {
+        blogAuthor: blog.metadata.author,
+        blogUrl: blog.metadata.baseUrl + '/index.html',
+        slogan: blog.slogan,
+        website: blog.metadata.authorWebsite,
+    };
+
+    return {
+        ...blog,
+        header,
+        posts: blog.posts
+            .map((post) => ({
+                ...post,
+                header,
+                metadata: {
+                    ...blog.metadata,
+                    title: post.title,
+                    description: post.description,
+                },
+                readTime: `${getReadTime(post.content)} min. read`,
+                url: getUrlSlug(post.title) + '.html',
+                content: new showdown.Converter().makeHtml(post.content),
+            }))
+            .map((post, idx, posts) => ({
+                ...post,
+                previousPost: idx === 0 ? null : posts[idx - 1],
+                nextPost: idx === posts.length - 1 ? null : posts[idx + 1],
+            })),
+    };
+}
+
 module.exports = {
     getMainHtml,
+    getParsedBlog,
 };

@@ -1,0 +1,128 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "description": "The root schema comprises the entire JSON document.",
+  "default": {},
+  "additionalProperties": true,
+  "required": [
+    "slogan",
+    "metadata",
+    "posts"
+  ],
+  "properties": {
+    "slogan": {
+      "$id": "#/properties/slogan",
+      "type": "string",
+      "title": "The Slogan Schema",
+      "description": "An explanation about the purpose of this instance."
+    },
+    "metadata": {
+      "$id": "#/properties/metadata",
+      "type": "object",
+      "title": "The Metadata Schema",
+      "description": "An explanation about the purpose of this instance.",
+      "additionalProperties": true,
+      "required": [
+        "author",
+        "authorWebsite",
+        "baseUrl",
+        "logo",
+        "title",
+        "description"
+      ],
+      "properties": {
+        "author": {
+          "$id": "#/properties/metadata/properties/author",
+          "type": "string"
+        },
+        "authorWebsite": {
+          "$id": "#/properties/metadata/properties/authorWebsite",
+          "type": "string"
+        },
+        "baseUrl": {
+          "$id": "#/properties/metadata/properties/baseUrl",
+          "type": "string",
+          "title": "The Baseurl Schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": "",
+          "examples": [
+            "https://goerwin.co/blog/"
+          ]
+        },
+        "logo": {
+          "$id": "#/properties/metadata/properties/logo",
+          "type": "string",
+          "title": "The Logo Schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": "",
+          "examples": [
+            "https://www.goerwin.co/favicon.2ffaed93a60f96abd18e6d71ef564314.png"
+          ]
+        },
+        "title": {
+          "$id": "#/properties/metadata/properties/title",
+          "type": "string",
+          "title": "The Title Schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": "",
+          "examples": [
+            "Blog By Erwin Gaitan"
+          ]
+        },
+        "description": {
+          "$id": "#/properties/metadata/properties/description",
+          "type": "string",
+          "title": "The Description Schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": "",
+          "examples": [
+            "Personal Blog by Erwin Gaitan"
+          ]
+        }
+      }
+    },
+    "posts": {
+      "$id": "#/properties/posts",
+      "type": "array",
+      "items": {
+        "$id": "#/properties/posts/items",
+        "type": "object",
+        "required": [
+          "tags",
+          "title",
+          "description",
+          "date",
+          "content"
+        ],
+        "properties": {
+          "tags": {
+            "$id": "#/properties/posts/items/properties/tags",
+            "type": "array",
+            "items": {
+              "$id": "#/properties/posts/items/properties/tags/items",
+              "type": "string"
+            }
+          },
+          "title": {
+            "$id": "#/properties/posts/items/properties/title",
+            "type": "string"
+          },
+          "description": {
+            "$id": "#/properties/posts/items/properties/description",
+            "type": "string"
+          },
+          "date": {
+            "$id": "#/properties/posts/items/properties/date",
+            "type": "string"
+          },
+          "content": {
+            "$id": "#/properties/posts/items/properties/content",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
