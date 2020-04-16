@@ -21,7 +21,9 @@ function getMainHtml(params) {
         <head>
             <meta charset="utf-8">
             <meta http-equiv="cache-control" content="no-cache"/>
-            <title>${params.metadata.title}</title>
+            <title>${params.metadata.title}${
+        params.metadata.blogName ? ` — ${params.metadata.blogName}` : ''
+    }</title>
             <meta name="description" content="${params.metadata.description}">
             <meta name="author" content="${params.metadata.author}">
             <base href="${params.metadata.baseUrl}">

@@ -27,6 +27,7 @@
       "required": [
         "author",
         "authorWebsite",
+        "blogName",
         "baseUrl",
         "logo",
         "title",
@@ -41,45 +42,25 @@
           "$id": "#/properties/metadata/properties/authorWebsite",
           "type": "string"
         },
+        "blogName": {
+          "$id": "#/properties/metadata/properties/blogName",
+          "type": "string"
+        },
         "baseUrl": {
           "$id": "#/properties/metadata/properties/baseUrl",
-          "type": "string",
-          "title": "The Baseurl Schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": "",
-          "examples": [
-            "https://goerwin.co/blog/"
-          ]
+          "type": "string"
         },
         "logo": {
           "$id": "#/properties/metadata/properties/logo",
-          "type": "string",
-          "title": "The Logo Schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": "",
-          "examples": [
-            "https://www.goerwin.co/favicon.2ffaed93a60f96abd18e6d71ef564314.png"
-          ]
+          "type": "string"
         },
         "title": {
           "$id": "#/properties/metadata/properties/title",
-          "type": "string",
-          "title": "The Title Schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": "",
-          "examples": [
-            "Blog By Erwin Gaitan"
-          ]
+          "type": "string"
         },
         "description": {
           "$id": "#/properties/metadata/properties/description",
-          "type": "string",
-          "title": "The Description Schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": "",
-          "examples": [
-            "Personal Blog by Erwin Gaitan"
-          ]
+          "type": "string"
         }
       }
     },
