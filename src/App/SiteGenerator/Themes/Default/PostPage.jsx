@@ -1,29 +1,28 @@
 const React = require('react');
 const Header = require('./Header');
-require('./PostPage.scss');
+const PostCard = require('./PostCard');
+const styles = require('./PostPage.module.css');
 
 module.exports = function PostPage(props) {
     return (
         <main>
             <Header {...props.header} />
-            <div className="PostPage">
-                <h2>{props.title}</h2>
-                <small>tags: {props.tags.join(', ')}</small>
-                <p className="PostPage__metadata">
-                    <span className="PostPage__metadataTime">{props.date}</span>
-                    <span className="PostPage__metadataReadtime">
-                        {' '}
-                        · ☕ {props.readTime}
-                    </span>
-                </p>
+            <div className={styles.container}>
+                <PostCard
+                    className={styles.postCard}
+                    title={props.title}
+                    tags={props.tags}
+                    date={props.date}
+                    readTime={props.readTime}
+                />
                 <div
-                    className="PostPage__content"
+                    className={styles.content}
                     dangerouslySetInnerHTML={{ __html: props.content }}
                 />
-                <div className="PostPage__otherposts">
+                <div className={styles.otherposts}>
                     {props.previousPost && (
                         <a
-                            className="PostPage__otherposts__prev"
+                            className={styles.otherpostsPrev}
                             href={props.previousPost.url}
                         >
                             ← {props.previousPost.title}
@@ -31,7 +30,7 @@ module.exports = function PostPage(props) {
                     )}
                     {props.nextPost && (
                         <a
-                            className="PostPage__otherposts__next"
+                            className={styles.otherpostsNext}
                             href={props.nextPost.url}
                         >
                             {props.nextPost.title} →

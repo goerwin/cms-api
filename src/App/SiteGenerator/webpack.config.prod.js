@@ -42,7 +42,7 @@ const commonConfig = {
             },
         ],
     },
-    resolve: { extensions: ['.js', '.jsx'] },
+    resolve: { extensions: ['.js', '.jsx', '.json'] },
     plugins: [
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',

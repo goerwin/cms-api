@@ -5,7 +5,7 @@ const { createFsFromVolume, Volume } = require('memfs');
 const requireFromString = require('require-from-string');
 const webpackConfig = require('./webpack.config.prod');
 const helpers = require('./helpers');
-const blog = require('./Themes/sampleData');
+const blog = require('./Themes/blogSample');
 
 function getParsedAsset(stats) {
     return Object.keys(stats.compilation.assets)

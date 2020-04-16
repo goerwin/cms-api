@@ -8,7 +8,9 @@ module.exports = {
 
     devServer: {
         contentBase: distFolder,
-        historyApiFallback: true
+        historyApiFallback: {
+            disableDotRule: true,
+        },
     },
 
     entry: {
@@ -33,8 +35,19 @@ module.exports = {
                 },
             },
             {
-                test: /\.s?css$/,
-                use: ['style-loader', 'css-loader', 'sass-loader'],
+                test: /\.css$/,
+                use: [
+                    'style-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: {
+                                auto: true,
+                                localIdentName: '[name]__[local]__[contenthash:8]'
+                            },
+                        },
+                    },
+                ]
             },
             {
                 test: /\.(png|jpe?g|svg)$/i,
@@ -51,7 +64,7 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx', '.json'],
     },
 
     plugins: [

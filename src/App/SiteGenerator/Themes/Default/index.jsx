@@ -1,6 +1,6 @@
 const IndexPage = require('./IndexPage');
 const PostPage = require('./PostPage');
-require('./index.scss');
+require('./index.css');
 
 module.exports = {
     PostPage,

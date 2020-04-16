@@ -1,21 +1,19 @@
 const React = require('react');
-require('./Posts.scss');
+const PostCard = require('./PostCard');
+const styles = require('./Posts.module.css');
 
 function Component({ posts }) {
     return (
-        <div className="Posts">
+        <div className={styles.container}>
             {posts.map((post) => (
-                <div key={post.url} className="Posts__post">
-                    <h2 className="global__title">
-                        <a href={post.url}>{post.title}</a>
-                    </h2>
-                    <p className="Posts__metadata">
-                        <span className="Posts__metadataTime">{post.date}</span>
-                        <span className="Posts__metadataReadtime">
-                            {' '}
-                            · ☕ {post.readTime}
-                        </span>
-                    </p>
+                <div key={post.url} className={styles.post}>
+                    <PostCard
+                        title={post.title}
+                        url={post.url}
+                        tags={post.tags}
+                        date={post.date}
+                        readTime={post.readTime}
+                    />
                     <p>{post.description}</p>
                 </div>
             ))}
