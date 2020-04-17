@@ -12,7 +12,7 @@ const Asset = require('./Asset');
 const Post = require('./Post');
 const Login = require('./Login');
 const Helpers = require('./Helpers');
-const SiteGenerator = require('./SiteGenerator');
+const BlogGenerator = require('./BlogGeneratorComponent');
 
 function createApp({ secretDBUrl, secretJwtKey, secretAdminKey }) {
     const app = express();
@@ -27,7 +27,7 @@ function createApp({ secretDBUrl, secretJwtKey, secretAdminKey }) {
     const { assetModel, assetRouter } = Asset(dbConnection);
     const { postModel, postRouter } = Post(dbConnection);
 
-    const { siteGeneratorRouter } = SiteGenerator({
+    const { blogGeneratorRouter } = BlogGenerator({
         userModel,
         domainModel,
         categoryModel,
@@ -70,7 +70,7 @@ function createApp({ secretDBUrl, secretJwtKey, secretAdminKey }) {
     app.use('/api/templates', verifyUserLoginMw, templateRouter);
     app.use('/api/assets', verifyUserLoginMw, assetRouter);
     app.use('/api/posts', verifyUserLoginMw, postRouter);
-    app.use('/api/siteGenerator', verifyUserLoginMw, siteGeneratorRouter);
+    app.use('/api/blogGenerator', verifyUserLoginMw, blogGeneratorRouter);
     app.use('/api/login', loginRouter);
     app.use('/api/helpers', helpersRouter);
 

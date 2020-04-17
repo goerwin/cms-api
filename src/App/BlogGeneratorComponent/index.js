@@ -88,6 +88,6 @@ function getRouter({
 
 module.exports = function index(params) {
     return {
-        siteGeneratorRouter: getRouter(params),
+        blogGeneratorRouter: getRouter(params),
     };
 };
