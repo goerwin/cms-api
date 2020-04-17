@@ -1,9 +1,9 @@
 const http = require('http');
 const { createFsFromVolume, Volume } = require('memfs');
 const helpers = require('./helpers');
-const blogSample = require('./blogSample');
+const blogSample = require('./blogSamples/sample');
 
-const REDIRECT_MATCH_REGEX = /(\.html|\/+)$/;
+const REDIRECT_MATCH_REGEX = /(\.html|\/+|index.html)$/;
 const ASSETS_EXT_REGEX = /\.(css|js)$/;
 const CONTENT_TYPES = {
     html: 'text/html; charset=utf-8',

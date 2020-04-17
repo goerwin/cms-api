@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "PORT=8080 nodemon -e js,json,css server.js",
+    "dev": "PORT=8080 nodemon -e js,jsx,json,css,md server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -17,6 +17,7 @@
     "classnames": "^2.2.6",
     "css-loader": "^3.5.1",
     "file-loader": "^6.0.0",
+    "highlight.js": "^9.18.1",
     "memfs": "^3.1.2",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.13.1",

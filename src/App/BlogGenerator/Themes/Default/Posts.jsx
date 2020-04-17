@@ -1,8 +1,9 @@
 const React = require('react');
 const PostCard = require('./PostCard');
+const Pagination = require('./Pagination');
 const styles = require('./Posts.module.css');
 
-function Component({ posts }) {
+function Posts({ posts, pagination }) {
     return (
         <div className={styles.container}>
             {posts.map((post) => (
@@ -17,8 +18,16 @@ function Component({ posts }) {
                     <p>{post.description}</p>
                 </div>
             ))}
+            {pagination && (
+                <Pagination
+                    activePage={pagination.activePage}
+                    totalPages={pagination.totalPages}
+                    itemsPerPage={pagination.itemsPerPage}
+                    items={pagination.items}
+                />
+            )}
         </div>
     );
 }
 
-module.exports = Component;
+module.exports = Posts;

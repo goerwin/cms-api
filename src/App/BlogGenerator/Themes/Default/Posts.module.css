@@ -1,9 +1,9 @@
 .container {
-  max-width: var(--globalMaxWidth);
-  margin: 0 auto 20px;
-  padding: 0 var(--globalHorizontalPadding) 0;
+    max-width: var(--globalMaxWidth);
+    margin: 0 auto 20px;
+    padding: 0 var(--globalHorizontalPadding) 0;
 }
 
 .post {
-  margin-bottom: 50px;
+    margin-bottom: 50px;
 }

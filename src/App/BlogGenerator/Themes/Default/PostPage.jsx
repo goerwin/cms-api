@@ -2,6 +2,7 @@ const React = require('react');
 const Header = require('./Header');
 const PostCard = require('./PostCard');
 const styles = require('./PostPage.module.css');
+const contentStyles = require('./PostPage.content.module.css');
 
 module.exports = function PostPage(props) {
     return (
@@ -16,7 +17,7 @@ module.exports = function PostPage(props) {
                     readTime={props.readTime}
                 />
                 <div
-                    className={styles.content}
+                    className={contentStyles.markdownBody}
                     dangerouslySetInnerHTML={{ __html: props.content }}
                 />
                 <div className={styles.otherposts}>

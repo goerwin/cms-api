@@ -1,7 +1,7 @@
 const React = require('react');
 const styles = require('./Header.module.css');
 
-function Component({ slogan, blogAuthor, blogUrl, website }) {
+function Header({ slogan, blogAuthor, blogUrl, website }) {
     return (
         <div className={styles.container}>
             <div className={styles.author}>
@@ -18,4 +18,4 @@ function Component({ slogan, blogAuthor, blogUrl, website }) {
     );
 };
 
-module.exports = Component;
+module.exports = Header;

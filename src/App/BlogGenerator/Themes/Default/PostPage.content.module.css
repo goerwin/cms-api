@@ -1,0 +1,85 @@
+.markdownBody {
+    $textFontSize: 16px;
+    font-size: 10px;
+    margin-bottom: 60px;
+
+    h1, h2, h3, h4 {
+        margin-top: 2em;
+        margin-bottom: 1.25em;
+    }
+
+    p {
+        margin-bottom: 2em;
+        font-size: $textFontSize;
+    }
+
+    a {
+        text-decoration: underline;
+    }
+
+    ul {
+        list-style-position: inside;
+        margin-bottom: 30px;
+
+        li {
+            font-size: $textFontSize;
+            margin-bottom: 1em;
+        }
+    }
+
+    code {
+        border-radius: 3px;
+        background-color: rgba(255, 255, 255, 0.24);
+        padding: 0.2em 0.4em;
+        margin: 0;
+        font-size: 85%;
+    }
+
+    blockquote {
+        margin-top: 0;
+        padding-bottom: 0;
+        padding-left: 1.42188rem;
+        padding-right: 0;
+        padding-top: 0;
+        margin-bottom: 1.75rem;
+        font-size: 1.20112rem;
+        line-height: 1.75rem;
+        color: inherit;
+        font-style: italic;
+        border-left: 0.32813rem solid hsla(0,0%,0%,0.9);
+        border-left-color: inherit;
+        opacity: 0.8;
+
+        & > :last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    hr {
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: 0;
+        padding-bottom: 0;
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 0;
+        margin-bottom: calc(1.75rem - 1px);
+        background: rgba(255, 129, 89, 0.5);
+        border: none;
+        height: 1px;
+    }
+
+    pre {
+        margin-bottom: 20px;
+        padding: 1.3125rem;
+        background-color: #111;
+        border-radius: 10px;
+        width: 100%;
+        overflow: auto;
+        font-size: 16px;
+
+        code {
+            background: none;
+        }
+    }
+}
