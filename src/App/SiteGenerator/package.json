@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --config ./webpack.config.dev.js",
+    "dev": "PORT=8080 nodemon -e js,json,css server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -17,7 +17,6 @@
     "classnames": "^2.2.6",
     "css-loader": "^3.5.1",
     "file-loader": "^6.0.0",
-    "fs-extra": "^9.0.0",
     "memfs": "^3.1.2",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.13.1",
@@ -32,9 +31,6 @@
   },
   "devDependencies": {
     "eslint-plugin-react": "^7.19.0",
-    "html-webpack-plugin": "^4.0.4",
-    "style-loader": "^1.1.3",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "nodemon": "^2.0.3"
   }
 }

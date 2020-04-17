@@ -1,4 +1,9 @@
 const showdown = require('showdown');
+const webpack = require('webpack');
+const path = require('path');
+const { createFsFromVolume, Volume } = require('memfs');
+const requireFromString = require('require-from-string');
+const webpackConfigs = require('./webpackConfigs');
 
 function slugify(str) {
     str = str.replace(/^\s+|\s+$/g, ''); // trim
@@ -56,7 +61,7 @@ function getMainHtml(params) {
 function getParsedBlog(blog) {
     const header = {
         blogAuthor: blog.metadata.author,
-        blogUrl: blog.metadata.baseUrl + '/index.html',
+        blogUrl: blog.metadata.baseUrl,
         slogan: blog.slogan,
         website: blog.metadata.authorWebsite,
     };
@@ -91,7 +96,133 @@ function getParsedBlog(blog) {
     };
 }
 
+function capitalizeStr(str) {
+    return str.replace(/(?:^|\s)\S/g, (a) => {
+        return a.toUpperCase();
+    });
+}
+
+function getParsedAsset(stats) {
+    return Object.keys(stats.compilation.assets)
+        .map((key) => ({
+            id: key,
+            asset: stats.compilation.assets[key],
+        }))
+        .reduce(
+            (acc, asset) => {
+                if (/^index\..*\.js$/.test(asset.id)) {
+                    acc.jsFile = asset;
+                } else if (/.*\.css$/.test(asset.id)) {
+                    acc.cssFile = asset;
+                }
+
+                return acc;
+            },
+            { cssFile: null, jsFile: null }
+        );
+}
+
+function generateBlogFileStructure(blog, attrs = {}) {
+    return new Promise((resolve) => {
+        const memfs = createFsFromVolume(new Volume());
+        memfs.join = path.join;
+        const { serverConfig, clientConfig } = webpackConfigs(attrs.env);
+        const webpackCompiler = webpack([serverConfig, clientConfig]);
+
+        webpackCompiler.outputFileSystem = memfs;
+
+        webpackCompiler.run((err, multistats) => {
+            if (err || multistats.hasErrors()) {
+                throw err;
+            }
+
+            const serverAssets = getParsedAsset(multistats.stats[0]);
+            const clientAssets = getParsedAsset(multistats.stats[1]);
+            const parsedBlog = getParsedBlog(blog);
+
+            const stringifiedSSRReactApp = requireFromString(
+                serverAssets.jsFile.asset.source()
+            );
+
+            const results = {
+                [clientAssets.jsFile.id]: clientAssets.jsFile.asset.source(),
+                [clientAssets.cssFile.id]: clientAssets.cssFile.asset.source(),
+                'index.html': getMainHtml({
+                    metadata: parsedBlog.metadata,
+                    htmlContent: stringifiedSSRReactApp.getIndexPage(
+                        parsedBlog
+                    ),
+                    cssFilePath: clientAssets.cssFile.id,
+                    jsFilePath: clientAssets.jsFile.id,
+                    pageState: JSON.stringify(parsedBlog),
+                    page: 'index',
+                }),
+            };
+
+            // Posts
+            parsedBlog.posts.forEach((post) => {
+                results[post.url] = getMainHtml({
+                    metadata: post.metadata,
+                    htmlContent: stringifiedSSRReactApp.getPostPage(post),
+                    cssFilePath: clientAssets.cssFile.id,
+                    jsFilePath: clientAssets.jsFile.id,
+                    pageState: JSON.stringify(post),
+                    page: 'post',
+                });
+            });
+
+            // Tags
+            parsedBlog.posts
+                .reduce(
+                    (prev, post, idx) => {
+                        post.tags &&
+                            post.tags.forEach((tag) => {
+                                prev[0][tag.urlSlug] = {
+                                    name: tag.name,
+                                    posts: [
+                                        ...(prev[0][tag.urlSlug] &&
+                                        prev[0][tag.urlSlug].posts
+                                            ? prev[0][tag.urlSlug].posts
+                                            : []),
+                                        idx,
+                                    ],
+                                };
+                            });
+
+                        return prev;
+                    },
+                    [{}]
+                )
+                .forEach((tagPages) => {
+                    Object.keys(tagPages).forEach((tagUrlSlug) => {
+                        let newParsedBlog = {
+                            ...parsedBlog,
+                            posts: tagPages[tagUrlSlug].posts.map(
+                                (el) => parsedBlog.posts[el]
+                            ),
+                        };
+
+                        results[tagUrlSlug + '/index.html'] = getMainHtml({
+                            metadata: {
+                                ...newParsedBlog.metadata,
+                                title: capitalizeStr(tagPages[tagUrlSlug].name),
+                            },
+                            htmlContent: stringifiedSSRReactApp.getIndexPage(
+                                newParsedBlog
+                            ),
+                            cssFilePath: clientAssets.cssFile.id,
+                            jsFilePath: clientAssets.jsFile.id,
+                            pageState: JSON.stringify(newParsedBlog),
+                            page: 'index',
+                        });
+                    });
+                });
+
+            resolve(results);
+        });
+    });
+}
+
 module.exports = {
-    getMainHtml,
-    getParsedBlog,
+    generateBlogFileStructure,
 };

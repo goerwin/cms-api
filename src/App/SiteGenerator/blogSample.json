@@ -4,7 +4,7 @@
     "author": "Erwin Gaitan",
     "authorWebsite": "https://goerwin.co",
     "blogName": "Goerwin",
-    "baseUrl": "file:///C:/Users/erwin.gaitan/Projects/cms/cms-api/src/App/SiteGenerator/_temp/",
+    "baseUrl": "/",
     "logo": "https://www.goerwin.co/favicon.2ffaed93a60f96abd18e6d71ef564314.png",
     "title": "Blog By Erwin Gaitan",
     "description": "Personal Blog by Erwin Gaitan"
