@@ -2,7 +2,7 @@ const React = require('react');
 const classNames = require('classnames');
 const styles = require('./PostCard.module.css');
 
-function Component(props) {
+function PostCard(props) {
     return (
         <div
             className={classNames(styles.container, props.className)}
@@ -24,8 +24,8 @@ function Component(props) {
                     {props.tags.map((tag) => (
                         <a
                             className={styles.tag}
-                            key={tag.urlSlug}
-                            href={tag.urlSlug}
+                            key={tag.url}
+                            href={tag.url}
                         >
                             {tag.name}
                         </a>
@@ -36,4 +36,4 @@ function Component(props) {
     );
 }
 
-module.exports = Component;
+module.exports = PostCard;

@@ -2,7 +2,7 @@
 tags: technology
 title: Keyboard remaps for Windows 10
 description: Keyboard remaps for Windows 10
-date: November 20, 2018
+date: 2018-11-20
 ---
 
 I really like the idea of not using my mouse or trackpad when using my laptop, so I'm always looking for ways to leverage this task to the keyboard.

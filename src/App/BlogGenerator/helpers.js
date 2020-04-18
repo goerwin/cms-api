@@ -43,7 +43,6 @@ function getMainHtml(params) {
     }</title>
             <meta name="description" content="${params.metadata.description}">
             <meta name="author" content="${params.metadata.author}">
-            <base href="${params.metadata.baseUrl}">
             <link href="${params.metadata.logo}" rel='shortcut icon'>
             <link rel="stylesheet" href="${params.cssFilePath}"></link>
         </head>
@@ -62,6 +61,7 @@ function getMainHtml(params) {
 
 function getHtmlFromMarkdown(markdown) {
     const showdownConverter = new showdown.Converter({
+        ghCompatibleHeaderId: true,
         openLinksInNewWindow: true,
         metadata: true,
     });
@@ -95,30 +95,41 @@ function getParsedBlog(blog) {
         slogan: blog.metadata.slogan,
         website: blog.metadata.authorWebsite,
     };
+    const { baseUrl } = blog.metadata;
 
     return {
         ...blog,
         header,
         posts: blog.posts
-            .map((post) => ({
-                ...post,
-                header,
-                metadata: {
-                    ...blog.metadata,
-                    title: post.title,
-                    description: post.description,
-                },
-                readTime: `${getReadTime(post.content)} min. read`,
-                url:
-                    slugify(post.urlSlug ? post.urlSlug : post.title) + '.html',
-                content: getHtmlFromMarkdown(post.content),
-                tags:
-                    post.tags &&
-                    post.tags.map((tag) => ({
-                        name: tag,
-                        urlSlug: `tags/${slugify(tag)}`,
-                    })),
-            }))
+            .map((post) => {
+                const outputPath =
+                    slugify(post.urlSlug ? post.urlSlug : post.title) + '.html';
+
+                return {
+                    ...post,
+                    header,
+                    metadata: {
+                        ...blog.metadata,
+                        title: post.title,
+                        description: post.description,
+                    },
+                    readTime: `${getReadTime(post.content)} min. read`,
+                    outputPath,
+                    url: getItemUrl(baseUrl, outputPath),
+                    content: getHtmlFromMarkdown(post.content),
+                    tags:
+                        post.tags &&
+                        post.tags.map((tag) => {
+                            const outputPath = `tags/${slugify(tag)}`;
+
+                            return {
+                                name: tag,
+                                outputPath,
+                                url: getItemUrl(baseUrl, outputPath),
+                            };
+                        }),
+                };
+            })
             .map((post, idx, posts) => ({
                 ...post,
                 previousPost: idx === 0 ? null : posts[idx - 1],
@@ -170,7 +181,7 @@ function getIndexPagesWithPagination({
     parsedBlog,
     cssFilePath,
     jsFilePath,
-    paginationBaseUrl = '',
+    paginationBaseUrl,
     stringifiedSSRReactApp,
 }) {
     const pagination = getPagination(
@@ -188,10 +199,10 @@ function getIndexPagesWithPagination({
                 ...pagination,
                 items: pagination.itemsDistribution.map((_, idx) => ({
                     id: idx + 1,
-                    href:
-                        paginationBaseUrl +
-                        '/' +
-                        `${idx === 0 ? 'index' : idx + 1}.html`,
+                    href: path.join(
+                        paginationBaseUrl,
+                        `${idx === 0 ? 'index' : idx + 1}.html`
+                    ),
                 })),
                 activePage: idx + 1,
             },
@@ -209,6 +220,10 @@ function getIndexPagesWithPagination({
             }),
         };
     });
+}
+
+function getItemUrl(baseUrl, urlSlug) {
+    return path.join(baseUrl, '/', urlSlug);
 }
 
 function generateBlogFileStructure(blog, attrs = {}) {
@@ -229,31 +244,34 @@ function generateBlogFileStructure(blog, attrs = {}) {
                 const serverAssets = getParsedAsset(multistats.stats[0]);
                 const clientAssets = getParsedAsset(multistats.stats[1]);
                 const parsedBlog = getParsedBlog(blog);
+                const { baseUrl } = parsedBlog.metadata;
 
                 const stringifiedSSRReactApp = requireFromString(
                     serverAssets.jsFile.asset.source()
                 );
 
                 const results = {
-                    [clientAssets.jsFile
-                        .id]: clientAssets.jsFile.asset.source(),
                     [clientAssets.cssFile
                         .id]: clientAssets.cssFile.asset.source(),
+                    [clientAssets.jsFile
+                        .id]: clientAssets.jsFile.asset.source(),
                 };
 
+                // Index page
                 getIndexPagesWithPagination({
                     parsedBlog,
-                    cssFilePath: clientAssets.cssFile.id,
-                    jsFilePath: clientAssets.jsFile.id,
+                    cssFilePath: getItemUrl(baseUrl, clientAssets.cssFile.id),
+                    jsFilePath: getItemUrl(baseUrl, clientAssets.jsFile.id),
                     stringifiedSSRReactApp,
+                    paginationBaseUrl: baseUrl,
                 }).forEach((indexPageWithPagination) => {
                     results[indexPageWithPagination.key] =
                         indexPageWithPagination.html;
                 });
 
-                // Posts
+                // Posts pages
                 parsedBlog.posts.forEach((post) => {
-                    results[post.url] = getMainHtml({
+                    results[post.outputPath] = getMainHtml({
                         metadata: post.metadata,
                         htmlContent: stringifiedSSRReactApp.getPostPage(post),
                         cssFilePath: clientAssets.cssFile.id,
@@ -263,18 +281,18 @@ function generateBlogFileStructure(blog, attrs = {}) {
                     });
                 });
 
-                // Tags
+                // Tag pages
                 parsedBlog.posts
                     .reduce(
                         (prev, post, idx) => {
                             post.tags &&
                                 post.tags.forEach((tag) => {
-                                    prev[0][tag.urlSlug] = {
+                                    prev[0][tag.outputPath] = {
                                         name: tag.name,
                                         posts: [
-                                            ...(prev[0][tag.urlSlug] &&
-                                            prev[0][tag.urlSlug].posts
-                                                ? prev[0][tag.urlSlug].posts
+                                            ...(prev[0][tag.outputPath] &&
+                                            prev[0][tag.outputPath].posts
+                                                ? prev[0][tag.outputPath].posts
                                                 : []),
                                             idx,
                                         ],
@@ -286,29 +304,40 @@ function generateBlogFileStructure(blog, attrs = {}) {
                         [{}]
                     )
                     .forEach((tagPages) => {
-                        Object.keys(tagPages).forEach((tagUrlSlug) => {
+                        // tagPages = { [tagOutpuPath]: { name, postIdxs[], url } }
+                        // eg: { [tags/technology]: [2, 4, 5] }
+                        Object.keys(tagPages).forEach((tagOutputPath) => {
                             let newParsedBlog = {
                                 ...parsedBlog,
                                 metadata: {
                                     ...parsedBlog.metadata,
                                     title: capitalizeStr(
-                                        tagPages[tagUrlSlug].name
+                                        tagPages[tagOutputPath].name
                                     ),
                                 },
-                                posts: tagPages[tagUrlSlug].posts.map(
+                                posts: tagPages[tagOutputPath].posts.map(
                                     (el) => parsedBlog.posts[el]
                                 ),
                             };
 
                             getIndexPagesWithPagination({
                                 parsedBlog: newParsedBlog,
-                                cssFilePath: clientAssets.cssFile.id,
-                                jsFilePath: clientAssets.jsFile.id,
-                                paginationBaseUrl: tagUrlSlug,
+                                cssFilePath: getItemUrl(
+                                    baseUrl,
+                                    clientAssets.cssFile.id
+                                ),
+                                jsFilePath: getItemUrl(
+                                    baseUrl,
+                                    clientAssets.jsFile.id
+                                ),
+                                paginationBaseUrl: getItemUrl(
+                                    baseUrl,
+                                    tagOutputPath
+                                ),
                                 stringifiedSSRReactApp,
                             }).forEach((indexPageWithPagination) => {
                                 results[
-                                    `${tagUrlSlug}/${indexPageWithPagination.key}`
+                                    `${tagOutputPath}/${indexPageWithPagination.key}`
                                 ] = indexPageWithPagination.html;
                             });
                         });

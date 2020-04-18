@@ -24,8 +24,10 @@ helpers
             program.outputDirectory
                 ? program.outputDirectory
                 : program.inputDirectory,
-            '_generatedBlog'
+            '__generatedBlog__'
         );
+
+        fsExtra.removeSync(outputDirectory);
 
         Object.keys(blogFileStructure).forEach((key) => {
             fsExtra.outputFileSync(
