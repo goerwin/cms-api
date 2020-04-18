@@ -12,9 +12,16 @@ const CONTENT_TYPES = {
 };
 const port = process.env.PORT;
 
-const blogFileStructurePromise = helpers.generateBlogFileStructure(blogSample, {
-    env: 'development',
-});
+const blogFileStructurePromise = helpers.generateBlogFileStructureFromDir(
+    __dirname + '/blogSamples/blogWithFiles',
+    {
+        env: 'development',
+    }
+);
+
+// const blogFileStructurePromise = helpers.generateBlogFileStructure(blogSample, {
+//     env: 'development',
+// });
 
 blogFileStructurePromise.then((blogFileStructure) => {
     const volume = Volume.fromJSON(blogFileStructure, '/');

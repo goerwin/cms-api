@@ -17,7 +17,8 @@
         text-decoration: underline;
     }
 
-    ul {
+    ul,
+    ol {
         list-style-position: inside;
         margin-bottom: 30px;
 

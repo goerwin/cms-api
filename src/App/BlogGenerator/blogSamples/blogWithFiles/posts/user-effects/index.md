@@ -1,8 +1,8 @@
 ---
-tags: ['technology']
-title: 'React effects'
-description: 'React effects'
-date: 'August 3, 2019'
+tags: technology,external
+title: React effects
+description: React effects
+date: August 3, 2019
 ---
 
 You wrote a few components with [Hooks](https://reactjs.org/docs/hooks-intro.html). Maybe even a small app. You’re mostly satisfied. You’re comfortable with the API and picked up a few tricks along the way. You even made some [custom Hooks](https://reactjs.org/docs/hooks-custom.html) to extract repetitive logic (300 lines gone!) and showed it off to your colleagues. “Great job”, they said.
