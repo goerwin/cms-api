@@ -135,7 +135,7 @@ function getParsedBlog(blog) {
                     })
                 );
             })
-            .sort((a, b) => a.date > b.date ? -1 : 0)
+            .sort((a, b) => (a.date > b.date ? -1 : 0))
             .map((post, idx, posts) => ({
                 ...post,
                 previousPost:
@@ -152,8 +152,7 @@ function getParsedBlog(blog) {
                               title: posts[idx + 1].title,
                               url: posts[idx + 1].url,
                           },
-            }))
-            ,
+            })),
     };
 }
 
@@ -251,6 +250,18 @@ function getItemUrl(baseUrl, urlSlug) {
     return path.join(baseUrl, '/', urlSlug);
 }
 
+function getAllPostTags(parsedPosts) {
+    let tags = {};
+
+    parsedPosts.forEach((post) => {
+        post.tags && post.tags.forEach((tag) => {
+            tags[tag.outputPath] = tag;
+        });
+    });
+
+    return Object.keys(tags).map((key) => tags[key]);
+}
+
 function generateBlogFileStructure(blog, attrs = {}) {
     return new Promise((resolve) => {
         const memfs = createFsFromVolume(new Volume());
@@ -310,6 +321,32 @@ function generateBlogFileStructure(blog, attrs = {}) {
                         pageState: JSON.stringify(post),
                         page: 'post',
                     });
+                });
+
+                // Tag page
+                getIndexPagesWithPagination({
+                    parsedBlog: {
+                        ...parsedBlog,
+                        metadata: {
+                            ...parsedBlog.metadata,
+                            title: 'Tags',
+                        },
+                        posts: [
+                            {
+                                header: parsedBlog.header,
+                                tags: getAllPostTags(parsedBlog.posts),
+                                title: 'Tags',
+                                customDescription: 'All tags of the page',
+                            },
+                        ],
+                    },
+                    cssFilePath,
+                    jsFilePath,
+                    stringifiedSSRReactApp,
+                    paginationBaseUrl: baseUrl,
+                }).forEach((indexPageWithPagination) => {
+                    results[`tags/${indexPageWithPagination.key}`] =
+                        indexPageWithPagination.html;
                 });
 
                 // Tag pages

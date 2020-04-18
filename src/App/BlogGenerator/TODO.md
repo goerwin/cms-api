@@ -1,7 +1,6 @@
 # TODO
 -   use https://github.com/cure53/DOMPurify to sanitize html
 -   test https://marked.js.org/#/USING_ADVANCED.md
--   create tags page
 -   robots.txt
 -   sitemap
 -   analytics
@@ -11,8 +10,10 @@
 -   allow media assets
 -   add highlight lines to code
 -   fix title margintop offset when clicking anchor tags. eg: /writing-resilient-components#principle-3-no-component-is-a-singleton
+-   easy way to access tag page
 
 # DONE
+-   create tags page
 -   sort posts by date
 -   parse dates
 -   remove <base> so you can use references in the same page with anchors<a href="#title">

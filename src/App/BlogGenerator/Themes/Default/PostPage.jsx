@@ -15,6 +15,7 @@ module.exports = function PostPage(props) {
                     tags={props.tags}
                     date={props.dateParsed}
                     readTime={props.readTime}
+                    customDescription={props.customDescription}
                 />
                 <div
                     className={contentStyles.markdownBody}

@@ -60,6 +60,7 @@ describe('Main', () => {
             'title-3/index.html',
             'tags/technology/index.html',
             'tags/personal/index.html',
+            'tags/index.html',
         ];
 
         helpers
@@ -90,6 +91,7 @@ describe('Main', () => {
             'title-5/index.html',
             'title-6/index.html',
             'title-7/index.html',
+            'tags/index.html',
         ];
 
         helpers
@@ -123,6 +125,7 @@ describe('Main', () => {
             'tags/technology/index.html',
             'tags/technology/2/index.html',
             'tags/personal/index.html',
+            'tags/index.html',
         ];
 
         helpers
@@ -257,6 +260,26 @@ describe('Main', () => {
                 );
                 assert.strictEqual(
                     blogFileStucture['tags/technology/2/index.html'].indexOf(
+                        '<meta name="description" content="Main description">'
+                    ) !== -1,
+                    true
+                );
+            })
+            .then(() => done());
+    }, 10000);
+
+    it('should return correct metadata for the tag page', (done) => {
+        helpers
+            .generateBlogFileStructure({ ...inputBlog3 })
+            .then((blogFileStucture) => {
+                assert.strictEqual(
+                    blogFileStucture['tags/index.html'].indexOf(
+                        '<title>Tags | the blog name</title>'
+                    ) !== -1,
+                    true
+                );
+                assert.strictEqual(
+                    blogFileStucture['tags/index.html'].indexOf(
                         '<meta name="description" content="Main description">'
                     ) !== -1,
                     true

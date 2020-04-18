@@ -6,14 +6,15 @@ const styles = require('./Posts.module.css');
 function Posts({ posts, pagination }) {
     return (
         <div className={styles.container}>
-            {posts.map((post) => (
-                <div key={post.url} className={styles.post}>
+            {posts.map((post, idx) => (
+                <div key={post.url || idx} className={styles.post}>
                     <PostCard
                         title={post.title}
                         url={post.url}
                         tags={post.tags}
                         date={post.dateParsed}
                         readTime={post.readTime}
+                        customDescription={post.customDescription}
                     />
                     <p>{post.description}</p>
                 </div>

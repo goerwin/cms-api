@@ -15,18 +15,21 @@ function PostCard(props) {
                     props.title
                 )}
             </h2>
+
             <p className={styles.metadata}>
-                <span>{props.date}</span>
-                <span> · ☕ {props.readTime}</span>
+                {props.customDescription ? (
+                    <span>{props.customDescription}</span>
+                ) : (
+                    <>
+                        <span>{props.date}</span>
+                        <span> · ☕ {props.readTime}</span>
+                    </>
+                )}
             </p>
             {props.tags && props.tags.length > 0 && (
                 <div>
                     {props.tags.map((tag) => (
-                        <a
-                            className={styles.tag}
-                            key={tag.url}
-                            href={tag.url}
-                        >
+                        <a className={styles.tag} key={tag.url} href={tag.url}>
                             {tag.name}
                         </a>
                     ))}
