@@ -1,9 +1,7 @@
 const http = require('http');
 const { createFsFromVolume, Volume } = require('memfs');
 const helpers = require('./helpers');
-const blogSample = require('./blogSamples/sample');
-
-const REDIRECT_MATCH_REGEX = /(\.html|\/+|index.html)$/;
+const path = require('path');
 const ASSETS_EXT_REGEX = /\.(css|js)$/;
 const CONTENT_TYPES = {
     html: 'text/html; charset=utf-8',
@@ -19,10 +17,6 @@ const blogFileStructurePromise = helpers.generateBlogFileStructureFromDir(
     }
 );
 
-// const blogFileStructurePromise = helpers.generateBlogFileStructure(blogSample, {
-//     env: 'development',
-// });
-
 blogFileStructurePromise.then((blogFileStructure) => {
     const volume = Volume.fromJSON(blogFileStructure, '/');
 
@@ -30,20 +24,6 @@ blogFileStructurePromise.then((blogFileStructure) => {
 
     http.createServer((req, res) => {
         const reqUrl = req.url;
-
-        if (reqUrl !== '/' && REDIRECT_MATCH_REGEX.test(reqUrl)) {
-            const newUrl = reqUrl.replace(REDIRECT_MATCH_REGEX, '');
-
-            res.writeHead(302, {
-                location: reqUrl.replace(
-                    REDIRECT_MATCH_REGEX,
-                    newUrl === '' ? '/' : ''
-                ),
-            });
-            res.end();
-
-            return;
-        }
 
         if (ASSETS_EXT_REGEX.test(reqUrl)) {
             const ext = reqUrl.match(ASSETS_EXT_REGEX)[1];
@@ -64,7 +44,7 @@ blogFileStructurePromise.then((blogFileStructure) => {
         const content = ['.html', '/index.html'].reduce((prev, el) => {
             try {
                 if (!prev) {
-                    return memfs.readFileSync(reqUrl + el);
+                    return memfs.readFileSync(path.join(reqUrl, el));
                 }
             } catch (e) {}
 

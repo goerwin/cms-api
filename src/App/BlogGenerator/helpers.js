@@ -39,7 +39,7 @@ function getMainHtml(params) {
             <meta charset="utf-8">
             <meta http-equiv="cache-control" content="no-cache"/>
             <title>${params.metadata.title}${
-        params.metadata.blogName ? ` — ${params.metadata.blogName}` : ''
+        params.metadata.blogName ? ` | ${params.metadata.blogName}` : ''
     }</title>
             <meta name="description" content="${params.metadata.description}">
             <meta name="author" content="${params.metadata.author}">
@@ -102,8 +102,9 @@ function getParsedBlog(blog) {
         header,
         posts: blog.posts
             .map((post) => {
-                const outputPath =
-                    slugify(post.urlSlug ? post.urlSlug : post.title) + '.html';
+                const outputPath = slugify(
+                    post.urlSlug ? post.urlSlug : post.title
+                );
 
                 return JSON.parse(
                     JSON.stringify({
@@ -204,10 +205,16 @@ function getIndexPagesWithPagination({
     );
 
     return pagination.itemsDistribution.map((el, idx) => {
-        const key = idx === 0 ? 'index.html' : `${idx + 1}.html`;
+        const key = idx === 0 ? 'index.html' : `${idx + 1}/index.html`;
 
         const newParsedBlog = {
             ...parsedBlog,
+            metadata: {
+                ...parsedBlog.metadata,
+                title:
+                    parsedBlog.metadata.title +
+                    (idx === 0 ? '' : ' | Page ' + (idx + 1)),
+            },
             posts: parsedBlog.posts.slice(el[0], el[1] + 1),
             pagination: {
                 ...pagination,
@@ -215,7 +222,7 @@ function getIndexPagesWithPagination({
                     id: idx + 1,
                     href: path.join(
                         paginationBaseUrl,
-                        `${idx === 0 ? 'index' : idx + 1}.html`
+                        idx === 0 ? '' : String(idx + 1)
                     ),
                 })),
                 activePage: idx + 1,
@@ -271,11 +278,17 @@ function generateBlogFileStructure(blog, attrs = {}) {
                         .id]: clientAssets.jsFile.asset.source(),
                 };
 
+                const cssFilePath = getItemUrl(
+                    baseUrl,
+                    clientAssets.cssFile.id
+                );
+                const jsFilePath = getItemUrl(baseUrl, clientAssets.jsFile.id);
+
                 // Index page
                 getIndexPagesWithPagination({
                     parsedBlog,
-                    cssFilePath: getItemUrl(baseUrl, clientAssets.cssFile.id),
-                    jsFilePath: getItemUrl(baseUrl, clientAssets.jsFile.id),
+                    cssFilePath,
+                    jsFilePath,
                     stringifiedSSRReactApp,
                     paginationBaseUrl: baseUrl,
                 }).forEach((indexPageWithPagination) => {
@@ -285,11 +298,11 @@ function generateBlogFileStructure(blog, attrs = {}) {
 
                 // Posts pages
                 parsedBlog.posts.forEach((post) => {
-                    results[post.outputPath] = getMainHtml({
+                    results[post.outputPath + '/index.html'] = getMainHtml({
                         metadata: post.metadata,
                         htmlContent: stringifiedSSRReactApp.getPostPage(post),
-                        cssFilePath: clientAssets.cssFile.id,
-                        jsFilePath: clientAssets.jsFile.id,
+                        cssFilePath,
+                        jsFilePath,
                         pageState: JSON.stringify(post),
                         page: 'post',
                     });
@@ -336,14 +349,8 @@ function generateBlogFileStructure(blog, attrs = {}) {
 
                             getIndexPagesWithPagination({
                                 parsedBlog: newParsedBlog,
-                                cssFilePath: getItemUrl(
-                                    baseUrl,
-                                    clientAssets.cssFile.id
-                                ),
-                                jsFilePath: getItemUrl(
-                                    baseUrl,
-                                    clientAssets.jsFile.id
-                                ),
+                                cssFilePath,
+                                jsFilePath,
                                 paginationBaseUrl: getItemUrl(
                                     baseUrl,
                                     tagOutputPath

@@ -40,12 +40,12 @@
                 "description": "Description 1"
             },
             "readTime": "1 min. read",
-            "outputPath": "post-1-slug.html",
-            "url": "https:/baseUrl.com/blog/post-1-slug.html",
+            "outputPath": "post-1-slug",
+            "url": "https:/baseUrl.com/blog/post-1-slug",
             "previousPost": null,
             "nextPost": {
                 "title": "Title 2",
-                "url": "https:/baseUrl.com/blog/title-2.html"
+                "url": "https:/baseUrl.com/blog/title-2"
             }
         },
         {
@@ -70,15 +70,15 @@
                 "description": "Description 2"
             },
             "readTime": "1 min. read",
-            "outputPath": "title-2.html",
-            "url": "https:/baseUrl.com/blog/title-2.html",
+            "outputPath": "title-2",
+            "url": "https:/baseUrl.com/blog/title-2",
             "previousPost": {
                 "title": "Title 1",
-                "url": "https:/baseUrl.com/blog/post-1-slug.html"
+                "url": "https:/baseUrl.com/blog/post-1-slug"
             },
             "nextPost": {
                 "title": "Title 3",
-                "url": "https:/baseUrl.com/blog/title-3.html"
+                "url": "https:/baseUrl.com/blog/title-3"
             }
         },
         {
@@ -115,11 +115,11 @@
                 "description": "Description 3"
             },
             "readTime": "1 min. read",
-            "outputPath": "title-3.html",
-            "url": "https:/baseUrl.com/blog/title-3.html",
+            "outputPath": "title-3",
+            "url": "https:/baseUrl.com/blog/title-3",
             "previousPost": {
                 "title": "Title 2",
-                "url": "https:/baseUrl.com/blog/title-2.html"
+                "url": "https:/baseUrl.com/blog/title-2"
             },
             "nextPost": null
         }

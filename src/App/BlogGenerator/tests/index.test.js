@@ -29,7 +29,15 @@ function compareStrictEqualStringRegexArrays(expectedArray, inputArray) {
         return result;
     });
 
-    return allMatched && Object.keys(matches).length === expectedArray.length;
+    const result =
+        allMatched && Object.keys(matches).length === expectedArray.length;
+
+    if (!result) {
+        console.error(inputArray, expectedArray);
+        throw new Error('rip');
+    }
+
+    return result;
 }
 
 describe('Main', () => {
@@ -45,9 +53,9 @@ describe('Main', () => {
             /^index\..*\.css$/,
             /^index\..*\.bundle\.js$/,
             'index.html',
-            'post-1-slug.html',
-            'title-2.html',
-            'title-3.html',
+            'post-1-slug/index.html',
+            'title-2/index.html',
+            'title-3/index.html',
             'tags/technology/index.html',
             'tags/personal/index.html',
         ];
@@ -71,15 +79,15 @@ describe('Main', () => {
             /^index\..*\.css$/,
             /^index\..*\.bundle\.js$/,
             'index.html',
-            '2.html',
-            '3.html',
-            'post-1-slug.html',
-            'title-2.html',
-            'title-3.html',
-            'title-4.html',
-            'title-5.html',
-            'title-6.html',
-            'title-7.html',
+            '2/index.html',
+            '3/index.html',
+            'post-1-slug/index.html',
+            'title-2/index.html',
+            'title-3/index.html',
+            'title-4/index.html',
+            'title-5/index.html',
+            'title-6/index.html',
+            'title-7/index.html',
         ];
 
         helpers
@@ -101,18 +109,18 @@ describe('Main', () => {
             /^index\..*\.css$/,
             /^index\..*\.bundle\.js$/,
             'index.html',
-            '2.html',
-            '3.html',
-            'post-1-slug.html',
-            'title-2.html',
-            'title-3.html',
-            'title-4.html',
-            'title-5.html',
-            'title-6.html',
-            'title-7.html',
+            '2/index.html',
+            '3/index.html',
+            'post-1-slug/index.html',
+            'title-2/index.html',
+            'title-3/index.html',
+            'title-4/index.html',
+            'title-5/index.html',
+            'title-6/index.html',
+            'title-7/index.html',
             'tags/technology/index.html',
+            'tags/technology/2/index.html',
             'tags/personal/index.html',
-            'tags/technology/2.html',
         ];
 
         helpers
@@ -128,4 +136,132 @@ describe('Main', () => {
             })
             .then(() => done());
     }, 10000);
+
+    it('should return correct metadata for index page', (done) => {
+        helpers
+            .generateBlogFileStructure({ ...inputBlog3 })
+            .then((blogFileStucture) => {
+                assert.strictEqual(
+                    blogFileStucture['index.html'].indexOf(
+                        '<title>Main title | the blog name</title>'
+                    ) !== -1,
+                    true
+                );
+                assert.strictEqual(
+                    blogFileStucture['index.html'].indexOf(
+                        '<meta name="description" content="Main description">'
+                    ) !== -1,
+                    true
+                );
+            })
+            .then(() => done());
+    }, 10000);
+
+    it('should return correct metadata for paginated pages', (done) => {
+        helpers
+            .generateBlogFileStructure({ ...inputBlog3 })
+            .then((blogFileStucture) => {
+                assert.strictEqual(
+                    blogFileStucture['2/index.html'].indexOf(
+                        '<title>Main title | Page 2 | the blog name</title>'
+                    ) !== -1,
+                    true
+                );
+                assert.strictEqual(
+                    blogFileStucture['2/index.html'].indexOf(
+                        '<meta name="description" content="Main description">'
+                    ) !== -1,
+                    true
+                );
+
+                assert.strictEqual(
+                    blogFileStucture['3/index.html'].indexOf(
+                        '<title>Main title | Page 3 | the blog name</title>'
+                    ) !== -1,
+                    true
+                );
+                assert.strictEqual(
+                    blogFileStucture['3/index.html'].indexOf(
+                        '<meta name="description" content="Main description">'
+                    ) !== -1,
+                    true
+                );
+            })
+            .then(() => done());
+    }, 10000);
+
+    it('should return correct metadata for post pages', (done) => {
+        helpers
+            .generateBlogFileStructure({ ...inputBlog3 })
+            .then((blogFileStucture) => {
+                assert.strictEqual(
+                    blogFileStucture['post-1-slug/index.html'].indexOf(
+                        '<title>Title 1 | the blog name</title>'
+                    ) !== -1,
+                    true
+                );
+                assert.strictEqual(
+                    blogFileStucture['post-1-slug/index.html'].indexOf(
+                        '<meta name="description" content="Description 1">'
+                    ) !== -1,
+                    true
+                );
+
+                assert.strictEqual(
+                    blogFileStucture['title-2/index.html'].indexOf(
+                        '<title>Title 2 | the blog name</title>'
+                    ) !== -1,
+                    true
+                );
+                assert.strictEqual(
+                    blogFileStucture['title-2/index.html'].indexOf(
+                        '<meta name="description" content="Description 2">'
+                    ) !== -1,
+                    true
+                );
+            })
+            .then(() => done());
+    }, 10000);
+
+    it('should return correct metadata for tag pages', (done) => {
+        helpers
+            .generateBlogFileStructure({ ...inputBlog3 })
+            .then((blogFileStucture) => {
+                assert.strictEqual(
+                    blogFileStucture['tags/technology/index.html'].indexOf(
+                        '<title>Technology | the blog name</title>'
+                    ) !== -1,
+                    true
+                );
+                assert.strictEqual(
+                    blogFileStucture['tags/technology/index.html'].indexOf(
+                        '<meta name="description" content="Main description">'
+                    ) !== -1,
+                    true
+                );
+            })
+            .then(() => done());
+    }, 10000);
+
+    it('should return correct metadata for paginated tag pages', (done) => {
+        helpers
+            .generateBlogFileStructure({ ...inputBlog3 })
+            .then((blogFileStucture) => {
+                assert.strictEqual(
+                    blogFileStucture['tags/technology/2/index.html'].indexOf(
+                        '<title>Technology | Page 2 | the blog name</title>'
+                    ) !== -1,
+                    true
+                );
+                assert.strictEqual(
+                    blogFileStucture['tags/technology/2/index.html'].indexOf(
+                        '<meta name="description" content="Main description">'
+                    ) !== -1,
+                    true
+                );
+            })
+            .then(() => done());
+    }, 10000);
+
+    it.todo('test pagination');
 });
