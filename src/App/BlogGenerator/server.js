@@ -2,6 +2,8 @@ const http = require('http');
 const { createFsFromVolume, Volume } = require('memfs');
 const helpers = require('./helpers');
 const path = require('path');
+const internalIp = require('internal-ip');
+
 const ASSETS_EXT_REGEX = /\.(css|js)$/;
 const CONTENT_TYPES = {
     html: 'text/html; charset=utf-8',
@@ -63,6 +65,8 @@ blogFileStructurePromise.then((blogFileStructure) => {
             res.end();
         }
     }).listen(port, () => {
-        console.log('Listening in port', port);
+        const internalIPv4 = internalIp.v4.sync();
+        console.log(`Listening in localhost:${port}`);
+        console.log(`Listening in ${internalIPv4}:${port}`);
     });
 });

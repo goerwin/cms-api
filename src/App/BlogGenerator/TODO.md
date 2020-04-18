@@ -18,6 +18,7 @@
 # DONE
 
 -   create tags page
+-   mobile first
 -   sort posts by date
 -   parse dates
 -   remove <base> so you can use references in the same page with anchors<a href="#title">

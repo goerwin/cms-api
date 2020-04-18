@@ -39,6 +39,7 @@ function getMainHtml(params) {
         <html lang="en">
         <head>
             <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
             <meta http-equiv="cache-control" content="no-cache"/>
             <title>${params.metadata.title}${
         params.metadata.blogName ? ` | ${params.metadata.blogName}` : ''
