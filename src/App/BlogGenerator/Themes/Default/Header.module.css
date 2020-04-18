@@ -1,44 +1,71 @@
+// TODO: Should be global
+$tabletUp: 768px;
+
 .container {
-  background-color: #111;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: var(--headerHeight);
-  border-bottom: 1px solid #353535;
-  font-size: 10px;
-  z-index: 1000;
+    background-color: #111;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--headerHeight);
+    border-bottom: 1px solid #353535;
+    font-size: 10px;
+    z-index: 1000;
+}
+
+.content {
+    position: relative;
+    top: 0;
+    max-width: var(--globalMaxWidth);
+    padding: 0 var(--globalHorizontalPadding) 0;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    @media (min-width: $tabletUp) {
+        flex-direction: row;
+        justify-content: space-between;
+    }
 }
 
 .author {
-  --height: 60px;
-  height: var(--height);
-  margin: calc((var(--headerHeight) - var(--height)) / 2) auto 0;
-  padding: 0 var(--globalHorizontalPadding) 0 calc(var(--globalHorizontalPadding) + 70px);
-  max-width: var(--globalMaxWidth);
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+    --height: 60px;
+    height: var(--height);
+    padding: 0 var(--globalHorizontalPadding) 0 70px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .authorName {
-  color: var(--primaryTextColor);
-  font-size: 1.8em;
+    color: var(--primaryTextColor);
+    font-size: 1.8em;
 }
 
 .authorSlogan {
-  font-size: 1.4em;
+    font-size: 1.4em;
 }
 
 .authorImg {
-  --size: 60px;
-  border-radius: 50%;
-  overflow: hidden;
-  width: var(--size);
-  height: var(--size);
-  background-color: red;
-  position: absolute;
-  top: 0;
-  left: var(--globalHorizontalPadding);
+    --size: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    width: var(--size);
+    height: var(--size);
+    background-color: red;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.floatMenu {
+    a {
+        font-size: 18px;
+        padding: 5px 0;
+        margin-left: 15px;
+    }
 }

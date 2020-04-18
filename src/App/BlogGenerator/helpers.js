@@ -7,6 +7,7 @@ const { createFsFromVolume, Volume } = require('memfs');
 const moment = require('moment');
 const requireFromString = require('require-from-string');
 const webpackConfigs = require('./webpackConfigs');
+const tagsPageOutputPath = 'tags';
 
 function slugify(str) {
     str = str.replace(/^\s+|\s+$/g, ''); // trim
@@ -90,13 +91,14 @@ function getHtmlFromMarkdown(markdown) {
 }
 
 function getParsedBlog(blog) {
+    const { baseUrl, slogan, authorWebsite, author } = blog.metadata;
     const header = {
-        blogAuthor: blog.metadata.author,
-        blogUrl: blog.metadata.baseUrl,
-        slogan: blog.metadata.slogan,
-        website: blog.metadata.authorWebsite,
+        blogAuthor: author,
+        blogUrl: baseUrl,
+        slogan: slogan,
+        website: authorWebsite,
+        tagsPageUrl: getItemUrl(baseUrl, tagsPageOutputPath),
     };
-    const { baseUrl } = blog.metadata;
 
     return {
         ...blog,
@@ -110,7 +112,6 @@ function getParsedBlog(blog) {
                 return JSON.parse(
                     JSON.stringify({
                         ...post,
-                        header,
                         metadata: {
                             ...blog.metadata,
                             title: post.title,
@@ -124,7 +125,8 @@ function getParsedBlog(blog) {
                         tags:
                             post.tags &&
                             post.tags.map((tag) => {
-                                const outputPath = `tags/${slugify(tag)}`;
+                                const outputPath =
+                                    tagsPageOutputPath + '/' + slugify(tag);
 
                                 return {
                                     name: tag,
@@ -247,16 +249,17 @@ function getIndexPagesWithPagination({
 }
 
 function getItemUrl(baseUrl, urlSlug) {
-    return path.join(baseUrl, '/', urlSlug);
+    return path.join(baseUrl, '/', urlSlug).replace(':/', '://');
 }
 
 function getAllPostTags(parsedPosts) {
     let tags = {};
 
     parsedPosts.forEach((post) => {
-        post.tags && post.tags.forEach((tag) => {
-            tags[tag.outputPath] = tag;
-        });
+        post.tags &&
+            post.tags.forEach((tag) => {
+                tags[tag.outputPath] = tag;
+            });
     });
 
     return Object.keys(tags).map((key) => tags[key]);
@@ -313,12 +316,17 @@ function generateBlogFileStructure(blog, attrs = {}) {
 
                 // Posts pages
                 parsedBlog.posts.forEach((post) => {
+                    const pageState = {
+                        ...post,
+                        header: parsedBlog.header,
+                    };
+
                     results[post.outputPath + '/index.html'] = getMainHtml({
                         metadata: post.metadata,
-                        htmlContent: stringifiedSSRReactApp.getPostPage(post),
+                        htmlContent: stringifiedSSRReactApp.getPostPage(pageState),
                         cssFilePath,
                         jsFilePath,
-                        pageState: JSON.stringify(post),
+                        pageState: JSON.stringify(pageState),
                         page: 'post',
                     });
                 });
@@ -336,7 +344,7 @@ function generateBlogFileStructure(blog, attrs = {}) {
                                 header: parsedBlog.header,
                                 tags: getAllPostTags(parsedBlog.posts),
                                 title: 'Tags',
-                                customDescription: 'All tags of the page',
+                                customDescription: 'All Blog tags',
                             },
                         ],
                     },
@@ -345,8 +353,9 @@ function generateBlogFileStructure(blog, attrs = {}) {
                     stringifiedSSRReactApp,
                     paginationBaseUrl: baseUrl,
                 }).forEach((indexPageWithPagination) => {
-                    results[`tags/${indexPageWithPagination.key}`] =
-                        indexPageWithPagination.html;
+                    results[
+                        tagsPageOutputPath + '/' + indexPageWithPagination.key
+                    ] = indexPageWithPagination.html;
                 });
 
                 // Tag pages
@@ -373,7 +382,7 @@ function generateBlogFileStructure(blog, attrs = {}) {
                     )
                     .forEach((tagPages) => {
                         // { [tagOutpuPath]: { name, postIdxs[], url } }
-                        // tagPages = { [tags/technology]: [2, 4, 5] }
+                        // tagPages = { [${tagUrl}technology]: [2, 4, 5] }
                         Object.keys(tagPages).forEach((tagOutputPath) => {
                             let newParsedBlog = {
                                 ...parsedBlog,

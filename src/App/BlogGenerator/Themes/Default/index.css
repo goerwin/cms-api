@@ -1,14 +1,20 @@
+// TODO: Should be global
 $tabletUp: 768px;
 
 :root {
+
     --primaryBGColor: #000;
     --primaryTextColor: #ccc;
     --primaryFontFamily: Verdana, Arial, Helvetica, sans-serif;
     --logoTextColor: #ff8159;
     --textHoverOpacity: 0.8;
-    --headerHeight: 80px;
+    --headerHeight: 140px;
     --globalMaxWidth: 76rem;
     --globalHorizontalPadding: 2.5rem;
+
+    @media (min-width: $tabletUp) {
+        --headerHeight: 80px;
+    }
 }
 
 * {
