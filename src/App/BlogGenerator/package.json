@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "PORT=8080 nodemon -e js,jsx,json,css,md server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -33,7 +33,9 @@
     "webpack": "^4.42.1"
   },
   "devDependencies": {
+    "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.19.0",
+    "jest": "^25.3.0",
     "nodemon": "^2.0.3"
   }
 }

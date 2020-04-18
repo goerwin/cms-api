@@ -1,0 +1,133 @@
+{
+    "metadata": {
+        "author": "Erwin GO",
+        "authorWebsite": "https://authorwebsite.co",
+        "blogName": "the blog name",
+        "slogan": "the slogan",
+        "baseUrl": "https://baseUrl.com/blog/",
+        "logo": "https://logo.png",
+        "title": "Main title",
+        "description": "Main description"
+    },
+    "posts": [
+        {
+            "tags": [
+                {
+                    "name": "technology",
+                    "outputPath": "tags/technology",
+                    "url": "https:/baseUrl.com/blog/tags/technology"
+                }
+            ],
+            "title": "Title 1",
+            "urlSlug": "post-1-slug",
+            "description": "Description 1",
+            "date": "2019-20-02",
+            "content": "<p>content 1</p>",
+            "header": {
+                "blogAuthor": "Erwin GO",
+                "blogUrl": "https://baseUrl.com/blog/",
+                "slogan": "the slogan",
+                "website": "https://authorwebsite.co"
+            },
+            "metadata": {
+                "author": "Erwin GO",
+                "authorWebsite": "https://authorwebsite.co",
+                "blogName": "the blog name",
+                "slogan": "the slogan",
+                "baseUrl": "https://baseUrl.com/blog/",
+                "logo": "https://logo.png",
+                "title": "Title 1",
+                "description": "Description 1"
+            },
+            "readTime": "1 min. read",
+            "outputPath": "post-1-slug.html",
+            "url": "https:/baseUrl.com/blog/post-1-slug.html",
+            "previousPost": null,
+            "nextPost": {
+                "title": "Title 2",
+                "url": "https:/baseUrl.com/blog/title-2.html"
+            }
+        },
+        {
+            "title": "Title 2",
+            "description": "Description 2",
+            "date": "2020-20-03",
+            "content": "<p>content 2</p>",
+            "header": {
+                "blogAuthor": "Erwin GO",
+                "blogUrl": "https://baseUrl.com/blog/",
+                "slogan": "the slogan",
+                "website": "https://authorwebsite.co"
+            },
+            "metadata": {
+                "author": "Erwin GO",
+                "authorWebsite": "https://authorwebsite.co",
+                "blogName": "the blog name",
+                "slogan": "the slogan",
+                "baseUrl": "https://baseUrl.com/blog/",
+                "logo": "https://logo.png",
+                "title": "Title 2",
+                "description": "Description 2"
+            },
+            "readTime": "1 min. read",
+            "outputPath": "title-2.html",
+            "url": "https:/baseUrl.com/blog/title-2.html",
+            "previousPost": {
+                "title": "Title 1",
+                "url": "https:/baseUrl.com/blog/post-1-slug.html"
+            },
+            "nextPost": {
+                "title": "Title 3",
+                "url": "https:/baseUrl.com/blog/title-3.html"
+            }
+        },
+        {
+            "tags": [
+                {
+                    "name": "technology",
+                    "outputPath": "tags/technology",
+                    "url": "https:/baseUrl.com/blog/tags/technology"
+                },
+                {
+                    "name": "personal",
+                    "outputPath": "tags/personal",
+                    "url": "https:/baseUrl.com/blog/tags/personal"
+                }
+            ],
+            "title": "Title 3",
+            "description": "Description 3",
+            "date": "2020-20-04",
+            "content": "<p>content 3</p>",
+            "header": {
+                "blogAuthor": "Erwin GO",
+                "blogUrl": "https://baseUrl.com/blog/",
+                "slogan": "the slogan",
+                "website": "https://authorwebsite.co"
+            },
+            "metadata": {
+                "author": "Erwin GO",
+                "authorWebsite": "https://authorwebsite.co",
+                "blogName": "the blog name",
+                "slogan": "the slogan",
+                "baseUrl": "https://baseUrl.com/blog/",
+                "logo": "https://logo.png",
+                "title": "Title 3",
+                "description": "Description 3"
+            },
+            "readTime": "1 min. read",
+            "outputPath": "title-3.html",
+            "url": "https:/baseUrl.com/blog/title-3.html",
+            "previousPost": {
+                "title": "Title 2",
+                "url": "https:/baseUrl.com/blog/title-2.html"
+            },
+            "nextPost": null
+        }
+    ],
+    "header": {
+        "blogAuthor": "Erwin GO",
+        "blogUrl": "https://baseUrl.com/blog/",
+        "slogan": "the slogan",
+        "website": "https://authorwebsite.co"
+    }
+}

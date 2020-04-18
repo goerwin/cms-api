@@ -105,35 +105,49 @@ function getParsedBlog(blog) {
                 const outputPath =
                     slugify(post.urlSlug ? post.urlSlug : post.title) + '.html';
 
-                return {
-                    ...post,
-                    header,
-                    metadata: {
-                        ...blog.metadata,
-                        title: post.title,
-                        description: post.description,
-                    },
-                    readTime: `${getReadTime(post.content)} min. read`,
-                    outputPath,
-                    url: getItemUrl(baseUrl, outputPath),
-                    content: getHtmlFromMarkdown(post.content),
-                    tags:
-                        post.tags &&
-                        post.tags.map((tag) => {
-                            const outputPath = `tags/${slugify(tag)}`;
+                return JSON.parse(
+                    JSON.stringify({
+                        ...post,
+                        header,
+                        metadata: {
+                            ...blog.metadata,
+                            title: post.title,
+                            description: post.description,
+                        },
+                        readTime: `${getReadTime(post.content)} min. read`,
+                        outputPath,
+                        url: getItemUrl(baseUrl, outputPath),
+                        content: getHtmlFromMarkdown(post.content),
+                        tags:
+                            post.tags &&
+                            post.tags.map((tag) => {
+                                const outputPath = `tags/${slugify(tag)}`;
 
-                            return {
-                                name: tag,
-                                outputPath,
-                                url: getItemUrl(baseUrl, outputPath),
-                            };
-                        }),
-                };
+                                return {
+                                    name: tag,
+                                    outputPath,
+                                    url: getItemUrl(baseUrl, outputPath),
+                                };
+                            }),
+                    })
+                );
             })
             .map((post, idx, posts) => ({
                 ...post,
-                previousPost: idx === 0 ? null : posts[idx - 1],
-                nextPost: idx === posts.length - 1 ? null : posts[idx + 1],
+                previousPost:
+                    idx === 0
+                        ? null
+                        : {
+                              title: posts[idx - 1].title,
+                              url: posts[idx - 1].url,
+                          },
+                nextPost:
+                    idx === posts.length - 1
+                        ? null
+                        : {
+                              title: posts[idx + 1].title,
+                              url: posts[idx + 1].url,
+                          },
             })),
     };
 }
@@ -304,8 +318,8 @@ function generateBlogFileStructure(blog, attrs = {}) {
                         [{}]
                     )
                     .forEach((tagPages) => {
-                        // tagPages = { [tagOutpuPath]: { name, postIdxs[], url } }
-                        // eg: { [tags/technology]: [2, 4, 5] }
+                        // { [tagOutpuPath]: { name, postIdxs[], url } }
+                        // tagPages = { [tags/technology]: [2, 4, 5] }
                         Object.keys(tagPages).forEach((tagOutputPath) => {
                             let newParsedBlog = {
                                 ...parsedBlog,
@@ -416,6 +430,7 @@ function getParsedMarkdown(markdown) {
 }
 
 module.exports = {
+    getParsedBlog,
     generateBlogFileStructure,
     generateBlogFileStructureFromDir,
 };
