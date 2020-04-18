@@ -13,7 +13,7 @@ module.exports = function PostPage(props) {
                     className={styles.postCard}
                     title={props.title}
                     tags={props.tags}
-                    date={props.date}
+                    date={props.dateParsed}
                     readTime={props.readTime}
                 />
                 <div

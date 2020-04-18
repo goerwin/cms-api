@@ -11,29 +11,21 @@
     },
     "posts": [
         {
-            "tags": [
-                "technology"
-            ],
             "title": "Title 1",
-            "urlSlug": "post-1-slug",
             "description": "Description 1",
-            "date": "2020-11-06",
+            "date": "2020-11-03",
             "content": "content 1"
         },
         {
             "title": "Title 2",
             "description": "Description 2",
-            "date": "2020-11-05",
+            "date": "2020-11-04",
             "content": "content 2"
         },
         {
-            "tags": [
-                "technology",
-                "personal"
-            ],
             "title": "Title 3",
             "description": "Description 3",
-            "date": "2020-11-04",
+            "date": "2020-11-05",
             "content": "content 3"
         }
     ]

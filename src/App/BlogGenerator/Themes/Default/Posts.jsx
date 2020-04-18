@@ -12,7 +12,7 @@ function Posts({ posts, pagination }) {
                         title={post.title}
                         url={post.url}
                         tags={post.tags}
-                        date={post.date}
+                        date={post.dateParsed}
                         readTime={post.readTime}
                     />
                     <p>{post.description}</p>

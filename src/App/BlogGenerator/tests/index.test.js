@@ -1,8 +1,10 @@
 const assert = require('assert');
 const blogParsedExpected = require('./blogParsedExpected.json');
+const blogParsedExpected4 = require('./blogParsedExpected4.json');
 const inputBlog = require('./blogInput.json');
 const inputBlog2 = require('./blogInput2.json');
 const inputBlog3 = require('./blogInput3.json');
+const inputBlog4 = require('./blogInput4.json');
 const helpers = require('../helpers');
 
 function compareStrictEqualStringRegexArrays(expectedArray, inputArray) {
@@ -262,6 +264,13 @@ describe('Main', () => {
             })
             .then(() => done());
     }, 10000);
+
+    it('should return correct parsed blog with posts ordered by date', () => {
+        assert.deepStrictEqual(
+            helpers.getParsedBlog({ ...inputBlog4 }),
+            blogParsedExpected4
+        );
+    });
 
     it.todo('test pagination');
 });

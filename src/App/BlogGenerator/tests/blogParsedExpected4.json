@@ -11,19 +11,11 @@
     },
     "posts": [
         {
-            "tags": [
-                {
-                    "name": "technology",
-                    "outputPath": "tags/technology",
-                    "url": "https:/baseUrl.com/blog/tags/technology"
-                }
-            ],
-            "title": "Title 1",
-            "urlSlug": "post-1-slug",
-            "description": "Description 1",
-            "date": "2020-11-06",
-            "dateParsed": "November 6, 2020",
-            "content": "<p>content 1</p>",
+            "title": "Title 3",
+            "description": "Description 3",
+            "date": "2020-11-05",
+            "dateParsed": "November 5, 2020",
+            "content": "<p>content 3</p>",
             "header": {
                 "blogAuthor": "Erwin GO",
                 "blogUrl": "https://baseUrl.com/blog/",
@@ -37,12 +29,12 @@
                 "slogan": "the slogan",
                 "baseUrl": "https://baseUrl.com/blog/",
                 "logo": "https://logo.png",
-                "title": "Title 1",
-                "description": "Description 1"
+                "title": "Title 3",
+                "description": "Description 3"
             },
             "readTime": "1 min. read",
-            "outputPath": "post-1-slug",
-            "url": "https:/baseUrl.com/blog/post-1-slug",
+            "outputPath": "title-3",
+            "url": "https:/baseUrl.com/blog/title-3",
             "previousPost": null,
             "nextPost": {
                 "title": "Title 2",
@@ -52,8 +44,8 @@
         {
             "title": "Title 2",
             "description": "Description 2",
-            "date": "2020-11-05",
-            "dateParsed": "November 5, 2020",
+            "date": "2020-11-04",
+            "dateParsed": "November 4, 2020",
             "content": "<p>content 2</p>",
             "header": {
                 "blogAuthor": "Erwin GO",
@@ -75,32 +67,20 @@
             "outputPath": "title-2",
             "url": "https:/baseUrl.com/blog/title-2",
             "previousPost": {
-                "title": "Title 1",
-                "url": "https:/baseUrl.com/blog/post-1-slug"
-            },
-            "nextPost": {
                 "title": "Title 3",
                 "url": "https:/baseUrl.com/blog/title-3"
+            },
+            "nextPost": {
+                "title": "Title 1",
+                "url": "https:/baseUrl.com/blog/title-1"
             }
         },
         {
-            "tags": [
-                {
-                    "name": "technology",
-                    "outputPath": "tags/technology",
-                    "url": "https:/baseUrl.com/blog/tags/technology"
-                },
-                {
-                    "name": "personal",
-                    "outputPath": "tags/personal",
-                    "url": "https:/baseUrl.com/blog/tags/personal"
-                }
-            ],
-            "title": "Title 3",
-            "description": "Description 3",
-            "date": "2020-11-04",
-            "dateParsed": "November 4, 2020",
-            "content": "<p>content 3</p>",
+            "title": "Title 1",
+            "description": "Description 1",
+            "date": "2020-11-03",
+            "dateParsed": "November 3, 2020",
+            "content": "<p>content 1</p>",
             "header": {
                 "blogAuthor": "Erwin GO",
                 "blogUrl": "https://baseUrl.com/blog/",
@@ -114,12 +94,12 @@
                 "slogan": "the slogan",
                 "baseUrl": "https://baseUrl.com/blog/",
                 "logo": "https://logo.png",
-                "title": "Title 3",
-                "description": "Description 3"
+                "title": "Title 1",
+                "description": "Description 1"
             },
             "readTime": "1 min. read",
-            "outputPath": "title-3",
-            "url": "https:/baseUrl.com/blog/title-3",
+            "outputPath": "title-1",
+            "url": "https:/baseUrl.com/blog/title-1",
             "previousPost": {
                 "title": "Title 2",
                 "url": "https:/baseUrl.com/blog/title-2"

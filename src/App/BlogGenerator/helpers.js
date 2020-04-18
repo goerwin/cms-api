@@ -4,6 +4,7 @@ const hljs = require('highlight.js');
 const path = require('path');
 const fsExtra = require('fs-extra');
 const { createFsFromVolume, Volume } = require('memfs');
+const moment = require('moment');
 const requireFromString = require('require-from-string');
 const webpackConfigs = require('./webpackConfigs');
 
@@ -115,6 +116,7 @@ function getParsedBlog(blog) {
                             title: post.title,
                             description: post.description,
                         },
+                        dateParsed: moment(post.date).format('MMMM D, YYYY'),
                         readTime: `${getReadTime(post.content)} min. read`,
                         outputPath,
                         url: getItemUrl(baseUrl, outputPath),
@@ -133,6 +135,7 @@ function getParsedBlog(blog) {
                     })
                 );
             })
+            .sort((a, b) => a.date > b.date ? -1 : 0)
             .map((post, idx, posts) => ({
                 ...post,
                 previousPost:
@@ -149,7 +152,8 @@ function getParsedBlog(blog) {
                               title: posts[idx + 1].title,
                               url: posts[idx + 1].url,
                           },
-            })),
+            }))
+            ,
     };
 }
 
