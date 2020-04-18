@@ -1,13 +1,17 @@
 # TODO
-- parse dates
 - sort posts by date
+- parse dates
 - create tags page
-- tests
 - check why there's a p after a colon in ul lists eg: /what-is-js-made-of
-- add page # in the title for index/tag pages
 - add highlight lines to code
 - fix title margintop offset when clicking anchor tags. eg: /writing-resilient-components#principle-3-no-component-is-a-singleton
 - robots.txt
+- sitemap
+- analytics
+- ads
+- AMP pages
+- more themes
+- allow media assets
 
 # DONE
 - remove <base> so you can use references in the same page with anchors<a href="#title">
@@ -16,3 +20,5 @@
 - use development environment using the actual production assets
 - create a module that receives a blog.json and returns a .json file structure 
 - implement pagination
+- tests
+- add page # in the title for index/tag pages
