@@ -2,6 +2,8 @@ const showdown = require('showdown');
 const webpack = require('webpack');
 const hljs = require('highlight.js');
 const path = require('path');
+const createDOMPurify = require('dompurify');
+const { JSDOM } = require('jsdom');
 const fsExtra = require('fs-extra');
 const { createFsFromVolume, Volume } = require('memfs');
 const moment = require('moment');
@@ -60,25 +62,24 @@ function getHtmlFromMarkdown(markdown) {
     });
 
     let html = showdownConverter.makeHtml(markdown);
+    const domPurify = createDOMPurify(new JSDOM('').window);
 
     // Highlight Code
     html = html.replace(
         /<pre><code.*?>([\s\S]+?)<\/code><\/pre>/gm,
         (match, g1) => {
-            return (
-                '<pre><code>' +
-                hljs.highlightAuto(
-                    g1
-                        .replace(/&amp;/g, '&')
-                        .replace(/&lt;/g, '<')
-                        .replace(/&gt;/g, '>')
-                ).value +
-                '</code></pre>'
+            const hlResult = hljs.highlight('jsx',
+                g1
+                    .replace(/&amp;/g, '&')
+                    .replace(/&lt;/g, '<')
+                    .replace(/&gt;/g, '>')
             );
+
+            return `<div class="highlightjs highlightjs-${hlResult.language}"><pre><code>${hlResult.value}</code></pre></div>`;
         }
     );
 
-    return html;
+    return domPurify.sanitize(html);
 }
 
 function getItemUrl(baseUrl, urlSlug) {

@@ -1,6 +1,5 @@
 # TODO
 -   better template structure, probably you need to use React Helmet so it's more manageable 
--   use https://github.com/cure53/DOMPurify to sanitize html
 -   test https://marked.js.org/#/USING_ADVANCED.md
 -   robots.txt
 -   sitemap
@@ -13,6 +12,7 @@
 -   fix title margintop offset when clicking anchor tags. eg: /writing-resilient-components#principle-3-no-component-is-a-singleton
 
 # DONE
+-   use https://github.com/cure53/DOMPurify to sanitize html
 -   try to print webpack compilation errors, for example using a $var in a css file that doesnt exist
 -   easy way to access tag page
 -   header is repeated in all posts, no needed
