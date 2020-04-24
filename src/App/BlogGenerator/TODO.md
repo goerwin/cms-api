@@ -11,9 +11,9 @@
 -   allow media assets
 -   add highlight lines to code
 -   fix title margintop offset when clicking anchor tags. eg: /writing-resilient-components#principle-3-no-component-is-a-singleton
--   try to print webpack compilation errors, for example using a $var in a css file that doesnt exist
 
 # DONE
+-   try to print webpack compilation errors, for example using a $var in a css file that doesnt exist
 -   easy way to access tag page
 -   header is repeated in all posts, no needed
 -   create tags page

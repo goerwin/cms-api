@@ -50,6 +50,13 @@ describe('Main', () => {
         );
     });
 
+    it('should return correct parsed blog with posts ordered by date', () => {
+        assert.deepStrictEqual(
+            helpers.getParsedBlog({ ...inputBlog4 }),
+            blogParsedExpected4
+        );
+    });
+
     it('should return all files expected', (done) => {
         const filesToGenerateExpected = [
             /^index\..*\.css$/,
@@ -287,13 +294,6 @@ describe('Main', () => {
             })
             .then(() => done());
     }, 10000);
-
-    it('should return correct parsed blog with posts ordered by date', () => {
-        assert.deepStrictEqual(
-            helpers.getParsedBlog({ ...inputBlog4 }),
-            blogParsedExpected4
-        );
-    });
 
     it.todo('test pagination');
 });
