@@ -62,22 +62,29 @@ function getHtmlFromMarkdown(markdown) {
     });
 
     let html = showdownConverter.makeHtml(markdown);
-    const domPurify = createDOMPurify(new JSDOM('').window);
 
     // Highlight Code
     html = html.replace(
-        /<pre><code.*?>([\s\S]+?)<\/code><\/pre>/gm,
-        (match, g1) => {
-            const hlResult = hljs.highlight('jsx',
-                g1
-                    .replace(/&amp;/g, '&')
-                    .replace(/&lt;/g, '<')
-                    .replace(/&gt;/g, '>')
-            );
+        /(<pre><code.*?>)([\s\S]+?)(<\/code><\/pre>)/gm,
+        (match, g1, code, g3) => {
+            const language = g1.match(/<code[\s+]class="\s*(\w*)/)[1];
+            let unescapedCode = code
+                .replace(/&amp;/g, '&')
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>');
+            let hlResult;
 
-            return `<div class="highlightjs highlightjs-${hlResult.language}"><pre><code>${hlResult.value}</code></pre></div>`;
+            if (language) {
+                hlResult = hljs.highlight(language, unescapedCode);
+            } else {
+                hlResult = hljs.highlightAuto(unescapedCode).value;
+            }
+
+            return `${g1}${hlResult.value}${g3}`;
         }
     );
+
+    const domPurify = createDOMPurify(new JSDOM('').window);
 
     return domPurify.sanitize(html);
 }
