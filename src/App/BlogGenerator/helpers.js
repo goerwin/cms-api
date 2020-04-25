@@ -480,6 +480,11 @@ function generateBlogFileStructureFromDir(dirpath, attrs = {}) {
         fsExtra.readFileSync(path.join(dirpath, 'index.md'), 'utf8')
     );
 
+    const staticFilesPath = path.join(dirpath, 'static');
+
+    // TODO:
+    // fsExtra.readdirSync(staticFilesPath)
+
     const posts = fsExtra
         .readdirSync(postsPath, { withFileTypes: true })
         .filter((dirent) => dirent.isDirectory())
@@ -487,7 +492,7 @@ function generateBlogFileStructureFromDir(dirpath, attrs = {}) {
             const postDir = path.join(postsPath, dirent.name);
             const postIndexMdPath = path.join(postDir, 'index.md');
 
-            const mediaFiles = fsExtra
+            const postMediaFiles = fsExtra
                 .readdirSync(postDir)
                 .filter((el) => /\.(png|jpg|jpeg|gif|mp4)$/.test(el))
                 .map((el) => {
@@ -509,7 +514,7 @@ function generateBlogFileStructureFromDir(dirpath, attrs = {}) {
             return {
                 ...postIndexParsedMd.metadata,
                 urlSlug: dirent.name,
-                mediaFiles,
+                mediaFiles: postMediaFiles,
                 content: postIndexParsedMd.content,
             };
         });
