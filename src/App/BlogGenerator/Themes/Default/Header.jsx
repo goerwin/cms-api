@@ -1,9 +1,40 @@
 const React = require('react');
+const classNames = require('classnames');
+const { useState, useEffect } = require('react');
 const styles = require('./Header.module.css');
 
 function Header({ slogan, blogAuthor, blogUrl, website, tagsPageUrl }) {
+    const [hideHeader, setHideHeader] = useState(false);
+
+    useEffect(() => {
+        const DELTA = 50;
+        let lastScrollPosition = 0;
+
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY >= 0 ? window.scrollY : 0;
+
+            setHideHeader(
+                currentScrollY > DELTA &&
+                    currentScrollY - lastScrollPosition > 0
+            );
+
+            lastScrollPosition = currentScrollY;
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
     return (
-        <div className={styles.container}>
+        <div
+            className={classNames(
+                styles.container,
+                hideHeader ? styles.containerIsHidden : null
+            )}
+        >
             <div className={styles.content}>
                 <div className={styles.author}>
                     <img src="" alt="" className={styles.authorImg} />

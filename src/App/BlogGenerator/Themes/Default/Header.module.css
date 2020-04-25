@@ -11,6 +11,11 @@ $tabletUp: 768px;
     border-bottom: 1px solid #353535;
     font-size: 10px;
     z-index: 1000;
+    transition: transform 0.5s;
+}
+
+.containerIsHidden {
+    transform: translateY(calc(-1 * var(--headerHeight)));
 }
 
 .content {
