@@ -20,6 +20,13 @@
         text-decoration: underline;
     }
 
+    img {
+        display: block;
+        margin: 0 auto;
+        font-size: 12px;
+        max-width: 100%;
+    }
+
     ul,
     ol {
         list-style-position: inside;

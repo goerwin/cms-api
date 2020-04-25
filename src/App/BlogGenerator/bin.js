@@ -29,11 +29,11 @@ helpers
 
         fsExtra.removeSync(outputDirectory);
 
-        Object.keys(blogFileStructure).forEach((key) => {
+        Object.keys(blogFileStructure).forEach((filePath) => {
             fsExtra.outputFileSync(
-                path.join(outputDirectory, key),
-                blogFileStructure[key],
-                'utf8'
+                path.join(outputDirectory, filePath),
+                blogFileStructure[filePath].content,
+                blogFileStructure[filePath].encoding
             );
         });
 

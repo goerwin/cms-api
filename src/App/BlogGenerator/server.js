@@ -4,11 +4,14 @@ const helpers = require('./helpers');
 const path = require('path');
 const internalIp = require('internal-ip');
 
-const ASSETS_EXT_REGEX = /\.(css|js)$/;
+const ASSETS_EXT_REGEX = /\.(css|js|png|jpg|gif)$/;
 const CONTENT_TYPES = {
     html: 'text/html; charset=utf-8',
     css: 'text/css; charset=utf-8',
     js: 'text/javascript; charset=utf-8',
+    png: 'image/png',
+    jpg: 'image/jpg',
+    gif: 'image/gif',
 };
 const port = process.env.PORT;
 
@@ -20,9 +23,23 @@ const blogFileStructurePromise = helpers.generateBlogFileStructureFromDir(
 );
 
 blogFileStructurePromise.then((blogFileStructure) => {
-    const volume = Volume.fromJSON(blogFileStructure, '/');
+    const outputBlogDir = '/';
+    const memfs = createFsFromVolume(new Volume());
 
-    const memfs = createFsFromVolume(volume);
+    Object.keys(blogFileStructure).forEach((filePath) => {
+        const { encoding, content } = blogFileStructure[filePath];
+        const absFilePath = path.join(outputBlogDir, filePath);
+
+        memfs.mkdirSync(
+            absFilePath
+                .split('/')
+                .slice(0, absFilePath.split('/').length - 1)
+                .join('/'),
+            { recursive: true }
+        );
+
+        memfs.writeFileSync(absFilePath, content, encoding);
+    });
 
     http.createServer((req, res) => {
         const reqUrl = req.url;
@@ -43,7 +60,14 @@ blogFileStructurePromise.then((blogFileStructure) => {
             return;
         }
 
-        const content = ['.html', '/index.html'].reduce((prev, el) => {
+        if (!/\/$/.test(reqUrl)) {
+            res.writeHead(302, { Location: reqUrl + '/' });
+            res.end();
+
+            return;
+        }
+
+        const content = ['/index.html'].reduce((prev, el) => {
             try {
                 if (!prev) {
                     return memfs.readFileSync(path.join(reqUrl, el));

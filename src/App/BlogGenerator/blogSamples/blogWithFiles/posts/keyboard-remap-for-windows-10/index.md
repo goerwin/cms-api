@@ -5,9 +5,13 @@ description: Keyboard remaps for Windows 10
 date: 2018-11-20
 ---
 
+![Junior tu papa](./junior.png)
+
 I really like the idea of not using my mouse or trackpad when using my laptop, so I'm always looking for ways to leverage this task to the keyboard.
 
 When I bought my Macbook Pro in 2013, even though it has an amazing trackpad with very useful and intuitive gestures, most of the times I was working using an external mechanical keyboard and a mouse.
+
+![Barca](./barca.gif)
 
 That's why I started looking for solutions to this problem and that's when I first found [Karabiner](https://github.com/tekezo/Karabiner), which at the time was the best Keyboard Key remapper for Mac with infinite customization. I spent a lot of time configuring it and ended up with a solution that I really liked.
 

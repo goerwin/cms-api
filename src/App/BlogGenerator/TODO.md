@@ -1,17 +1,20 @@
 # TODO
--   better template structure, probably you need to use React Helmet so it's more manageable 
--   test https://marked.js.org/#/USING_ADVANCED.md
+-   media files for posts (they should pass for webpack though and hashed versioned in title)
+-   test mediaFiles
+-   better template structure, probably you need to use React Helmet so it's more manageable
+-   allow media assets
+-   multilanguage
+-   more themes
 -   robots.txt
 -   sitemap
 -   analytics
 -   ads
 -   AMP pages
--   more themes
--   allow media assets
 -   add highlight lines to code
 -   fix title margintop offset when clicking anchor tags. eg: /writing-resilient-components#principle-3-no-component-is-a-singleton
 
 # DONE
+-   test https://marked.js.org/#/USING_ADVANCED.md (NOT GOOD ENOUGH)
 -   use https://github.com/cure53/DOMPurify to sanitize html
 -   try to print webpack compilation errors, for example using a $var in a css file that doesnt exist
 -   easy way to access tag page

@@ -154,13 +154,13 @@ describe('Main', () => {
             .generateBlogFileStructure({ ...inputBlog3 })
             .then((blogFileStucture) => {
                 assert.strictEqual(
-                    blogFileStucture['index.html'].indexOf(
+                    blogFileStucture['index.html'].content.indexOf(
                         '<title>Main title | the blog name</title>'
                     ) !== -1,
                     true
                 );
                 assert.strictEqual(
-                    blogFileStucture['index.html'].indexOf(
+                    blogFileStucture['index.html'].content.indexOf(
                         '<meta name="description" content="Main description">'
                     ) !== -1,
                     true
@@ -174,26 +174,26 @@ describe('Main', () => {
             .generateBlogFileStructure({ ...inputBlog3 })
             .then((blogFileStucture) => {
                 assert.strictEqual(
-                    blogFileStucture['2/index.html'].indexOf(
+                    blogFileStucture['2/index.html'].content.indexOf(
                         '<title>Main title | Page 2 | the blog name</title>'
                     ) !== -1,
                     true
                 );
                 assert.strictEqual(
-                    blogFileStucture['2/index.html'].indexOf(
+                    blogFileStucture['2/index.html'].content.indexOf(
                         '<meta name="description" content="Main description">'
                     ) !== -1,
                     true
                 );
 
                 assert.strictEqual(
-                    blogFileStucture['3/index.html'].indexOf(
+                    blogFileStucture['3/index.html'].content.indexOf(
                         '<title>Main title | Page 3 | the blog name</title>'
                     ) !== -1,
                     true
                 );
                 assert.strictEqual(
-                    blogFileStucture['3/index.html'].indexOf(
+                    blogFileStucture['3/index.html'].content.indexOf(
                         '<meta name="description" content="Main description">'
                     ) !== -1,
                     true
@@ -207,26 +207,26 @@ describe('Main', () => {
             .generateBlogFileStructure({ ...inputBlog3 })
             .then((blogFileStucture) => {
                 assert.strictEqual(
-                    blogFileStucture['post-1-slug/index.html'].indexOf(
+                    blogFileStucture['post-1-slug/index.html'].content.indexOf(
                         '<title>Title 1 | the blog name</title>'
                     ) !== -1,
                     true
                 );
                 assert.strictEqual(
-                    blogFileStucture['post-1-slug/index.html'].indexOf(
+                    blogFileStucture['post-1-slug/index.html'].content.indexOf(
                         '<meta name="description" content="Description 1">'
                     ) !== -1,
                     true
                 );
 
                 assert.strictEqual(
-                    blogFileStucture['title-2/index.html'].indexOf(
+                    blogFileStucture['title-2/index.html'].content.indexOf(
                         '<title>Title 2 | the blog name</title>'
                     ) !== -1,
                     true
                 );
                 assert.strictEqual(
-                    blogFileStucture['title-2/index.html'].indexOf(
+                    blogFileStucture['title-2/index.html'].content.indexOf(
                         '<meta name="description" content="Description 2">'
                     ) !== -1,
                     true
@@ -240,13 +240,13 @@ describe('Main', () => {
             .generateBlogFileStructure({ ...inputBlog3 })
             .then((blogFileStucture) => {
                 assert.strictEqual(
-                    blogFileStucture['tags/technology/index.html'].indexOf(
+                    blogFileStucture['tags/technology/index.html'].content.indexOf(
                         '<title>Technology | the blog name</title>'
                     ) !== -1,
                     true
                 );
                 assert.strictEqual(
-                    blogFileStucture['tags/technology/index.html'].indexOf(
+                    blogFileStucture['tags/technology/index.html'].content.indexOf(
                         '<meta name="description" content="Main description">'
                     ) !== -1,
                     true
@@ -260,13 +260,13 @@ describe('Main', () => {
             .generateBlogFileStructure({ ...inputBlog3 })
             .then((blogFileStucture) => {
                 assert.strictEqual(
-                    blogFileStucture['tags/technology/2/index.html'].indexOf(
+                    blogFileStucture['tags/technology/2/index.html'].content.indexOf(
                         '<title>Technology | Page 2 | the blog name</title>'
                     ) !== -1,
                     true
                 );
                 assert.strictEqual(
-                    blogFileStucture['tags/technology/2/index.html'].indexOf(
+                    blogFileStucture['tags/technology/2/index.html'].content.indexOf(
                         '<meta name="description" content="Main description">'
                     ) !== -1,
                     true
@@ -280,13 +280,13 @@ describe('Main', () => {
             .generateBlogFileStructure({ ...inputBlog3 })
             .then((blogFileStucture) => {
                 assert.strictEqual(
-                    blogFileStucture['tags/index.html'].indexOf(
+                    blogFileStucture['tags/index.html'].content.indexOf(
                         '<title>Tags | the blog name</title>'
                     ) !== -1,
                     true
                 );
                 assert.strictEqual(
-                    blogFileStucture['tags/index.html'].indexOf(
+                    blogFileStucture['tags/index.html'].content.indexOf(
                         '<meta name="description" content="Main description">'
                     ) !== -1,
                     true
@@ -295,5 +295,6 @@ describe('Main', () => {
             .then(() => done());
     }, 10000);
 
+    it.todo('should return post mediaFiles');
     it.todo('test pagination');
 });

@@ -68,10 +68,7 @@ function getHtmlFromMarkdown(markdown) {
         /(<pre><code.*?>)([\s\S]+?)(<\/code><\/pre>)/gm,
         (match, g1, code, g3) => {
             const language = g1.match(/<code[\s+]class="\s*(\w*)/)[1];
-            let unescapedCode = code
-                .replace(/&amp;/g, '&')
-                .replace(/&lt;/g, '<')
-                .replace(/&gt;/g, '>');
+            let unescapedCode = unescapeHtml(code);
             let hlResult;
 
             if (language) {
@@ -91,6 +88,15 @@ function getHtmlFromMarkdown(markdown) {
 
 function getItemUrl(baseUrl, urlSlug) {
     return path.join(baseUrl, '/', urlSlug).replace(':/', '://');
+}
+
+function unescapeHtml(str) {
+    return str
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&#039;/g, "'");
 }
 
 function getMainHtml(params) {
@@ -314,8 +320,14 @@ function generateBlogFileStructure(blog, attrs = {}) {
             );
 
             const results = {
-                [clientAssets.cssFile.id]: clientAssets.cssFile.asset.source(),
-                [clientAssets.jsFile.id]: clientAssets.jsFile.asset.source(),
+                [clientAssets.cssFile.id]: {
+                    encoding: 'utf8',
+                    content: clientAssets.cssFile.asset.source(),
+                },
+                [clientAssets.jsFile.id]: {
+                    encoding: 'utf8',
+                    content: clientAssets.jsFile.asset.source(),
+                },
             };
 
             const cssFilePath = getItemUrl(baseUrl, clientAssets.cssFile.id);
@@ -329,8 +341,10 @@ function generateBlogFileStructure(blog, attrs = {}) {
                 stringifiedSSRReactApp,
                 paginationBaseUrl: baseUrl,
             }).forEach((indexPageWithPagination) => {
-                results[indexPageWithPagination.key] =
-                    indexPageWithPagination.html;
+                results[indexPageWithPagination.key] = {
+                    encoding: 'utf8',
+                    content: indexPageWithPagination.html,
+                };
             });
 
             // Posts pages
@@ -340,14 +354,26 @@ function generateBlogFileStructure(blog, attrs = {}) {
                     header: parsedBlog.header,
                 };
 
-                results[post.outputPath + '/index.html'] = getMainHtml({
-                    metadata: post.metadata,
-                    htmlContent: stringifiedSSRReactApp.getPostPage(pageState),
-                    cssFilePath,
-                    jsFilePath,
-                    pageState: JSON.stringify(pageState),
-                    page: 'post',
+                (post.mediaFiles || []).forEach((mediaFile) => {
+                    results[post.outputPath + '/' + mediaFile.basename] = {
+                        encoding: 'binary',
+                        content: mediaFile.content,
+                    };
                 });
+
+                results[post.outputPath + '/index.html'] = {
+                    encoding: 'utf8',
+                    content: getMainHtml({
+                        metadata: post.metadata,
+                        htmlContent: stringifiedSSRReactApp.getPostPage(
+                            pageState
+                        ),
+                        cssFilePath,
+                        jsFilePath,
+                        pageState: JSON.stringify(pageState),
+                        page: 'post',
+                    }),
+                };
             });
 
             // Tag page
@@ -374,7 +400,10 @@ function generateBlogFileStructure(blog, attrs = {}) {
             }).forEach((indexPageWithPagination) => {
                 results[
                     tagsPageOutputPath + '/' + indexPageWithPagination.key
-                ] = indexPageWithPagination.html;
+                ] = {
+                    encoding: 'utf8',
+                    content: indexPageWithPagination.html,
+                };
             });
 
             // Tag pages
@@ -428,7 +457,10 @@ function generateBlogFileStructure(blog, attrs = {}) {
                         }).forEach((indexPageWithPagination) => {
                             results[
                                 `${tagOutputPath}/${indexPageWithPagination.key}`
-                            ] = indexPageWithPagination.html;
+                            ] = {
+                                encoding: 'utf8',
+                                content: indexPageWithPagination.html,
+                            };
                         });
                     });
                 });
@@ -454,6 +486,20 @@ function generateBlogFileStructureFromDir(dirpath, attrs = {}) {
         .map((dirent) => {
             const postDir = path.join(postsPath, dirent.name);
             const postIndexMdPath = path.join(postDir, 'index.md');
+
+            const mediaFiles = fsExtra
+                .readdirSync(postDir)
+                .filter((el) => /\.(png|jpg|jpeg|gif|mp4)$/.test(el))
+                .map((el) => {
+                    return {
+                        basename: el,
+                        content: fsExtra.readFileSync(
+                            path.resolve(postDir, el),
+                            'binary'
+                        ),
+                    };
+                });
+
             const postIndexMdContent = fsExtra.readFileSync(
                 postIndexMdPath,
                 'utf8'
@@ -463,6 +509,7 @@ function generateBlogFileStructureFromDir(dirpath, attrs = {}) {
             return {
                 ...postIndexParsedMd.metadata,
                 urlSlug: dirent.name,
+                mediaFiles,
                 content: postIndexParsedMd.content,
             };
         });
@@ -487,6 +534,7 @@ function getParsedMarkdown(markdown) {
 
         Object.keys(metadata).forEach((key) => {
             try {
+                metadata[key] = unescapeHtml(metadata[key]);
                 metadata[key] = JSON.parse(metadata[key]);
             } catch (e) {
                 if (key === 'tags') {
