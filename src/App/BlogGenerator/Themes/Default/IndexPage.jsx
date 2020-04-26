@@ -5,7 +5,7 @@ const Posts = require('./Posts');
 function IndexPage(props) {
     return (
         <main>
-            <Header {...props.header} />
+            <Header {...props} />
             <Posts
                 posts={props.posts}
                 pagination={props.pagination}

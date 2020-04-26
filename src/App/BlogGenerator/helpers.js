@@ -2,6 +2,7 @@ const showdown = require('showdown');
 const webpack = require('webpack');
 const hljs = require('highlight.js');
 const path = require('path');
+const grayMatter = require('gray-matter');
 const createDOMPurify = require('dompurify');
 const { JSDOM } = require('jsdom');
 const fsExtra = require('fs-extra');
@@ -30,6 +31,10 @@ function slugify(str) {
 }
 
 function getReadTime(text) {
+    if (!text) {
+        return 0;
+    }
+
     const WORDS_PER_MINUTE = 250;
 
     return Math.ceil(text.match(/\w{3,}/g).length / WORDS_PER_MINUTE);
@@ -54,38 +59,6 @@ function getPagination(totalItems, itemsPerPage = totalItems) {
     return { itemsDistribution, totalItems, itemsPerPage, totalPages };
 }
 
-function getHtmlFromMarkdown(markdown) {
-    const showdownConverter = new showdown.Converter({
-        ghCompatibleHeaderId: true,
-        openLinksInNewWindow: true,
-        metadata: true,
-    });
-
-    let html = showdownConverter.makeHtml(markdown);
-
-    // Highlight Code
-    html = html.replace(
-        /(<pre><code.*?>)([\s\S]+?)(<\/code><\/pre>)/gm,
-        (match, g1, code, g3) => {
-            const language = g1.match(/<code[\s+]class="\s*(\w*)/)[1];
-            let unescapedCode = unescapeHtml(code);
-            let hlResult;
-
-            if (language) {
-                hlResult = hljs.highlight(language, unescapedCode);
-            } else {
-                hlResult = hljs.highlightAuto(unescapedCode).value;
-            }
-
-            return `${g1}${hlResult.value}${g3}`;
-        }
-    );
-
-    const domPurify = createDOMPurify(new JSDOM('').window);
-
-    return domPurify.sanitize(html);
-}
-
 function getItemUrl(baseUrl, urlSlug) {
     return path.join(baseUrl, '/', urlSlug).replace(':/', '://');
 }
@@ -107,12 +80,12 @@ function getMainHtml(params) {
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
             <meta http-equiv="cache-control" content="no-cache"/>
-            <title>${params.metadata.title}${
-        params.metadata.blogName ? ` | ${params.metadata.blogName}` : ''
+            <title>${params.title}${
+        params.blogName ? ` | ${params.blogName}` : ''
     }</title>
-            <meta name="description" content="${params.metadata.description}">
-            <meta name="author" content="${params.metadata.author}">
-            <link href="${params.metadata.logo}" rel='shortcut icon'>
+            <meta name="description" content="${params.description}">
+            <meta name="author" content="${params.author}">
+            <link href="${params.logo}" rel='shortcut icon'>
             <link rel="stylesheet" href="${params.cssFilePath}"></link>
         </head>
 
@@ -128,52 +101,68 @@ function getMainHtml(params) {
     `;
 }
 
+function getObjWithReplacedAssetPaths(obj, baseUrl) {
+    for (var k in obj) {
+        if (typeof obj[k] === 'object' && obj[k] !== null) {
+            getObjWithReplacedAssetPaths(obj[k], baseUrl);
+        } else {
+            let content = obj[k];
+
+            if (typeof content === 'string') {
+                obj[k] = content.replace(/require\((.*?)\)/g, (match, g1) =>
+                    path.join(baseUrl, 'public', g1).replace(':/', '://')
+                );
+            }
+        }
+    }
+
+    return obj;
+}
+
 function getParsedBlog(blog) {
-    const { baseUrl, slogan, authorWebsite, author } = blog.metadata;
-    const header = {
-        blogAuthor: author,
-        blogUrl: baseUrl,
-        slogan: slogan,
-        website: authorWebsite,
+    const { baseUrl } = blog;
+    const newBlog = {
+        ...blog,
         tagsPageUrl: getItemUrl(baseUrl, tagsPageOutputPath),
     };
 
-    return {
-        ...blog,
-        header,
-        posts: blog.posts
+    delete newBlog.publicFiles;
+
+    const parsedBlog = {
+        ...newBlog,
+        posts: newBlog.posts
             .map((post) => {
                 const outputPath = slugify(
                     post.urlSlug ? post.urlSlug : post.title
                 );
 
-                return JSON.parse(
-                    JSON.stringify({
-                        ...post,
-                        metadata: {
-                            ...blog.metadata,
-                            title: post.title,
-                            description: post.description,
-                        },
-                        dateParsed: moment(post.date).format('MMMM D, YYYY'),
-                        readTime: `${getReadTime(post.content)} min. read`,
-                        outputPath,
-                        url: getItemUrl(baseUrl, outputPath),
-                        content: getHtmlFromMarkdown(post.content),
-                        tags:
-                            post.tags &&
-                            post.tags.map((tag) => {
-                                const outputPath =
-                                    tagsPageOutputPath + '/' + slugify(tag);
+                const newPost = {
+                    ...newBlog,
+                    ...post,
+                    readTime:
+                        post.readTime === undefined
+                            ? getReadTime(post.content)
+                            : post.readTime,
+                    dateParsed: moment(post.date).format('MMMM D, YYYY'),
+                    outputPath,
+                    url: getItemUrl(baseUrl, outputPath),
+                    tags:
+                        post.tags &&
+                        post.tags.map((tag) => {
+                            const outputPath =
+                                tagsPageOutputPath + '/' + slugify(tag);
 
-                                return {
-                                    name: tag,
-                                    outputPath,
-                                    url: getItemUrl(baseUrl, outputPath),
-                                };
-                            }),
-                    })
-                );
+                            return {
+                                name: tag,
+                                outputPath,
+                                url: getItemUrl(baseUrl, outputPath),
+                            };
+                        }),
+                };
+
+                delete newPost.posts;
+
+                return JSON.parse(JSON.stringify(newPost));
             })
             .sort((a, b) => (a.date > b.date ? -1 : a.date < b.date ? 1 : 0))
             .map((post, idx, posts) => ({
@@ -194,6 +183,8 @@ function getParsedBlog(blog) {
                           },
             })),
     };
+
+    return getObjWithReplacedAssetPaths(parsedBlog, baseUrl);
 }
 
 function getParsedAsset(stats) {
@@ -233,12 +224,7 @@ function getIndexPagesWithPagination({
 
         const newParsedBlog = {
             ...parsedBlog,
-            metadata: {
-                ...parsedBlog.metadata,
-                title:
-                    parsedBlog.metadata.title +
-                    (idx === 0 ? '' : ' | Page ' + (idx + 1)),
-            },
+            title: parsedBlog.title + (idx === 0 ? '' : ' | ' + (idx + 1)),
             posts: parsedBlog.posts.slice(el[0], el[1] + 1),
             pagination: {
                 ...pagination,
@@ -256,7 +242,7 @@ function getIndexPagesWithPagination({
         return {
             key,
             html: getMainHtml({
-                metadata: newParsedBlog.metadata,
+                ...newParsedBlog,
                 htmlContent: stringifiedSSRReactApp.getIndexPage(newParsedBlog),
                 cssFilePath,
                 jsFilePath,
@@ -313,7 +299,7 @@ function generateBlogFileStructure(blog, attrs = {}) {
             const serverAssets = getParsedAsset(serverStats);
             const clientAssets = getParsedAsset(clientStats);
             const parsedBlog = getParsedBlog(blog);
-            const { baseUrl } = parsedBlog.metadata;
+            const { baseUrl } = parsedBlog;
 
             const stringifiedSSRReactApp = requireFromString(
                 serverAssets.jsFile.asset.source()
@@ -351,20 +337,12 @@ function generateBlogFileStructure(blog, attrs = {}) {
             parsedBlog.posts.forEach((post) => {
                 const pageState = {
                     ...post,
-                    header: parsedBlog.header,
                 };
-
-                (post.mediaFiles || []).forEach((mediaFile) => {
-                    results[post.outputPath + '/' + mediaFile.basename] = {
-                        encoding: 'binary',
-                        content: mediaFile.content,
-                    };
-                });
 
                 results[post.outputPath + '/index.html'] = {
                     encoding: 'utf8',
                     content: getMainHtml({
-                        metadata: post.metadata,
+                        ...post,
                         htmlContent: stringifiedSSRReactApp.getPostPage(
                             pageState
                         ),
@@ -380,13 +358,10 @@ function generateBlogFileStructure(blog, attrs = {}) {
             getIndexPagesWithPagination({
                 parsedBlog: {
                     ...parsedBlog,
-                    metadata: {
-                        ...parsedBlog.metadata,
-                        title: 'Tags',
-                    },
+                    title: 'Tags',
                     posts: [
                         {
-                            header: parsedBlog.header,
+                            ...parsedBlog,
                             tags: getAllPostTags(parsedBlog.posts),
                             title: 'Tags',
                             customDescription: 'All Blog tags',
@@ -434,12 +409,7 @@ function generateBlogFileStructure(blog, attrs = {}) {
                     Object.keys(tagPages).forEach((tagOutputPath) => {
                         let newParsedBlog = {
                             ...parsedBlog,
-                            metadata: {
-                                ...parsedBlog.metadata,
-                                title: capitalizeStr(
-                                    tagPages[tagOutputPath].name
-                                ),
-                            },
+                            title: capitalizeStr(tagPages[tagOutputPath].name),
                             posts: tagPages[tagOutputPath].posts.map(
                                 (el) => parsedBlog.posts[el]
                             ),
@@ -465,6 +435,14 @@ function generateBlogFileStructure(blog, attrs = {}) {
                     });
                 });
 
+            // Public files
+            (blog.publicFiles || []).forEach((file) => {
+                results[path.join('public', file.basename)] = {
+                    encoding: file.encoding,
+                    content: file.content,
+                };
+            });
+
             return results;
         })
         .catch((err) => {
@@ -474,86 +452,98 @@ function generateBlogFileStructure(blog, attrs = {}) {
 }
 
 function generateBlogFileStructureFromDir(dirpath, attrs = {}) {
+    const publicPath = path.join(dirpath, 'public');
     const postsPath = path.join(dirpath, 'posts');
 
     const indexParsedMd = getParsedMarkdown(
         fsExtra.readFileSync(path.join(dirpath, 'index.md'), 'utf8')
     );
 
-    const staticFilesPath = path.join(dirpath, 'static');
-
-    // TODO:
-    // fsExtra.readdirSync(staticFilesPath)
-
     const posts = fsExtra
         .readdirSync(postsPath, { withFileTypes: true })
-        .filter((dirent) => dirent.isDirectory())
+        .filter((dirent) => dirent.isFile())
         .map((dirent) => {
-            const postDir = path.join(postsPath, dirent.name);
-            const postIndexMdPath = path.join(postDir, 'index.md');
-
-            const postMediaFiles = fsExtra
-                .readdirSync(postDir)
-                .filter((el) => /\.(png|jpg|jpeg|gif|mp4)$/.test(el))
-                .map((el) => {
-                    return {
-                        basename: el,
-                        content: fsExtra.readFileSync(
-                            path.resolve(postDir, el),
-                            'binary'
-                        ),
-                    };
-                });
-
-            const postIndexMdContent = fsExtra.readFileSync(
-                postIndexMdPath,
-                'utf8'
-            );
-            const postIndexParsedMd = getParsedMarkdown(postIndexMdContent);
+            const postMdFilePath = path.join(postsPath, dirent.name);
+            const postMdContent = fsExtra.readFileSync(postMdFilePath, 'utf8');
+            const postParsedMd = getParsedMarkdown(postMdContent);
 
             return {
-                ...postIndexParsedMd.metadata,
-                urlSlug: dirent.name,
-                mediaFiles: postMediaFiles,
-                content: postIndexParsedMd.content,
+                ...postParsedMd,
+                urlSlug: dirent.name.replace('.md', ''),
             };
         });
 
     const blog = {
-        postsPerPage: indexParsedMd.metadata.postsPerPage,
-        metadata: { ...indexParsedMd.metadata },
+        ...indexParsedMd,
         posts,
+        publicFiles: fsExtra
+            .readdirSync(publicPath)
+            .filter((el) => /\.(png|jpg|jpeg|gif|mp4)$/.test(el))
+            .map((filename) => {
+                return {
+                    basename: filename,
+                    encoding: 'binary',
+                    content: fsExtra.readFileSync(
+                        path.resolve(publicPath, filename),
+                        'binary'
+                    ),
+                };
+            }),
     };
 
     return generateBlogFileStructure(blog, attrs);
 }
 
 function getParsedMarkdown(markdown) {
-    const metadata = (function init() {
-        const showdownConverter = new showdown.Converter({
-            metadata: true,
-        });
+    const parsedMarkdownWithMetadata = grayMatter(markdown);
 
-        showdownConverter.makeHtml(markdown);
-        let metadata = showdownConverter.getMetadata();
+    const showdownConverter = new showdown.Converter({
+        ghCompatibleHeaderId: true,
+        openLinksInNewWindow: true,
+    });
+    const mdContent = parsedMarkdownWithMetadata.content;
+    let html = showdownConverter.makeHtml(mdContent);
 
-        Object.keys(metadata).forEach((key) => {
-            try {
-                metadata[key] = unescapeHtml(metadata[key]);
-                metadata[key] = JSON.parse(metadata[key]);
-            } catch (e) {
-                if (key === 'tags') {
-                    metadata[key] = metadata[key].split(',');
-                }
+    // Highlight Code
+    html = html.replace(
+        /(<pre><code.*?>)([\s\S]+?)(<\/code><\/pre>)/gm,
+        (match, g1, code, g3) => {
+            const language = g1.match(/<code[\s+]class="\s*(\w*)/)[1];
+            let unescapedCode = unescapeHtml(code);
+            let hlResult;
+
+            if (language) {
+                hlResult = hljs.highlight(language, unescapedCode);
+            } else {
+                hlResult = hljs.highlightAuto(unescapedCode).value;
             }
-        });
 
-        return metadata;
-    })();
+            return `${g1}${hlResult.value}${g3}`;
+        }
+    );
+
+    // Highlight Code
+    html = html.replace(
+        /(<pre><code.*?>)([\s\S]+?)(<\/code><\/pre>)/gm,
+        (match, g1, code, g3) => {
+            const language = g1.match(/<code[\s+]class="\s*(\w*)/)[1];
+            let unescapedCode = unescapeHtml(code);
+            let hlResult;
+
+            if (language) {
+                hlResult = hljs.highlight(language, unescapedCode);
+            } else {
+                hlResult = hljs.highlightAuto(unescapedCode).value;
+            }
+
+            return `${g1}${hlResult.value}${g3}`;
+        }
+    );
 
     return {
-        metadata,
-        content: markdown.replace(/---[\s\S]+?---[\s\S]*?/, ''),
+        ...parsedMarkdownWithMetadata.data,
+        readTime: getReadTime(mdContent),
+        content: createDOMPurify(new JSDOM('').window).sanitize(html),
     };
 }
 

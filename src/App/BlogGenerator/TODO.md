@@ -1,7 +1,6 @@
 # TODO
 -   media files for posts (they should pass for webpack though and hashed versioned in title)
 -   test mediaFiles
--   urls that are relative should resolve to baseUrl and test that
 -   better template structure, probably you need to use React Helmet so it's more manageable
 -   multilanguage
 -   more themes
@@ -11,9 +10,10 @@
 -   ads
 -   AMP pages
 -   add highlight lines to code
--   fix title margintop offset when clicking anchor tags. eg: /writing-resilient-components#principle-3-no-component-is-a-singleton
+-   youtube embeds
 
 # DONE
+-   urls that are relative should resolve to baseUrl
 -   allow mediaFiles
 -   test https://marked.js.org/#/USING_ADVANCED.md (NOT GOOD ENOUGH)
 -   use https://github.com/cure53/DOMPurify to sanitize html

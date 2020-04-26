@@ -1,5 +1,5 @@
 ---
-tags: technology,external
+tags: [technology, external]
 title: What is JavaScript Made of?
 description: Reviewing JavaScript intrinsics
 date: 2017-01-30

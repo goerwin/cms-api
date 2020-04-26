@@ -1,14 +1,12 @@
 {
-    "metadata": {
-        "author": "Erwin GO",
-        "authorWebsite": "https://authorwebsite.co",
-        "blogName": "the blog name",
-        "slogan": "the slogan",
-        "baseUrl": "https://baseUrl.com/blog/",
-        "logo": "https://logo.png",
-        "title": "Main title",
-        "description": "Main description"
-    },
+    "author": "Erwin GO",
+    "authorWebsite": "https://authorwebsite.co",
+    "blogName": "the blog name",
+    "slogan": "the slogan",
+    "baseUrl": "https://baseUrl.com/blog/",
+    "logo": "https://logo.png",
+    "title": "Main title",
+    "description": "Main description",
     "posts": [
         {
             "title": "Title 1",

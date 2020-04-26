@@ -22,7 +22,7 @@ function PostCard(props) {
                 ) : (
                     <>
                         <span>{props.date}</span>
-                        <span> · ☕ {props.readTime}</span>
+                        <span> · ☕ {props.readTime} min. read</span>
                     </>
                 )}
             </p>

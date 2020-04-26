@@ -7,7 +7,7 @@ const contentStyles = require('./PostPage.content.module.css');
 module.exports = function PostPage(props) {
     return (
         <main>
-            <Header {...props.header} />
+            <Header {...props} />
             <div className={styles.container}>
                 <PostCard
                     className={styles.postCard}

@@ -1,5 +1,5 @@
 ---
-tags: technology,external
+tags: [technology, external]
 title: Writing Resilient Components
 description: Writing Resilient Components
 date: 2019-03-16

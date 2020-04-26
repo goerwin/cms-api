@@ -61,8 +61,9 @@ $tabletUp: 768px;
     overflow: hidden;
     width: var(--size);
     height: var(--size);
-    background-color: var(--logoTextColor);
     position: absolute;
+    background-size: cover;
+    background-repeat: no-repeat;
     top: 0;
     left: 0;
 }

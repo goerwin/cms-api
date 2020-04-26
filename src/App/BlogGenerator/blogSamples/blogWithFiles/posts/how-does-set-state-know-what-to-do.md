@@ -1,5 +1,5 @@
 ---
-tags: technology
+tags: [technology]
 title: How does setState know what to do?
 description: How does setState know what to do?
 date: 2017-03-09

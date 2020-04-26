@@ -1,10 +1,10 @@
 const assert = require('assert');
 const blogParsedExpected = require('./blogParsedExpected.json');
 const blogParsedExpected4 = require('./blogParsedExpected4.json');
-const inputBlog = require('./blogInput.json');
-const inputBlog2 = require('./blogInput2.json');
-const inputBlog3 = require('./blogInput3.json');
-const inputBlog4 = require('./blogInput4.json');
+const inputBlog = require('./inputBlog.json');
+const inputBlog2 = require('./inputBlog2.json');
+const inputBlog3 = require('./inputBlog3.json');
+const inputBlog4 = require('./inputBlog4.json');
 const helpers = require('../helpers');
 
 function compareStrictEqualStringRegexArrays(expectedArray, inputArray) {
@@ -175,7 +175,7 @@ describe('Main', () => {
             .then((blogFileStucture) => {
                 assert.strictEqual(
                     blogFileStucture['2/index.html'].content.indexOf(
-                        '<title>Main title | Page 2 | the blog name</title>'
+                        '<title>Main title | 2 | the blog name</title>'
                     ) !== -1,
                     true
                 );
@@ -188,7 +188,7 @@ describe('Main', () => {
 
                 assert.strictEqual(
                     blogFileStucture['3/index.html'].content.indexOf(
-                        '<title>Main title | Page 3 | the blog name</title>'
+                        '<title>Main title | 3 | the blog name</title>'
                     ) !== -1,
                     true
                 );
@@ -261,7 +261,7 @@ describe('Main', () => {
             .then((blogFileStucture) => {
                 assert.strictEqual(
                     blogFileStucture['tags/technology/2/index.html'].content.indexOf(
-                        '<title>Technology | Page 2 | the blog name</title>'
+                        '<title>Technology | 2 | the blog name</title>'
                     ) !== -1,
                     true
                 );

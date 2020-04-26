@@ -3,7 +3,14 @@ const classNames = require('classnames');
 const { useState, useEffect } = require('react');
 const styles = require('./Header.module.css');
 
-function Header({ slogan, blogAuthor, blogUrl, website, tagsPageUrl }) {
+function Header({
+    slogan,
+    author,
+    baseUrl,
+    authorWebsite,
+    tagsPageUrl,
+    authorImg,
+}) {
     const [hideHeader, setHideHeader] = useState(false);
 
     useEffect(() => {
@@ -37,22 +44,25 @@ function Header({ slogan, blogAuthor, blogUrl, website, tagsPageUrl }) {
         >
             <div className={styles.content}>
                 <div className={styles.author}>
-                    <img src="" alt="" className={styles.authorImg} />
+                    <div
+                        style={{ backgroundImage: `url(${authorImg})` }}
+                        className={styles.authorImg}
+                    />
                     <h2 className={styles.authorName}>
-                        <a href={blogUrl}>Blog</a> by{' '}
+                        <a href={baseUrl}>Blog</a> by{' '}
                         <a
-                            href={website}
+                            href={authorWebsite}
                             target="_blank"
                             rel="noreferrer noopener"
                         >
-                            {blogAuthor}
+                            {author}
                         </a>
                     </h2>
                     <span className={styles.authorSlogan}>{slogan}</span>
                 </div>
 
                 <div className={styles.floatMenu}>
-                    <a href={blogUrl}>Home</a>
+                    <a href={baseUrl}>Home</a>
                     <a href={tagsPageUrl}>Tags</a>
                 </div>
             </div>

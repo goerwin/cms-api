@@ -1,5 +1,5 @@
 ---
-tags: technology,external
+tags: [technology, external]
 title: React effects are "good" in React
 description: React effects
 date: 2019-08-03
