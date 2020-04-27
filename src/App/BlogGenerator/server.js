@@ -90,6 +90,7 @@ blogFileStructurePromise.then((blogFileStructure) => {
         }
     }).listen(port, () => {
         const internalIPv4 = internalIp.v4.sync();
+        console.log(helpers.prettyPrintBlogFileStructure(blogFileStructure));
         console.log(`Listening in localhost:${port}`);
         console.log(`Listening in ${internalIPv4}:${port}`);
     });

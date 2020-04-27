@@ -37,5 +37,7 @@ helpers
             );
         });
 
+        console.log();
+        console.log(helpers.prettyPrintBlogFileStructure(blogFileStructure));
         console.log('Blog generated at', outputDirectory);
     });

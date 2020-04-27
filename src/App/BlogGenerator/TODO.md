@@ -1,5 +1,4 @@
 # TODO
--   media files for posts (they should pass for webpack though and hashed versioned in title)
 -   test mediaFiles
 -   better template structure, probably you need to use React Helmet so it's more manageable
 -   multilanguage
@@ -13,6 +12,8 @@
 -   youtube embeds
 
 # DONE
+-   show file size in output
+-   media files for posts (they should pass for webpack though and hashed versioned in title)
 -   urls that are relative should resolve to baseUrl
 -   allow mediaFiles
 -   test https://marked.js.org/#/USING_ADVANCED.md (NOT GOOD ENOUGH)

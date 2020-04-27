@@ -2,6 +2,8 @@ const showdown = require('showdown');
 const webpack = require('webpack');
 const hljs = require('highlight.js');
 const path = require('path');
+const filesize = require('filesize');
+const unionfs = require('unionfs');
 const grayMatter = require('gray-matter');
 const createDOMPurify = require('dompurify');
 const { JSDOM } = require('jsdom');
@@ -101,17 +103,22 @@ function getMainHtml(params) {
     `;
 }
 
-function getObjWithReplacedAssetPaths(obj, baseUrl) {
+function getObjWithReplacedAssetPaths(obj, baseUrl, publicFilesHashTable) {
     for (var k in obj) {
         if (typeof obj[k] === 'object' && obj[k] !== null) {
-            getObjWithReplacedAssetPaths(obj[k], baseUrl);
+            getObjWithReplacedAssetPaths(obj[k], baseUrl, publicFilesHashTable);
         } else {
             let content = obj[k];
 
             if (typeof content === 'string') {
-                obj[k] = content.replace(/require\((.*?)\)/g, (match, g1) =>
-                    path.join(baseUrl, 'public', g1).replace(':/', '://')
-                );
+                obj[k] = content.replace(/require\((.*?)\)/g, (match, g1) => {
+                    const newAssetUrl =
+                        publicFilesHashTable[g1.replace(/^\//, '')];
+
+                    return path
+                        .join(baseUrl, 'public', newAssetUrl)
+                        .replace(':/', '://');
+                });
             }
         }
     }
@@ -125,6 +132,14 @@ function getParsedBlog(blog) {
         ...blog,
         tagsPageUrl: getItemUrl(baseUrl, tagsPageOutputPath),
     };
+    const publicFilesHashTable = (blog.publicFiles || []).reduce(
+        (prev, curr) => {
+            prev[curr.name] = curr.finalName;
+
+            return prev;
+        },
+        {}
+    );
 
     delete newBlog.publicFiles;
 
@@ -184,7 +199,95 @@ function getParsedBlog(blog) {
             })),
     };
 
-    return getObjWithReplacedAssetPaths(parsedBlog, baseUrl);
+    return getObjWithReplacedAssetPaths(
+        parsedBlog,
+        baseUrl,
+        publicFilesHashTable
+    );
+}
+
+function parseAssetsWithWebpack(assets) {
+    const inputMemFs = new unionfs.Union();
+    const outputMemfs = createFsFromVolume(new Volume());
+    outputMemfs.join = path.join;
+    const workingDir = '/';
+    const assetsFilename = 'assets.js';
+
+    inputMemFs.use(outputMemfs).use(fsExtra);
+
+    outputMemfs.mkdirpSync(workingDir);
+
+    // create files in dir
+    assets.forEach((asset) => {
+        inputMemFs.writeFileSync(
+            path.join(workingDir, asset.basename),
+            asset.content,
+            asset.encoding
+        );
+    });
+
+    // create assets.js
+    inputMemFs.writeFileSync(
+        path.join(workingDir, assetsFilename),
+        assets.reduce(
+            (prev, cur) => (prev += `require('./${cur.basename}');\n`),
+            ''
+        ),
+        'utf-8'
+    );
+
+    const compiler = webpack({
+        entry: { app: path.join(workingDir, assetsFilename) },
+        module: {
+            rules: [
+                {
+                    test: /\.(gif|png|jpe?g|svg)$/i,
+                    use: [
+                        {
+                            loader: 'file-loader',
+                            options: {
+                                name: '[name].[contenthash].[ext]',
+                            },
+                        },
+                        {
+                            loader: 'image-webpack-loader',
+                        },
+                    ],
+                },
+            ],
+        },
+        output: {
+            filename: 'assets.bundle.js',
+            path: '/',
+        },
+    });
+
+    compiler.inputFileSystem = inputMemFs;
+    compiler.outputFileSystem = outputMemfs;
+
+    return new Promise((resolve) => {
+        compiler.run((err, stats) => {
+            if (err || stats.compilation.errors.length > 0) {
+                throw err || stats.compilation.errors;
+            }
+
+            const assets = stats.compilation.assets;
+            const parsedAssets = Object.keys(stats.compilation.assets)
+                .map((key) => {
+                    const content = assets[key].source();
+
+                    return {
+                        name: key.replace(/(.*?)\.(.*)\.(.*$)/, '$1.$3'),
+                        finalName: key,
+                        content,
+                        encoding: 'binary',
+                    };
+                })
+                .filter((asset) => asset.name !== assetsFilename);
+
+            resolve(parsedAssets);
+        });
+    });
 }
 
 function getParsedAsset(stats) {
@@ -225,7 +328,11 @@ function getIndexPagesWithPagination({
         const newParsedBlog = {
             ...parsedBlog,
             title: parsedBlog.title + (idx === 0 ? '' : ' | ' + (idx + 1)),
-            posts: parsedBlog.posts.slice(el[0], el[1] + 1),
+            posts: parsedBlog.posts.slice(el[0], el[1] + 1).map((post) => {
+                delete post.content;
+
+                return post;
+            }),
             pagination: {
                 ...pagination,
                 items: pagination.itemsDistribution.map((_, idx) => ({
@@ -437,10 +544,14 @@ function generateBlogFileStructure(blog, attrs = {}) {
 
             // Public files
             (blog.publicFiles || []).forEach((file) => {
-                results[path.join('public', file.basename)] = {
+                results[path.join('public', file.finalName)] = {
                     encoding: file.encoding,
                     content: file.content,
                 };
+            });
+
+            Object.keys(results).forEach((key) => {
+                results[key].filesize = filesize(results[key].content.length);
             });
 
             return results;
@@ -473,25 +584,33 @@ function generateBlogFileStructureFromDir(dirpath, attrs = {}) {
             };
         });
 
-    const blog = {
-        ...indexParsedMd,
-        posts,
-        publicFiles: fsExtra
-            .readdirSync(publicPath)
-            .filter((el) => /\.(png|jpg|jpeg|gif|mp4)$/.test(el))
-            .map((filename) => {
-                return {
-                    basename: filename,
-                    encoding: 'binary',
-                    content: fsExtra.readFileSync(
-                        path.resolve(publicPath, filename),
-                        'binary'
-                    ),
-                };
-            }),
-    };
+    const publicFiles = fsExtra
+        .readdirSync(publicPath)
+        .filter((el) => /\.(png|jpg|jpeg|gif|mp4)$/.test(el))
+        .map((filename) => {
+            const content = fsExtra.readFileSync(
+                path.resolve(publicPath, filename),
+                'binary'
+            );
 
-    return generateBlogFileStructure(blog, attrs);
+            return {
+                basename: filename,
+                encoding: 'binary',
+                content,
+            };
+        });
+
+    return parseAssetsWithWebpack(publicFiles).then(
+        (parsedAssetsWithWebpack) => {
+            const blog = {
+                ...indexParsedMd,
+                posts,
+                publicFiles: parsedAssetsWithWebpack,
+            };
+
+            return generateBlogFileStructure(blog, attrs);
+        }
+    );
 }
 
 function getParsedMarkdown(markdown) {
@@ -547,7 +666,19 @@ function getParsedMarkdown(markdown) {
     };
 }
 
+function prettyPrintBlogFileStructure(blogFileStructure) {
+    let result = '';
+    const pages = Object.keys(blogFileStructure);
+
+    pages.forEach((page) => {
+        result += page + ' | ' + blogFileStructure[page].filesize + '\n';
+    });
+
+    return result;
+}
+
 module.exports = {
+    prettyPrintBlogFileStructure,
     getParsedBlog,
     generateBlogFileStructure,
     generateBlogFileStructureFromDir,
