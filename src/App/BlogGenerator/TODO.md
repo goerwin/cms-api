@@ -1,4 +1,5 @@
 # TODO
+-   should be able to run bin.js from anywhere
 -   test mediaFiles
 -   better template structure, probably you need to use React Helmet so it's more manageable
 -   multilanguage
