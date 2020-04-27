@@ -1,4 +1,6 @@
 # TODO
+-   preview of a blog by passing a folder
+-   npx support from github
 -   should be able to run bin.js from anywhere
 -   test mediaFiles
 -   better template structure, probably you need to use React Helmet so it's more manageable
