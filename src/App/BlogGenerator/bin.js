@@ -40,4 +40,9 @@ helpers
         console.log();
         console.log(helpers.prettyPrintBlogFileStructure(blogFileStructure));
         console.log('Blog generated at', outputDirectory);
+    })
+    .catch((e) => {
+        console.log(e);
+
+        throw e;
     });

@@ -238,6 +238,12 @@ function parseAssetsWithWebpack(assets) {
 
     const compiler = webpack({
         entry: { app: path.join(workingDir, assetsFilename) },
+        resolveLoader: {
+            modules: [path.join(__dirname, 'node_modules')],
+        },
+        resolve: {
+            modules: [path.join(__dirname, 'node_modules')]
+        },
         module: {
             rules: [
                 {
@@ -265,10 +271,12 @@ function parseAssetsWithWebpack(assets) {
     compiler.inputFileSystem = inputMemFs;
     compiler.outputFileSystem = outputMemfs;
 
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         compiler.run((err, stats) => {
             if (err || stats.compilation.errors.length > 0) {
-                throw err || stats.compilation.errors;
+                reject(stats.compilation.errors);
+
+                return;
             }
 
             const assets = stats.compilation.assets;
@@ -563,12 +571,13 @@ function generateBlogFileStructure(blog, attrs = {}) {
         });
 }
 
-function generateBlogFileStructureFromDir(dirpath, attrs = {}) {
-    const publicPath = path.join(dirpath, 'public');
-    const postsPath = path.join(dirpath, 'posts');
+function generateBlogFileStructureFromDir(dirPath, attrs = {}) {
+    const absDirPath = path.resolve(dirPath);
+    const publicPath = path.join(absDirPath, 'public');
+    const postsPath = path.join(absDirPath, 'posts');
 
     const indexParsedMd = getParsedMarkdown(
-        fsExtra.readFileSync(path.join(dirpath, 'index.md'), 'utf8')
+        fsExtra.readFileSync(path.join(absDirPath, 'index.md'), 'utf8')
     );
 
     const posts = fsExtra

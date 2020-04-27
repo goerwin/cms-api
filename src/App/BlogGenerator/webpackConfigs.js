@@ -10,6 +10,13 @@ function getConfigs(env = 'production') {
             path: distFolder,
             filename: '[name].[contenthash].bundle.js',
         },
+        resolveLoader: {
+            modules: [path.join(__dirname, 'node_modules')],
+        },
+        resolve: {
+            modules: [path.join(__dirname, 'node_modules')],
+            extensions: ['.js', '.jsx', '.json'],
+        },
         module: {
             rules: [
                 {
@@ -18,6 +25,7 @@ function getConfigs(env = 'production') {
                     use: {
                         loader: 'babel-loader',
                         options: {
+                            cwd: __dirname,
                             presets: [
                                 '@babel/preset-env',
                                 '@babel/preset-react',
@@ -55,7 +63,6 @@ function getConfigs(env = 'production') {
                 },
             ],
         },
-        resolve: { extensions: ['.js', '.jsx', '.json'] },
         plugins: [
             new MiniCssExtractPlugin({
                 filename: '[name].[contenthash].css',
